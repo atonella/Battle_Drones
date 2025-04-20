@@ -1,0 +1,47 @@
+// ***************************************************************************
+// rotation - half circle - 64 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 16
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 32
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 48
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _32),
+	&CONC(VL_NAME, _48),
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************

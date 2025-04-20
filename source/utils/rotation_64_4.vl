@@ -1,0 +1,126 @@
+// ***************************************************************************
+// rotated vector list - quarter of a circle - 16 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 4
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 8
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 12
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 16
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 20
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 24
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 28
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 32
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 36
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 40
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 44
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 48
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 52
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 56
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 60
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+#ifdef VL_TABLE_REVERSED
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _60),
+	&CONC(VL_NAME, _56),
+	&CONC(VL_NAME, _52),
+	&CONC(VL_NAME, _48),
+	&CONC(VL_NAME, _44),
+	&CONC(VL_NAME, _40),
+	&CONC(VL_NAME, _36),
+	&CONC(VL_NAME, _32),
+	&CONC(VL_NAME, _28),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _20),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _12),
+	&CONC(VL_NAME, _8),
+	&CONC(VL_NAME, _4),
+#else
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _4),
+	&CONC(VL_NAME, _8),
+	&CONC(VL_NAME, _12),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _20),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _28),
+	&CONC(VL_NAME, _32),
+	&CONC(VL_NAME, _36),
+	&CONC(VL_NAME, _40),
+	&CONC(VL_NAME, _44),
+	&CONC(VL_NAME, _48),
+	&CONC(VL_NAME, _52),
+	&CONC(VL_NAME, _56),
+	&CONC(VL_NAME, _60),
+#endif
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************

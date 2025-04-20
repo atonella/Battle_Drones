@@ -1,0 +1,222 @@
+// ***************************************************************************
+// rotated vector list - eigth of a circle - 32 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 1
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 2
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 3
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 4
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 5
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 6
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 7
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 8
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 9
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 10
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 11
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 12
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 13
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 14
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 15
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 16
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 17
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 18
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 19
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 20
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 21
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 22
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 23
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 24
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 25
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 26
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 27
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 28
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 29
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 30
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 31
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+#ifdef VL_TABLE_REVERSED
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _31),
+	&CONC(VL_NAME, _30),
+	&CONC(VL_NAME, _29),
+	&CONC(VL_NAME, _28),
+	&CONC(VL_NAME, _27),
+	&CONC(VL_NAME, _26),
+	&CONC(VL_NAME, _25),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _23),
+	&CONC(VL_NAME, _22),
+	&CONC(VL_NAME, _21),
+	&CONC(VL_NAME, _20),
+	&CONC(VL_NAME, _19),
+	&CONC(VL_NAME, _18),
+	&CONC(VL_NAME, _17),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _15),
+	&CONC(VL_NAME, _14),
+	&CONC(VL_NAME, _13),
+	&CONC(VL_NAME, _12),
+	&CONC(VL_NAME, _11),
+	&CONC(VL_NAME, _10),
+	&CONC(VL_NAME, _9),
+	&CONC(VL_NAME, _8),
+	&CONC(VL_NAME, _7),
+	&CONC(VL_NAME, _6),
+	&CONC(VL_NAME, _5),
+	&CONC(VL_NAME, _4),
+	&CONC(VL_NAME, _3),
+	&CONC(VL_NAME, _2),
+	&CONC(VL_NAME, _1),
+#else
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _1),
+	&CONC(VL_NAME, _2),
+	&CONC(VL_NAME, _3),
+	&CONC(VL_NAME, _4),
+	&CONC(VL_NAME, _5),
+	&CONC(VL_NAME, _6),
+	&CONC(VL_NAME, _7),
+	&CONC(VL_NAME, _8),
+	&CONC(VL_NAME, _9),
+	&CONC(VL_NAME, _10),
+	&CONC(VL_NAME, _11),
+	&CONC(VL_NAME, _12),
+	&CONC(VL_NAME, _13),
+	&CONC(VL_NAME, _14),
+	&CONC(VL_NAME, _15),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _17),
+	&CONC(VL_NAME, _18),
+	&CONC(VL_NAME, _19),
+	&CONC(VL_NAME, _20),
+	&CONC(VL_NAME, _21),
+	&CONC(VL_NAME, _22),
+	&CONC(VL_NAME, _23),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _25),
+	&CONC(VL_NAME, _26),
+	&CONC(VL_NAME, _27),
+	&CONC(VL_NAME, _28),
+	&CONC(VL_NAME, _29),
+	&CONC(VL_NAME, _30),
+	&CONC(VL_NAME, _31),
+#endif
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************

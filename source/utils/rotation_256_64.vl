@@ -1,0 +1,54 @@
+// ***************************************************************************
+// rotation - full circle - 4 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 64
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 128
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 192
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+#ifdef VL_TABLE_REVERSED
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _192),
+	&CONC(VL_NAME, _128),
+	&CONC(VL_NAME, _64),
+#else
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _64),
+	&CONC(VL_NAME, _128),
+	&CONC(VL_NAME, _192),
+#endif
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************

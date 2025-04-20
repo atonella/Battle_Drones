@@ -1,0 +1,222 @@
+// ***************************************************************************
+// rotation - full circle - 32 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 8
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 16
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 24
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 32
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 40
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 48
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 56
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 64
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 72
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 80
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 88
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 96
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 104
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 112
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 120
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 128
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 136
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 144
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 152
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 160
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 168
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 176
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 184
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 192
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 200
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 208
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 216
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 224
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 232
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 240
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 248
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+#ifdef VL_TABLE_REVERSED
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _248),
+	&CONC(VL_NAME, _240),
+	&CONC(VL_NAME, _232),
+	&CONC(VL_NAME, _224),
+	&CONC(VL_NAME, _216),
+	&CONC(VL_NAME, _208),
+	&CONC(VL_NAME, _200),
+	&CONC(VL_NAME, _192),
+	&CONC(VL_NAME, _184),
+	&CONC(VL_NAME, _176),
+	&CONC(VL_NAME, _168),
+	&CONC(VL_NAME, _160),
+	&CONC(VL_NAME, _152),
+	&CONC(VL_NAME, _144),
+	&CONC(VL_NAME, _136),
+	&CONC(VL_NAME, _128),
+	&CONC(VL_NAME, _120),
+	&CONC(VL_NAME, _112),
+	&CONC(VL_NAME, _104),
+	&CONC(VL_NAME, _96),
+	&CONC(VL_NAME, _88),
+	&CONC(VL_NAME, _80),
+	&CONC(VL_NAME, _72),
+	&CONC(VL_NAME, _64),
+	&CONC(VL_NAME, _56),
+	&CONC(VL_NAME, _48),
+	&CONC(VL_NAME, _40),
+	&CONC(VL_NAME, _32),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _8),
+#else
+	&CONC(VL_NAME, _0),
+	&CONC(VL_NAME, _8),
+	&CONC(VL_NAME, _16),
+	&CONC(VL_NAME, _24),
+	&CONC(VL_NAME, _32),
+	&CONC(VL_NAME, _40),
+	&CONC(VL_NAME, _48),
+	&CONC(VL_NAME, _56),
+	&CONC(VL_NAME, _64),
+	&CONC(VL_NAME, _72),
+	&CONC(VL_NAME, _80),
+	&CONC(VL_NAME, _88),
+	&CONC(VL_NAME, _96),
+	&CONC(VL_NAME, _104),
+	&CONC(VL_NAME, _112),
+	&CONC(VL_NAME, _120),
+	&CONC(VL_NAME, _128),
+	&CONC(VL_NAME, _136),
+	&CONC(VL_NAME, _144),
+	&CONC(VL_NAME, _152),
+	&CONC(VL_NAME, _160),
+	&CONC(VL_NAME, _168),
+	&CONC(VL_NAME, _176),
+	&CONC(VL_NAME, _184),
+	&CONC(VL_NAME, _192),
+	&CONC(VL_NAME, _200),
+	&CONC(VL_NAME, _208),
+	&CONC(VL_NAME, _216),
+	&CONC(VL_NAME, _224),
+	&CONC(VL_NAME, _232),
+	&CONC(VL_NAME, _240),
+	&CONC(VL_NAME, _248),
+#endif
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************

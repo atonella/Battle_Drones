@@ -1,0 +1,1572 @@
+// ***************************************************************************
+// rotation - full circle - 256 angles
+// ***************************************************************************
+
+#include "rotation.h"
+
+// ---------------------------------------------------------------------------
+
+// macro VL_NAME indicates base name of generated lists
+// macro VL_FILE indicates file name of vector list file
+// macro VL_TYPE indicates data type of vector list
+
+// ---------------------------------------------------------------------------
+
+#undef VL_ANGLE
+#define VL_ANGLE 0
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 1
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 2
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 3
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 4
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 5
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 6
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 7
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 8
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 9
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 10
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 11
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 12
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 13
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 14
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 15
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 16
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 17
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 18
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 19
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 20
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 21
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 22
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 23
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 24
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 25
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 26
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 27
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 28
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 29
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 30
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 31
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 32
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 33
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 34
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 35
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 36
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 37
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 38
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 39
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 40
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 41
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 42
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 43
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 44
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 45
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 46
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 47
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 48
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 49
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 50
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 51
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 52
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 53
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 54
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 55
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 56
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 57
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 58
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 59
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 60
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 61
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 62
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 63
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 64
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 65
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 66
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 67
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 68
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 69
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 70
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 71
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 72
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 73
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 74
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 75
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 76
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 77
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 78
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 79
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 80
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 81
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 82
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 83
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 84
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 85
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 86
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 87
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 88
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 89
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 90
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 91
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 92
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 93
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 94
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 95
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 96
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 97
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 98
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 99
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 100
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 101
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 102
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 103
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 104
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 105
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 106
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 107
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 108
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 109
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 110
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 111
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 112
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 113
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 114
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 115
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 116
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 117
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 118
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 119
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 120
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 121
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 122
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 123
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 124
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 125
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 126
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 127
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 128
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 129
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 130
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 131
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 132
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 133
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 134
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 135
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 136
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 137
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 138
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 139
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 140
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 141
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 142
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 143
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 144
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 145
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 146
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 147
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 148
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 149
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 150
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 151
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 152
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 153
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 154
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 155
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 156
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 157
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 158
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 159
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 160
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 161
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 162
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 163
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 164
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 165
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 166
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 167
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 168
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 169
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 170
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 171
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 172
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 173
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 174
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 175
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 176
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 177
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 178
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 179
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 180
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 181
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 182
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 183
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 184
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 185
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 186
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 187
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 188
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 189
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 190
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 191
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 192
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 193
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 194
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 195
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 196
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 197
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 198
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 199
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 200
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 201
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 202
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 203
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 204
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 205
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 206
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 207
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 208
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 209
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 210
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 211
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 212
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 213
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 214
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 215
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 216
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 217
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 218
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 219
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 220
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 221
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 222
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 223
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 224
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 225
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 226
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 227
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 228
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 229
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 230
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 231
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 232
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 233
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 234
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 235
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 236
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 237
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 238
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 239
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 240
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 241
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 242
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 243
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 244
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 245
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 246
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 247
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 248
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 249
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 250
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 251
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 252
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 253
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 254
+#include VL_FILE
+
+#undef VL_ANGLE
+#define VL_ANGLE 255
+#include VL_FILE
+
+// ---------------------------------------------------------------------------
+
+#define TABLE CONC(VL_NAME, CONC(_, table))
+
+// ---------------------------------------------------------------------------
+
+const struct VL_TYPE (* const TABLE[])[] =
+{
+#ifdef VL_TABLE_REVERSED
+	&CONC2(VL_NAME, _0),
+	&CONC2(VL_NAME, _255),
+	&CONC2(VL_NAME, _254),
+	&CONC2(VL_NAME, _253),
+	&CONC2(VL_NAME, _252),
+	&CONC2(VL_NAME, _251),
+	&CONC2(VL_NAME, _250),
+	&CONC2(VL_NAME, _249),
+	&CONC2(VL_NAME, _248),
+	&CONC2(VL_NAME, _247),
+	&CONC2(VL_NAME, _246),
+	&CONC2(VL_NAME, _245),
+	&CONC2(VL_NAME, _244),
+	&CONC2(VL_NAME, _243),
+	&CONC2(VL_NAME, _242),
+	&CONC2(VL_NAME, _241),
+	&CONC2(VL_NAME, _240),
+	&CONC2(VL_NAME, _239),
+	&CONC2(VL_NAME, _238),
+	&CONC2(VL_NAME, _237),
+	&CONC2(VL_NAME, _236),
+	&CONC2(VL_NAME, _235),
+	&CONC2(VL_NAME, _234),
+	&CONC2(VL_NAME, _233),
+	&CONC2(VL_NAME, _232),
+	&CONC2(VL_NAME, _231),
+	&CONC2(VL_NAME, _230),
+	&CONC2(VL_NAME, _229),
+	&CONC2(VL_NAME, _228),
+	&CONC2(VL_NAME, _227),
+	&CONC2(VL_NAME, _226),
+	&CONC2(VL_NAME, _225),
+	&CONC2(VL_NAME, _224),
+	&CONC2(VL_NAME, _223),
+	&CONC2(VL_NAME, _222),
+	&CONC2(VL_NAME, _221),
+	&CONC2(VL_NAME, _220),
+	&CONC2(VL_NAME, _219),
+	&CONC2(VL_NAME, _218),
+	&CONC2(VL_NAME, _217),
+	&CONC2(VL_NAME, _216),
+	&CONC2(VL_NAME, _215),
+	&CONC2(VL_NAME, _214),
+	&CONC2(VL_NAME, _213),
+	&CONC2(VL_NAME, _212),
+	&CONC2(VL_NAME, _211),
+	&CONC2(VL_NAME, _210),
+	&CONC2(VL_NAME, _209),
+	&CONC2(VL_NAME, _208),
+	&CONC2(VL_NAME, _207),
+	&CONC2(VL_NAME, _206),
+	&CONC2(VL_NAME, _205),
+	&CONC2(VL_NAME, _204),
+	&CONC2(VL_NAME, _203),
+	&CONC2(VL_NAME, _202),
+	&CONC2(VL_NAME, _201),
+	&CONC2(VL_NAME, _200),
+	&CONC2(VL_NAME, _199),
+	&CONC2(VL_NAME, _198),
+	&CONC2(VL_NAME, _197),
+	&CONC2(VL_NAME, _196),
+	&CONC2(VL_NAME, _195),
+	&CONC2(VL_NAME, _194),
+	&CONC2(VL_NAME, _193),
+
+	&CONC2(VL_NAME, _192),
+	&CONC2(VL_NAME, _191),
+	&CONC2(VL_NAME, _190),
+	&CONC2(VL_NAME, _189),
+	&CONC2(VL_NAME, _188),
+	&CONC2(VL_NAME, _187),
+	&CONC2(VL_NAME, _186),
+	&CONC2(VL_NAME, _185),
+	&CONC2(VL_NAME, _184),
+	&CONC2(VL_NAME, _183),
+	&CONC2(VL_NAME, _182),
+	&CONC2(VL_NAME, _181),
+	&CONC2(VL_NAME, _180),
+	&CONC2(VL_NAME, _179),
+	&CONC2(VL_NAME, _178),
+	&CONC2(VL_NAME, _177),
+	&CONC2(VL_NAME, _176),
+	&CONC2(VL_NAME, _175),
+	&CONC2(VL_NAME, _174),
+	&CONC2(VL_NAME, _173),
+	&CONC2(VL_NAME, _172),
+	&CONC2(VL_NAME, _171),
+	&CONC2(VL_NAME, _170),
+	&CONC2(VL_NAME, _169),
+	&CONC2(VL_NAME, _168),
+	&CONC2(VL_NAME, _167),
+	&CONC2(VL_NAME, _166),
+	&CONC2(VL_NAME, _165),
+	&CONC2(VL_NAME, _164),
+	&CONC2(VL_NAME, _163),
+	&CONC2(VL_NAME, _162),
+	&CONC2(VL_NAME, _161),
+	&CONC2(VL_NAME, _160),
+	&CONC2(VL_NAME, _159),
+	&CONC2(VL_NAME, _158),
+	&CONC2(VL_NAME, _157),
+	&CONC2(VL_NAME, _156),
+	&CONC2(VL_NAME, _155),
+	&CONC2(VL_NAME, _154),
+	&CONC2(VL_NAME, _153),
+	&CONC2(VL_NAME, _152),
+	&CONC2(VL_NAME, _151),
+	&CONC2(VL_NAME, _150),
+	&CONC2(VL_NAME, _149),
+	&CONC2(VL_NAME, _148),
+	&CONC2(VL_NAME, _147),
+	&CONC2(VL_NAME, _146),
+	&CONC2(VL_NAME, _145),
+	&CONC2(VL_NAME, _144),
+	&CONC2(VL_NAME, _143),
+	&CONC2(VL_NAME, _142),
+	&CONC2(VL_NAME, _141),
+	&CONC2(VL_NAME, _140),
+	&CONC2(VL_NAME, _139),
+	&CONC2(VL_NAME, _138),
+	&CONC2(VL_NAME, _137),
+	&CONC2(VL_NAME, _136),
+	&CONC2(VL_NAME, _135),
+	&CONC2(VL_NAME, _134),
+	&CONC2(VL_NAME, _133),
+	&CONC2(VL_NAME, _132),
+	&CONC2(VL_NAME, _131),
+	&CONC2(VL_NAME, _130),
+	&CONC2(VL_NAME, _129),
+
+	&CONC2(VL_NAME, _128),
+	&CONC2(VL_NAME, _127),
+	&CONC2(VL_NAME, _126),
+	&CONC2(VL_NAME, _125),
+	&CONC2(VL_NAME, _124),
+	&CONC2(VL_NAME, _123),
+	&CONC2(VL_NAME, _122),
+	&CONC2(VL_NAME, _121),
+	&CONC2(VL_NAME, _120),
+	&CONC2(VL_NAME, _119),
+	&CONC2(VL_NAME, _118),
+	&CONC2(VL_NAME, _117),
+	&CONC2(VL_NAME, _116),
+	&CONC2(VL_NAME, _115),
+	&CONC2(VL_NAME, _114),
+	&CONC2(VL_NAME, _113),
+	&CONC2(VL_NAME, _112),
+	&CONC2(VL_NAME, _111),
+	&CONC2(VL_NAME, _110),
+	&CONC2(VL_NAME, _109),
+	&CONC2(VL_NAME, _108),
+	&CONC2(VL_NAME, _107),
+	&CONC2(VL_NAME, _106),
+	&CONC2(VL_NAME, _105),
+	&CONC2(VL_NAME, _104),
+	&CONC2(VL_NAME, _103),
+	&CONC2(VL_NAME, _102),
+	&CONC2(VL_NAME, _101),
+	&CONC2(VL_NAME, _100),
+	&CONC2(VL_NAME, _99),
+	&CONC2(VL_NAME, _98),
+	&CONC2(VL_NAME, _97),
+	&CONC2(VL_NAME, _96),
+	&CONC2(VL_NAME, _95),
+	&CONC2(VL_NAME, _94),
+	&CONC2(VL_NAME, _93),
+	&CONC2(VL_NAME, _92),
+	&CONC2(VL_NAME, _91),
+	&CONC2(VL_NAME, _90),
+	&CONC2(VL_NAME, _89),
+	&CONC2(VL_NAME, _88),
+	&CONC2(VL_NAME, _87),
+	&CONC2(VL_NAME, _86),
+	&CONC2(VL_NAME, _85),
+	&CONC2(VL_NAME, _84),
+	&CONC2(VL_NAME, _83),
+	&CONC2(VL_NAME, _82),
+	&CONC2(VL_NAME, _81),
+	&CONC2(VL_NAME, _80),
+	&CONC2(VL_NAME, _79),
+	&CONC2(VL_NAME, _78),
+	&CONC2(VL_NAME, _77),
+	&CONC2(VL_NAME, _76),
+	&CONC2(VL_NAME, _75),
+	&CONC2(VL_NAME, _74),
+	&CONC2(VL_NAME, _73),
+	&CONC2(VL_NAME, _72),
+	&CONC2(VL_NAME, _71),
+	&CONC2(VL_NAME, _70),
+	&CONC2(VL_NAME, _69),
+	&CONC2(VL_NAME, _68),
+	&CONC2(VL_NAME, _67),
+	&CONC2(VL_NAME, _66),
+	&CONC2(VL_NAME, _65),
+
+	&CONC2(VL_NAME, _64),
+	&CONC2(VL_NAME, _63),
+	&CONC2(VL_NAME, _62),
+	&CONC2(VL_NAME, _61),
+	&CONC2(VL_NAME, _60),
+	&CONC2(VL_NAME, _59),
+	&CONC2(VL_NAME, _58),
+	&CONC2(VL_NAME, _57),
+	&CONC2(VL_NAME, _56),
+	&CONC2(VL_NAME, _55),
+	&CONC2(VL_NAME, _54),
+	&CONC2(VL_NAME, _53),
+	&CONC2(VL_NAME, _52),
+	&CONC2(VL_NAME, _51),
+	&CONC2(VL_NAME, _50),
+	&CONC2(VL_NAME, _49),
+	&CONC2(VL_NAME, _48),
+	&CONC2(VL_NAME, _47),
+	&CONC2(VL_NAME, _46),
+	&CONC2(VL_NAME, _45),
+	&CONC2(VL_NAME, _44),
+	&CONC2(VL_NAME, _43),
+	&CONC2(VL_NAME, _42),
+	&CONC2(VL_NAME, _41),
+	&CONC2(VL_NAME, _40),
+	&CONC2(VL_NAME, _39),
+	&CONC2(VL_NAME, _38),
+	&CONC2(VL_NAME, _37),
+	&CONC2(VL_NAME, _36),
+	&CONC2(VL_NAME, _35),
+	&CONC2(VL_NAME, _34),
+	&CONC2(VL_NAME, _33),
+	&CONC2(VL_NAME, _32),
+	&CONC2(VL_NAME, _31),
+	&CONC2(VL_NAME, _30),
+	&CONC2(VL_NAME, _29),
+	&CONC2(VL_NAME, _28),
+	&CONC2(VL_NAME, _27),
+	&CONC2(VL_NAME, _26),
+	&CONC2(VL_NAME, _25),
+	&CONC2(VL_NAME, _24),
+	&CONC2(VL_NAME, _23),
+	&CONC2(VL_NAME, _22),
+	&CONC2(VL_NAME, _21),
+	&CONC2(VL_NAME, _20),
+	&CONC2(VL_NAME, _19),
+	&CONC2(VL_NAME, _18),
+	&CONC2(VL_NAME, _17),
+	&CONC2(VL_NAME, _16),
+	&CONC2(VL_NAME, _15),
+	&CONC2(VL_NAME, _14),
+	&CONC2(VL_NAME, _13),
+	&CONC2(VL_NAME, _12),
+	&CONC2(VL_NAME, _11),
+	&CONC2(VL_NAME, _10),
+	&CONC2(VL_NAME, _9),
+	&CONC2(VL_NAME, _8),
+	&CONC2(VL_NAME, _7),
+	&CONC2(VL_NAME, _6),
+	&CONC2(VL_NAME, _5),
+	&CONC2(VL_NAME, _4),
+	&CONC2(VL_NAME, _3),
+	&CONC2(VL_NAME, _2),
+	&CONC2(VL_NAME, _1),
+#else
+	&CONC2(VL_NAME, _0),
+	&CONC2(VL_NAME, _1),
+	&CONC2(VL_NAME, _2),
+	&CONC2(VL_NAME, _3),
+	&CONC2(VL_NAME, _4),
+	&CONC2(VL_NAME, _5),
+	&CONC2(VL_NAME, _6),
+	&CONC2(VL_NAME, _7),
+	&CONC2(VL_NAME, _8),
+	&CONC2(VL_NAME, _9),
+	&CONC2(VL_NAME, _10),
+	&CONC2(VL_NAME, _11),
+	&CONC2(VL_NAME, _12),
+	&CONC2(VL_NAME, _13),
+	&CONC2(VL_NAME, _14),
+	&CONC2(VL_NAME, _15),
+	&CONC2(VL_NAME, _16),
+	&CONC2(VL_NAME, _17),
+	&CONC2(VL_NAME, _18),
+	&CONC2(VL_NAME, _19),
+	&CONC2(VL_NAME, _20),
+	&CONC2(VL_NAME, _21),
+	&CONC2(VL_NAME, _22),
+	&CONC2(VL_NAME, _23),
+	&CONC2(VL_NAME, _24),
+	&CONC2(VL_NAME, _25),
+	&CONC2(VL_NAME, _26),
+	&CONC2(VL_NAME, _27),
+	&CONC2(VL_NAME, _28),
+	&CONC2(VL_NAME, _29),
+	&CONC2(VL_NAME, _30),
+	&CONC2(VL_NAME, _31),
+	&CONC2(VL_NAME, _32),
+	&CONC2(VL_NAME, _33),
+	&CONC2(VL_NAME, _34),
+	&CONC2(VL_NAME, _35),
+	&CONC2(VL_NAME, _36),
+	&CONC2(VL_NAME, _37),
+	&CONC2(VL_NAME, _38),
+	&CONC2(VL_NAME, _39),
+	&CONC2(VL_NAME, _40),
+	&CONC2(VL_NAME, _41),
+	&CONC2(VL_NAME, _42),
+	&CONC2(VL_NAME, _43),
+	&CONC2(VL_NAME, _44),
+	&CONC2(VL_NAME, _45),
+	&CONC2(VL_NAME, _46),
+	&CONC2(VL_NAME, _47),
+	&CONC2(VL_NAME, _48),
+	&CONC2(VL_NAME, _49),
+	&CONC2(VL_NAME, _50),
+	&CONC2(VL_NAME, _51),
+	&CONC2(VL_NAME, _52),
+	&CONC2(VL_NAME, _53),
+	&CONC2(VL_NAME, _54),
+	&CONC2(VL_NAME, _55),
+	&CONC2(VL_NAME, _56),
+	&CONC2(VL_NAME, _57),
+	&CONC2(VL_NAME, _58),
+	&CONC2(VL_NAME, _59),
+	&CONC2(VL_NAME, _60),
+	&CONC2(VL_NAME, _61),
+	&CONC2(VL_NAME, _62),
+	&CONC2(VL_NAME, _63),
+	
+	&CONC2(VL_NAME, _64),
+	&CONC2(VL_NAME, _65),
+	&CONC2(VL_NAME, _66),
+	&CONC2(VL_NAME, _67),
+	&CONC2(VL_NAME, _68),
+	&CONC2(VL_NAME, _69),
+	&CONC2(VL_NAME, _70),
+	&CONC2(VL_NAME, _71),
+	&CONC2(VL_NAME, _72),
+	&CONC2(VL_NAME, _73),
+	&CONC2(VL_NAME, _74),
+	&CONC2(VL_NAME, _75),
+	&CONC2(VL_NAME, _76),
+	&CONC2(VL_NAME, _77),
+	&CONC2(VL_NAME, _78),
+	&CONC2(VL_NAME, _79),
+	&CONC2(VL_NAME, _80),
+	&CONC2(VL_NAME, _81),
+	&CONC2(VL_NAME, _82),
+	&CONC2(VL_NAME, _83),
+	&CONC2(VL_NAME, _84),
+	&CONC2(VL_NAME, _85),
+	&CONC2(VL_NAME, _86),
+	&CONC2(VL_NAME, _87),
+	&CONC2(VL_NAME, _88),
+	&CONC2(VL_NAME, _89),
+	&CONC2(VL_NAME, _90),
+	&CONC2(VL_NAME, _91),
+	&CONC2(VL_NAME, _92),
+	&CONC2(VL_NAME, _93),
+	&CONC2(VL_NAME, _94),
+	&CONC2(VL_NAME, _95),
+	&CONC2(VL_NAME, _96),
+	&CONC2(VL_NAME, _97),
+	&CONC2(VL_NAME, _98),
+	&CONC2(VL_NAME, _99),
+	&CONC2(VL_NAME, _100),
+	&CONC2(VL_NAME, _101),
+	&CONC2(VL_NAME, _102),
+	&CONC2(VL_NAME, _103),
+	&CONC2(VL_NAME, _104),
+	&CONC2(VL_NAME, _105),
+	&CONC2(VL_NAME, _106),
+	&CONC2(VL_NAME, _107),
+	&CONC2(VL_NAME, _108),
+	&CONC2(VL_NAME, _109),
+	&CONC2(VL_NAME, _110),
+	&CONC2(VL_NAME, _111),
+	&CONC2(VL_NAME, _112),
+	&CONC2(VL_NAME, _113),
+	&CONC2(VL_NAME, _114),
+	&CONC2(VL_NAME, _115),
+	&CONC2(VL_NAME, _116),
+	&CONC2(VL_NAME, _117),
+	&CONC2(VL_NAME, _118),
+	&CONC2(VL_NAME, _119),
+	&CONC2(VL_NAME, _120),
+	&CONC2(VL_NAME, _121),
+	&CONC2(VL_NAME, _122),
+	&CONC2(VL_NAME, _123),
+	&CONC2(VL_NAME, _124),
+	&CONC2(VL_NAME, _125),
+	&CONC2(VL_NAME, _126),
+	&CONC2(VL_NAME, _127),
+
+	&CONC2(VL_NAME, _128),
+	&CONC2(VL_NAME, _129),
+	&CONC2(VL_NAME, _130),
+	&CONC2(VL_NAME, _131),
+	&CONC2(VL_NAME, _132),
+	&CONC2(VL_NAME, _133),
+	&CONC2(VL_NAME, _134),
+	&CONC2(VL_NAME, _135),
+	&CONC2(VL_NAME, _136),
+	&CONC2(VL_NAME, _137),
+	&CONC2(VL_NAME, _138),
+	&CONC2(VL_NAME, _139),
+	&CONC2(VL_NAME, _140),
+	&CONC2(VL_NAME, _141),
+	&CONC2(VL_NAME, _142),
+	&CONC2(VL_NAME, _143),
+	&CONC2(VL_NAME, _144),
+	&CONC2(VL_NAME, _145),
+	&CONC2(VL_NAME, _146),
+	&CONC2(VL_NAME, _147),
+	&CONC2(VL_NAME, _148),
+	&CONC2(VL_NAME, _149),
+	&CONC2(VL_NAME, _150),
+	&CONC2(VL_NAME, _151),
+	&CONC2(VL_NAME, _152),
+	&CONC2(VL_NAME, _153),
+	&CONC2(VL_NAME, _154),
+	&CONC2(VL_NAME, _155),
+	&CONC2(VL_NAME, _156),
+	&CONC2(VL_NAME, _157),
+	&CONC2(VL_NAME, _158),
+	&CONC2(VL_NAME, _159),
+	&CONC2(VL_NAME, _160),
+	&CONC2(VL_NAME, _161),
+	&CONC2(VL_NAME, _162),
+	&CONC2(VL_NAME, _163),
+	&CONC2(VL_NAME, _164),
+	&CONC2(VL_NAME, _165),
+	&CONC2(VL_NAME, _166),
+	&CONC2(VL_NAME, _167),
+	&CONC2(VL_NAME, _168),
+	&CONC2(VL_NAME, _169),
+	&CONC2(VL_NAME, _170),
+	&CONC2(VL_NAME, _171),
+	&CONC2(VL_NAME, _172),
+	&CONC2(VL_NAME, _173),
+	&CONC2(VL_NAME, _174),
+	&CONC2(VL_NAME, _175),
+	&CONC2(VL_NAME, _176),
+	&CONC2(VL_NAME, _177),
+	&CONC2(VL_NAME, _178),
+	&CONC2(VL_NAME, _179),
+	&CONC2(VL_NAME, _180),
+	&CONC2(VL_NAME, _181),
+	&CONC2(VL_NAME, _182),
+	&CONC2(VL_NAME, _183),
+	&CONC2(VL_NAME, _184),
+	&CONC2(VL_NAME, _185),
+	&CONC2(VL_NAME, _186),
+	&CONC2(VL_NAME, _187),
+	&CONC2(VL_NAME, _188),
+	&CONC2(VL_NAME, _189),
+	&CONC2(VL_NAME, _190),
+	&CONC2(VL_NAME, _191),
+
+	&CONC2(VL_NAME, _192),
+	&CONC2(VL_NAME, _193),
+	&CONC2(VL_NAME, _194),
+	&CONC2(VL_NAME, _195),
+	&CONC2(VL_NAME, _196),
+	&CONC2(VL_NAME, _197),
+	&CONC2(VL_NAME, _198),
+	&CONC2(VL_NAME, _199),
+	&CONC2(VL_NAME, _200),
+	&CONC2(VL_NAME, _201),
+	&CONC2(VL_NAME, _202),
+	&CONC2(VL_NAME, _203),
+	&CONC2(VL_NAME, _204),
+	&CONC2(VL_NAME, _205),
+	&CONC2(VL_NAME, _206),
+	&CONC2(VL_NAME, _207),
+	&CONC2(VL_NAME, _208),
+	&CONC2(VL_NAME, _209),
+	&CONC2(VL_NAME, _210),
+	&CONC2(VL_NAME, _211),
+	&CONC2(VL_NAME, _212),
+	&CONC2(VL_NAME, _213),
+	&CONC2(VL_NAME, _214),
+	&CONC2(VL_NAME, _215),
+	&CONC2(VL_NAME, _216),
+	&CONC2(VL_NAME, _217),
+	&CONC2(VL_NAME, _218),
+	&CONC2(VL_NAME, _219),
+	&CONC2(VL_NAME, _220),
+	&CONC2(VL_NAME, _221),
+	&CONC2(VL_NAME, _222),
+	&CONC2(VL_NAME, _223),
+	&CONC2(VL_NAME, _224),
+	&CONC2(VL_NAME, _225),
+	&CONC2(VL_NAME, _226),
+	&CONC2(VL_NAME, _227),
+	&CONC2(VL_NAME, _228),
+	&CONC2(VL_NAME, _229),
+	&CONC2(VL_NAME, _230),
+	&CONC2(VL_NAME, _231),
+	&CONC2(VL_NAME, _232),
+	&CONC2(VL_NAME, _233),
+	&CONC2(VL_NAME, _234),
+	&CONC2(VL_NAME, _235),
+	&CONC2(VL_NAME, _236),
+	&CONC2(VL_NAME, _237),
+	&CONC2(VL_NAME, _238),
+	&CONC2(VL_NAME, _239),
+	&CONC2(VL_NAME, _240),
+	&CONC2(VL_NAME, _241),
+	&CONC2(VL_NAME, _242),
+	&CONC2(VL_NAME, _243),
+	&CONC2(VL_NAME, _244),
+	&CONC2(VL_NAME, _245),
+	&CONC2(VL_NAME, _246),
+	&CONC2(VL_NAME, _247),
+	&CONC2(VL_NAME, _248),
+	&CONC2(VL_NAME, _249),
+	&CONC2(VL_NAME, _250),
+	&CONC2(VL_NAME, _251),
+	&CONC2(VL_NAME, _252),
+	&CONC2(VL_NAME, _253),
+	&CONC2(VL_NAME, _254),
+	&CONC2(VL_NAME, _255),
+#endif
+};
+
+// ***************************************************************************
+// end of file
+// ***************************************************************************
