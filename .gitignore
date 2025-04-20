@@ -1,0 +1,12 @@
+bin
+build
+.vscode/
+doc/vectrex_ram.h
+doc/vectrex_rom.h
+doc/vectrex_rum.h
+make_c.bat
+manual/game_template.pdf
+manual/manual_template.pptx
+overlay/game_template.png
+overlay/overlay_template.pptx
+project.geany
