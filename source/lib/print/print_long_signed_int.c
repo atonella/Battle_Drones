@@ -8,7 +8,7 @@
 // ---------------------------------------------------------------------------
 // print decimal unsigned long int value at absolute coordinates (y, x)
 
-void print_long_signed_int(int y, int x, signed long int z)
+void print_long_signed_int(int y, int x, long signed int z)
 {
 	volatile char message[7];
 	message[6] = '\x80';
@@ -25,7 +25,7 @@ void print_long_signed_int(int y, int x, signed long int z)
 		message[0] = (char) 0x2d;
 		z = -z;
 	}
-	while (z >= 10000)
+	while ((long unsigned int) z >= 10000)
 	{
 		++message[1];
 		z -= 10000;

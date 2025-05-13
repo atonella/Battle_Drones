@@ -13,6 +13,7 @@ void print_signed_int(int y, int x, int z)
 	volatile char message[5];
 	message[4] = '\x80';
 	message[2] = '0';
+	
 	if (z >= 0)
 	{
 		message[0] = (char) 0x2b;
@@ -22,7 +23,7 @@ void print_signed_int(int y, int x, int z)
 		message[0] = (char) 0x2d;
 		z = -z;
 	}
-	if (z < 100)
+	if ((unsigned int) z < 100)
 	{
 		message[1] = '0';
 	}
@@ -37,6 +38,7 @@ void print_signed_int(int y, int x, int z)
 		z -= 10;
 	}
 	message[3] = '0' + (unsigned char) z;
+	
 	reset_print_position();
 	Print_Str_d(y, x, (void*) &message[0]);
 }
