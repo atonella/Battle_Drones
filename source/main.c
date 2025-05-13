@@ -34,44 +34,6 @@ int main(void)
 	return error_code;
 }
 
-/*
-int main(void)
-{
-	do
-	{
-		Wait_Recal();					// synchronize frame rate to 50 Hz
-
-		// draw car
-
-		Intensity_5F();					// set brightness of the electron beam
-		Reset0Ref();					// reset beam to center
-		dp_VIA_t1_cnt_lo = 0x7f;		// set scaling factor for positioning
-		Moveto_d(64, -64);				// move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 32;			// set scaling factor for drawing
-		Draw_VLp(&vectors_car);			// draw vector list
-
-		// draw same car with larger scale
-
-		Intensity_5F();					// set brightness of the electron beam
-		Reset0Ref();					// reset beam to center
-		dp_VIA_t1_cnt_lo = 0x7f;		// set scaling factor for positioning
-		Moveto_d(64, 64);				// move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 48;			// set scaling factor for drawing
-		Draw_VLp(&vectors_car);			// draw vector list
-
-		// draw same car with very large scale
-
-		Intensity_5F();					// set brightness of the electron beam
-		Reset0Ref();					// reset beam to center
-		dp_VIA_t1_cnt_lo = 0x7f;		// set scaling factor for positioning
-		Moveto_d(-64, -64);				// move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 80;			// set scaling factor for drawing
-		Draw_VLp(&vectors_car);			// draw vector list
-
-	}
-	while(1);
-}
-*/
 // ***************************************************************************
 // end of file
 // ***************************************************************************
