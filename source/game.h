@@ -37,6 +37,7 @@ int game(void);
 
 void game_init(void);
 void game_play(void);
+void game_end(void);
 void game_over(void);
 
 // ***************************************************************************

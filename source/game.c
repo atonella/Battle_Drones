@@ -79,42 +79,27 @@ void game_init(void)
 // main game loop, this is where the action happens
 
 void game_play(void)
-/*
-1. Check & Process Input
-2. Computinh
-3. Rendering
-*/
 {
-	unsigned int frames = 0;
-	unsigned int seconds = 0;
-	unsigned int timer_not_exceeded = 1;
 
 	// while (current_game.lives[0] + current_game.lives[1])
-	while (timer_not_exceeded /* TODO: Timer */)
+	while (0 /* TODO: sth that changed dynamically if game ends */)
 	{
 		battle_init();
 		battle_play();
 
-		if (0 /* TODO: a player has no lives anymore OR time finished*/)
+		if (1 /* TODO: a player has no lives anymore OR time finished*/)
 		{
 			game_over(); // TODO: Evaluate the ending: Who has won? e.g. most health, most kills, etc.
 		}
-
-		// rotate every frame the player
-		current_game.current_player = (current_game.current_player + 1) & (current_game.no_of_players - 1);
-
-		// TODO: Better Timer
-		frames++;
-		if (frames >= 50)
-		{
-			frames = 0;
-			seconds++;
-		}
-		if (seconds > 90)
-		{
-			timer_not_exceeded = 0;
-		}
 	}
+}
+
+// ---------------------------------------------------------------------------
+
+void game_end(void)
+{
+	// TODO: Print Winner + Scoreboard + clean up ?
+	return;
 }
 
 // ---------------------------------------------------------------------------
@@ -151,6 +136,7 @@ int game(void)
 	{
 		game_init();
 		game_play();
+		game_end();
 		return 0; // go to option screen, repeat cycle
 	}
 	else
