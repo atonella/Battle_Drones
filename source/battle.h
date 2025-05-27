@@ -6,26 +6,28 @@
 
 // ---------------------------------------------------------------------------
 
-enum level_status_t {
-	LEVEL_PLAY,
-	LEVEL_LOST,
-	LEVEL_WON,
+enum battle_status
+{
+	BATTLE_PLAY,
+	BATTLE_PAUSE,
+	BATTLE_FINISHED,
 };
 
 // ---------------------------------------------------------------------------
 
-struct level_t {
-	enum level_status_t status;
+struct battle_t
+{
+	enum battle_status status;
 };
 
 // ---------------------------------------------------------------------------
 
-extern struct level_t current_level;
+extern struct battle_t current_battle;
 
 // ---------------------------------------------------------------------------
 
-void level_init(void);
-void level_play(void);
+void battle_init(void);
+void battle_play(void);
 
 // ***************************************************************************
 // end of file

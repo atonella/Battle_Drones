@@ -2,29 +2,29 @@
 // level
 // ***************************************************************************
 
-#include "level.h"
+#include "battle.h"
 #include "game.h"
 #include "utils/utils.h"
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
 
-struct level_t current_level = {
-	.status = LEVEL_LOST,
+struct battle_t current_battle = {
+	.status = BATTLE_FINISHED,
 };
 
 // ---------------------------------------------------------------------------
 
-void level_init()
+void battle_init()
 {
-	current_level.status = LEVEL_PLAY;
+	current_battle.status = BATTLE_PLAY;
 }
 
 // ---------------------------------------------------------------------------
 
-void level_play(void)
+void battle_play(void)
 {
-	while (current_level.status == LEVEL_PLAY)
+	while (current_battle.status == BATTLE_PLAY)
 	{
 		// game loop header start - do not change
 		DP_to_C8();
@@ -36,7 +36,14 @@ void level_play(void)
 		// game loop header end
 
 		// frame start: this is where the action happens...
+		/*
+		state->inputHandler->update();
+		for (int i = 0; i < state->playerCount; i++)
+		{
+			state->players[i].update(&state->players[i], state->inputHandler); // 1 Frame
+		}
 
+		*/
 		// end of frame
 	}
 }

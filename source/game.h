@@ -4,20 +4,31 @@
 
 #pragma once
 
+#include "player.h"
+
+#define MAX_PLAYERS 4
+#define NO_OF_GAMEMODES 3
 // ---------------------------------------------------------------------------
+
+enum gamemode
+{
+	SINGLEPLAYER = 1,
+	MULTIPLAYER,
+	DUELL,
+};
 
 struct game_t
 {
-	unsigned int option_players;
-	unsigned int option_mode;
-	unsigned int lives[2];
-	unsigned int level[2];
-	unsigned int score[2];
-	unsigned int player;
+	enum gamemode current_gamemode;
+	unsigned int score[4];
+	struct player_t players[4];
+	unsigned int current_player;
+	unsigned int no_of_players;
 };
 
 // ---------------------------------------------------------------------------
 
+// Extern declaration = declaration of variable; compiler searches for definition
 extern struct game_t current_game;
 
 // ---------------------------------------------------------------------------

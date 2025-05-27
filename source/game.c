@@ -3,7 +3,8 @@
 // ***************************************************************************
 
 #include "game.h"
-#include "level.h"
+#include "battle.h"
+#include "player.h"
 #include "print/print.h"
 #include "utils/controller.h"
 #include "utils/utils.h"
@@ -11,76 +12,107 @@
 
 // ---------------------------------------------------------------------------
 
+// definition of global variable that will be accessed from a different file
 struct game_t current_game = {
-	.option_players = 0,
-	.option_mode = 0,
-	.lives = { 0, 0 },
-	.level = { 0, 0 },
-	.score = { 0, 0 },
-	.player = 0,
+	.current_gamemode = 0,
+	.score = { 0, 0, 0, 0 },
+	.players = {
+		{ .is_human = 0, .health = 0 },
+		{ .is_human = 0, .health = 0 },
+		{ .is_human = 0, .health = 0 },
+		{ .is_human = 0, .health = 0 },
+	},
+	.current_player = 0,
 };
 
 // ---------------------------------------------------------------------------
 
 static inline __attribute__((always_inline)) void game_options(void)
 {
-	Select_Game(2 /* max_players */, 5 /* max_options */);
-	current_game.option_players = Vec_Num_Players;
-	current_game.option_mode = Vec_Num_Game;
+	Select_Game(0 /* player count determined by gamemode */, NO_OF_GAMEMODES /* max_options */);
+	current_game.current_gamemode = (enum gamemode)Vec_Num_Game;
 }
 
 // ---------------------------------------------------------------------------
 
 void game_init(void)
 {
-	// activate first joystick, switch off second joystick
 	enable_controller_1_x();
 	enable_controller_1_y();
-	disable_controller_2_x();
-	disable_controller_2_y();
 
-	// set player data
-	current_game.lives[0] = 3;
-	current_game.level[0] = 1;
-	current_game.score[0] = 0;
-	current_game.score[1] = 0;
+	// player 1 (always human)
+	current_game.players[1].is_human = 1;
 
-	if (current_game.option_players == 2)
+	if (current_game.current_gamemode == SINGLEPLAYER)
 	{
-		current_game.lives[1] = 3;
-		current_game.level[1] = 1;
+		disable_controller_2_x();
+		disable_controller_2_y();
+		current_game.no_of_players = 4;
+		// COM 2-4
+		current_game.players[1].is_human = 0;
+		current_game.players[2].is_human = 0;
+		current_game.players[3].is_human = 0;
 	}
-	else
+	else if (current_game.current_gamemode == MULTIPLAYER)
 	{
-		current_game.lives[1] = 0;
-		current_game.level[1] = 0;
+		enable_controller_2_x();
+		enable_controller_2_y();
+		current_game.no_of_players = 4;
+		// human player 2, COM 3-4
+		current_game.players[1].is_human = 1;
+		current_game.players[2].is_human = 0;
+		current_game.players[3].is_human = 0;
+	}
+	else if (current_game.current_gamemode == DUELL)
+	{
+		enable_controller_2_x();
+		enable_controller_2_y();
+		current_game.no_of_players = 2;
+		// human player 2
+		current_game.players[1].is_human = 1;
 	}
 
-	current_game.player = 0;
+	current_game.current_player = 0;
 }
 
 // ---------------------------------------------------------------------------
 // main game loop, this is where the action happens
 
 void game_play(void)
+/*
+1. Check & Process Input
+2. Computinh
+3. Rendering
+*/
 {
-	while (current_game.lives[0] + current_game.lives[1])
+	unsigned int frames = 0;
+	unsigned int seconds = 0;
+	unsigned int timer_not_exceeded = 1;
+
+	// while (current_game.lives[0] + current_game.lives[1])
+	while (timer_not_exceeded /* TODO: Timer */)
 	{
-		level_init();
-		level_play();
+		battle_init();
+		battle_play();
 
-		if (current_level.status == LEVEL_WON)
+		if (0 /* TODO: a player has no lives anymore OR time finished*/)
 		{
-			++current_game.level[current_game.player];
+			game_over(); // TODO: Evaluate the ending: Who has won? e.g. most health, most kills, etc.
 		}
-		else
-		{
-			if (--current_game.lives[current_game.player] == 0)
-			{
-				game_over();
-			}
 
-			current_game.player = (current_game.option_players - 1) - current_game.player;
+		// rotate every frame the player
+		current_game.current_player = (current_game.current_player + 1) & (current_game.no_of_players - 1);
+
+		// TODO: Better Timer
+		frames++;
+		if (frames >= 50)
+		{
+			frames = 0;
+			seconds++;
+		}
+		if (seconds > 90)
+		{
+			timer_not_exceeded = 0;
 		}
 	}
 }
@@ -92,7 +124,7 @@ void game_over(void)
 	// update system high score
 	int score[7];
 	Clear_Score(&score);
-	Add_Score_a(current_game.score[current_game.player], &score);
+	Add_Score_a(current_game.score[current_game.current_player], &score);
 	New_High_Score(&score, (void*)&Vec_High_Score);
 
 	unsigned int delay = 150;
@@ -103,8 +135,8 @@ void game_over(void)
 		Intensity_5F();
 		print_string(0, -64, "GAME OVER\x80");
 		print_string(20, -100, "PLAYER\x80");
-		print_unsigned_int(20, 40, current_game.player + 1);
-		Print_Ships(0x69, current_game.lives[current_game.player], 0xC0E2);
+		print_unsigned_int(20, 40, current_game.current_player + 1);
+		Print_Ships(0x69, current_game.players[current_game.current_player].health, 0xC0E2);
 		check_buttons();
 	} while ((--delay) && !button_1_4_pressed());
 }
