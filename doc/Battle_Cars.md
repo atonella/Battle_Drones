@@ -8,8 +8,9 @@ Randomly spawned power-ups can be collected to make the game more intersting and
 
 ## Design Choices
 - 2 game modes:
-    - Singleplayer (Player 1 vs. COM)
-    - Multiplayer (Player 1 vs Player 2)
+    1. Singleplayer (Player 1 vs. COM1 vs COM2 vs COM3)
+    2. Multiplayer (Player 1 vs Player 2 vs COM1 vs COM2)
+	3. Duell (Player 1 vs Player 2)
 - Game stats on top
 - Time indicator intecrated in game stats
 
@@ -32,3 +33,6 @@ Power-ups do spawn randomly and can be collected by the player.
 - Increase size
 - Slow Down
 - No Canon for x seconds
+
+## More Ideas:
+- Add more Game Modes: Best of 3, Increasing Speed/Damage, ...
