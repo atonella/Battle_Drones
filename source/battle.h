@@ -4,6 +4,10 @@
 
 #pragma once
 
+#include "player.h"
+#include "utils/controller.h"
+
+
 // ---------------------------------------------------------------------------
 
 enum battle_status
