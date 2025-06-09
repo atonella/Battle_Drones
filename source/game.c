@@ -15,10 +15,10 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
+		{ .is_human = 0, .health = 0, .player_id = 0 },
+		{ .is_human = 0, .health = 0, .player_id = 1 },
+		{ .is_human = 0, .health = 0, .player_id = 2 },
+		{ .is_human = 0, .health = 0, .player_id = 3 },
 	},
 	.current_player = 0,
 	.pause = { .is_pause = 0, .player_who_requested_pause = 255 },
@@ -48,7 +48,6 @@ void game_init(void)
 			disable_controller_2_x();
 			disable_controller_2_y();
 			current_game.no_of_players = 4;
-			current_game.players[1].get_input = get_human_input;
 			// Bot 2-4
 			current_game.players[1].is_human = 0;
 			current_game.players[1].get_input = get_bot_input;

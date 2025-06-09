@@ -91,7 +91,11 @@ void _f_debug(char* text, enum debug_type_t type, void* p_value, char* file, uns
 
 void debug_print_input(struct input_t input)
 {
+	/*
+	Prints the inputs of a player. It DOES NOT distinguish between Controller 1 and Controller 2.
+	*/
 	Print_Str_d(0, 0, (void*)"DEBUG ON\x80");
+	// Buttons
 	if (input.fire_button)
 	{
 		Print_Str_d(-81, -127, (void*)"FIRE\x80");
@@ -108,22 +112,43 @@ void debug_print_input(struct input_t input)
 	{
 		Print_Str_d(-120, -127, (void*)"PAUSE\x80");
 	}
-	check_joysticks();
-	if (joystick_1_up())
+	// Joystick
+	switch (input.joystick_direction)
 	{
-		Print_Str_d(-81, 50, (void*)"UP\x80");
-	}
-	if (joystick_1_right())
-	{
-		Print_Str_d(-94, 50, (void*)"RIGHT\x80");
-	}
-	if (joystick_1_down())
-	{
-		Print_Str_d(-107, 50, (void*)"DOWN\x80");
-	}
-	if (joystick_1_left())
-	{
-		Print_Str_d(-120, 50, (void*)"LEFT\x80");
+		case JOY_8_WAY_CENTER:
+			Print_Str_d(-68, 45, (void*)"CENTER\x80");
+			break;
+		case JOY_8_WAY_UP:
+			Print_Str_d(-81, 45, (void*)"UP\x80");
+			break;
+		case JOY_8_WAY_LEFT_UP:
+			Print_Str_d(-120, 45, (void*)"LEFT\x80");
+			Print_Str_d(-81, 45, (void*)"UP\x80");
+			break;
+		case JOY_8_WAY_LEFT:
+			Print_Str_d(-120, 45, (void*)"LEFT\x80");
+			break;
+		case JOY_8_WAY_LEFT_DOWN:
+			Print_Str_d(-120, 45, (void*)"LEFT\x80");
+			Print_Str_d(-107, 45, (void*)"DOWN\x80");
+			break;
+		case JOY_8_WAY_DOWN:
+			Print_Str_d(-107, 45, (void*)"DOWN\x80");
+			break;
+		case JOY_8_WAY_RIGHT_DOWN:
+			Print_Str_d(-94, 45, (void*)"RIGHT\x80");
+			Print_Str_d(-107, 45, (void*)"DOWN\x80");
+			break;
+		case JOY_8_WAY_RIGHT:
+			Print_Str_d(-94, 45, (void*)"RIGHT\x80");
+			break;
+		case JOY_8_WAY_RIGHT_UP:
+			Print_Str_d(-94, 45, (void*)"RIGHT\x80");
+			Print_Str_d(-81, 45, (void*)"UP\x80");
+			break;
+		default:
+			Print_Str_d(-55, 45, (void*)"DEFAULT CASE\x80");
+			break;
 	}
 }
 
