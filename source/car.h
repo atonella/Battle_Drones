@@ -10,6 +10,7 @@ struct car_t
 	unsigned int sf;
 };
 
+// TODO: maybe move to battle.h and player.h
 const struct packet_t vectors_battle_car[]
 	= {
 		  { MOVE, { 0, 0 } },

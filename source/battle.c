@@ -9,37 +9,28 @@
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------
+
 const struct packet_t battle_arena[]
 	= {
-		  { MOVE, { 127, -78 } },
-		  { MOVE, { 53, -127 } },
-		  // 180 | -205
+		  { MOVE, { 80, -100 } },
+		  // 100 | -100
 		  // upper boarder
-		  { DRAW, { 0, 127 } },
-		  { DRAW, { 0, 127 } },
-		  { DRAW, { 0, 60 } },
-		  { DRAW, { 0, 106 } },
-		  // 180 | 215
+		  { DRAW, { 0, 100 } },
+		  { DRAW, { 0, 100 } },
+		  // 100 | 100
 		  // right boarder
-		  { DRAW, { -127, 0 } },
-		  { DRAW, { -127, 0 } },
-		  { DRAW, { -127, 0 } },
-		  { DRAW, { -50, 0 } },
-		  // -251 | 215
+		  { DRAW, { -100, 0 } },
+		  { DRAW, { -100, 0 } },
+		  // -100 | 100
 		  // bottom boarder
-		  { DRAW, { 0, -127 } },
-		  { DRAW, { 0, -127 } },
-		  { DRAW, { 0, -60 } },
-		  { DRAW, { 0, -106 } },
-		  // -251 | -205
+		  { DRAW, { 0, -100 } },
+		  { DRAW, { 0, -100 } },
+		  // -100 | -100
 		  // left boarder
-		  { DRAW, { 127, 0 } },
-		  { DRAW, { 127, 0 } },
-		  { DRAW, { 127, 0 } },
-		  { DRAW, { 50, 0 } },
-		  // 180 | -205
-		  { MOVE, { -127, 78 } },
-		  { MOVE, { -53, 127 } },
+		  { DRAW, { 100, 0 } },
+		  { DRAW, { 100, 0 } },
+		  // 100 | -100
+		  { MOVE, { -80, 100 } },
 		  VL_END
 	  };
 
@@ -64,7 +55,7 @@ void battle_play(void)
 	2. Input
 	3. Computing
 	*/
-
+	// TODO: Optimize access of players by using pointers.
 	// variable declarations
 	unsigned int frames = 0;
 	unsigned int seconds = 0;
@@ -88,7 +79,7 @@ void battle_play(void)
 		Reset0Ref(); // reset beam to center
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 		Moveto_d(0, 0); // move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 64; // set scaling factor for drawing
+		dp_VIA_t1_cnt_lo = 138; // set scaling factor for drawing
 		Draw_VLp(&battle_arena); // draw vector list
 		// print arena end
 
@@ -98,8 +89,9 @@ void battle_play(void)
 			Intensity_5F(); // set brightness of the electron beam
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-			Moveto_d(0, 0); // move beam to object coordinates
-			dp_VIA_t1_cnt_lo = 64; // set scaling factor for drawing
+			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
+			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
+			dp_VIA_t1_cnt_lo = 24; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 			Draw_VLp(&vectors_battle_car); // draw vector list
 		}
 		// print player end
@@ -138,8 +130,6 @@ void battle_play(void)
 			// hier weitermachen
 			// ^^^^^^^^^^^^^^^^^^^^TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-			// TODO: check input -> computing
-			// TODO: compute movement.pause.is_pause)
 			if (current_player.input.pause_button && !current_game.pause.is_pause)
 			{
 				// only one player can request the pause
@@ -165,7 +155,7 @@ void battle_play(void)
 		{
 			timer_not_exceeded = 0;
 		}
-		// Timer end
+		// timer end
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
 }
