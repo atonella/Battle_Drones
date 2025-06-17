@@ -1,68 +1,75 @@
 #include "player.h"
 
+#define ACCELERATION_MAX 2
+
 void move_player(struct player_t* player)
 {
-	char s[4] = "00\x80";
-	// TODO:
 	if (player->input.fire_button)
 	{
+		// TODO:
 		// shoot
 	}
 
-	// Either throttle or reverse possible
-	if (player->input.throttle_button)
+	// Either throttle or reverse possible; reverse first enables "breaking" while driving forwards
+	if (player->input.reverse_button)
 	{
-		player->acceleration += (player->acceleration < 8) ? 1 : 0; // TODO:
+		player->acceleration += (player->acceleration > -ACCELERATION_MAX) ? -1 : 0; // TODO: better
 	}
-	else if (player->input.reverse_button)
+	else if (player->input.throttle_button)
 	{
-		player->acceleration += (player->acceleration > -8) ? -1 : 0; // TODO:
+		player->acceleration += (player->acceleration < ACCELERATION_MAX) ? 1 : 0; // TODO: better
 	}
 	else
 	{
-		player->acceleration = player->acceleration - (player->acceleration > 0 ? 1 : 0);
+		player->acceleration += player->acceleration > 0 ? -1 : 0;
+		player->acceleration += player->acceleration < 0 ? 1 : 0;
 	}
 
 	switch (player->input.joystick_direction)
 	{
+		// TODO: begrenzung (collision detection)
 		case JOY_8_WAY_CENTER:
 			break;
 
 		case JOY_8_WAY_UP:
-			player->position.y += 1; // WARNING: IM AUGE BEHALTEN
-			// player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			s[0] = (char)('0' + (player->position.y / 10));
-			s[1] = (char)('0' + (player->position.y % 10));
-			Print_Str_d(30, 0, (void*)s);
+			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_LEFT_UP:
+			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_LEFT:
-			player->position.x -= 1;
+			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+
 			break;
 
 		case JOY_8_WAY_LEFT_DOWN:
+			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_DOWN:
-			player->position.y -= 1;
+			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_RIGHT_DOWN:
+			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_RIGHT:
-			player->position.x += 1;
+			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		case JOY_8_WAY_RIGHT_UP:
+			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
 			break;
 
 		default:
 			assert(1 == 0);
 			break;
 	}
-	// if (player->input.)
 }
