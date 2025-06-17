@@ -60,7 +60,7 @@ void battle_play(void)
 	unsigned int frames = 0;
 	unsigned int seconds = 0;
 	unsigned int timer_not_exceeded = 1;
-	struct player_t current_player;
+	struct player_t* current_player;
 	char time_elapsed[4] = "00\x80";
 
 	while (current_battle.status == BATTLE_PLAY)
@@ -105,9 +105,9 @@ void battle_play(void)
 		if (current_game.pause.is_pause)
 		{
 			Print_Str_d(85, 0, (void*)"PAUSE\x80");
-			current_player = current_game.players[current_game.pause.player_who_requested_pause];
-			current_player.get_input(&current_player);
-			if (current_player.input.pause_button)
+			current_player = &current_game.players[current_game.pause.player_who_requested_pause];
+			current_player->get_input(current_player);
+			if (current_player->input.pause_button)
 			{
 				current_game.pause.is_pause = 0;
 				current_game.pause.player_who_requested_pause = 255;
@@ -121,20 +121,20 @@ void battle_play(void)
 		// iterate over all player objects: (1) get input (2) process resulting actions
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
-			current_player = current_game.players[i];
-			current_player.get_input(&current_player);
+			current_player = &current_game.players[i];
+			current_player->get_input(current_player);
 
 			// vvvvvvvvvvvvvvvvvvvvTODO:vvvvvvvvvvvvvvvvvvvvvvvvvv
 			// hier weitermachen
-			move_player(&current_player); // TODO: better function name <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			move_player(current_player); // TODO: better function name <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			// hier weitermachen
 			// ^^^^^^^^^^^^^^^^^^^^TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-			if (current_player.input.pause_button && !current_game.pause.is_pause)
+			if (current_player->input.pause_button && !current_game.pause.is_pause)
 			{
 				// only one player can request the pause
 				current_game.pause.is_pause = 1;
-				current_game.pause.player_who_requested_pause = current_player.player_id;
+				current_game.pause.player_who_requested_pause = current_player->player_id;
 			}
 		}
 
