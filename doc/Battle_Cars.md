@@ -36,7 +36,9 @@ Power-ups do spawn randomly and can be collected by the player.
 
 ## More Ideas:
 - Add more Game Modes: Best of 3, Increasing Speed/Damage, ...
-
+- collision: should bounce like go karts
+- "HDR": bullets are mor bright than everything else
+- different car vector lists can indicate condition of car (much damage/ damaged slightly / as new)
 
 TODO: same speed diagonally vs horizonzal/vertival
 
