@@ -21,6 +21,7 @@ struct game_t current_game = {
 		{ .is_human = 0, .health = 0, .player_id = 3 },
 	},
 	.current_player = 0,
+	.no_of_players = 0,
 	.pause = { .is_pause = 0, .player_who_requested_pause = 255 },
 };
 
@@ -42,6 +43,8 @@ void game_init(void)
 	// player 1 (always human)
 	current_game.players[0].is_human = 1;
 	current_game.players[0].get_input = get_human_input;
+	current_game.players[0].position.y = 40;
+	current_game.players[0].position.x = -40;
 	switch (current_game.current_gamemode)
 	{
 		case SINGLEPLAYER:
@@ -51,11 +54,20 @@ void game_init(void)
 			// Bot 2-4
 			current_game.players[1].is_human = 0;
 			current_game.players[1].get_input = get_bot_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
+
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
+			current_game.players[2].position.y = -40;
+			current_game.players[2].position.x = -40;
+
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
+			current_game.players[3].position.y = -40;
+			current_game.players[3].position.x = 40;
 			break;
+
 		case MULTIPLAYER:
 			enable_controller_2_x();
 			enable_controller_2_y();
@@ -63,11 +75,20 @@ void game_init(void)
 			// human player 2, Bot 3-4
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
+
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
+			current_game.players[2].position.y = -40;
+			current_game.players[2].position.x = -40;
+
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
+			current_game.players[3].position.y = -40;
+			current_game.players[3].position.x = 40;
 			break;
+
 		case DUELL:
 			enable_controller_2_x();
 			enable_controller_2_y();
@@ -75,7 +96,11 @@ void game_init(void)
 			// human player 2
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
+
 			break;
+
 		default:
 			// TODO:
 			break;

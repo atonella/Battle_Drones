@@ -1,6 +1,6 @@
 #include "input.h"
 #include "player.h"
-// struct input_t get_human_input(struct player_t* player)
+
 void get_human_input(struct player_t* player)
 {
 	// TODO: optimize
@@ -28,6 +28,7 @@ void get_human_input(struct player_t* player)
 	}
 	else
 	{
+		// should never be evaluated
 		assert(1 == 0);
 	}
 	check_joysticks();
@@ -36,11 +37,8 @@ void get_human_input(struct player_t* player)
 	debug_print_input(input);
 #endif
 	player->input = input; // TODO: optimize by setting values directly
-
-	// return input;
 }
 
-// struct input_t get_bot_input(struct player_t* player)
 void get_bot_input(struct player_t* player)
 {
 	// TODO: based on game info, make a move ==> decision making
@@ -49,6 +47,7 @@ void get_bot_input(struct player_t* player)
 		.throttle_button = 0,
 		.reverse_button = 0,
 		.pause_button = 0,
+		.joystick_direction = JOY_8_WAY_CENTER,
 	};
 	player->input = input;
 	// return input;

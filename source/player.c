@@ -11,6 +11,7 @@ void move_player(struct player_t* player)
 	}
 
 	// Either throttle or reverse possible; reverse first enables "breaking" while driving forwards
+	// TODO: bug if throttle + reverse + diagonally joystick direction pressed -> ultra fast and screen flickering
 	if (player->input.reverse_button)
 	{
 		player->acceleration += (player->acceleration > -ACCELERATION_MAX) ? -1 : 0; // TODO: better
@@ -69,7 +70,7 @@ void move_player(struct player_t* player)
 			break;
 
 		default:
-			assert(1 == 0);
+			// assert(1 == 0);
 			break;
 	}
 }

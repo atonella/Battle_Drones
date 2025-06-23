@@ -57,11 +57,14 @@ void battle_play(void)
 	*/
 	// TODO: Optimize access of players by using pointers.
 	// variable declarations
+	struct player_t* current_player;
+#if DEBUG_ENABLED
 	unsigned int frames = 0;
 	unsigned int seconds = 0;
 	unsigned int timer_not_exceeded = 1;
-	struct player_t* current_player;
 	char time_elapsed[4] = "00\x80";
+	char debugPos[4] = "00\x80";
+#endif
 
 	while (current_battle.status == BATTLE_PLAY)
 	{
@@ -86,13 +89,18 @@ void battle_play(void)
 		// print player
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
-			Intensity_5F(); // set brightness of the electron beam
+			Intensity_7F(); // set brightness of the electron beam
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
 			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
 			dp_VIA_t1_cnt_lo = 24; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 			Draw_VLp(&vectors_battle_car); // draw vector list
+#if DEBUG_ENABLED
+			debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
+			debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
+			Print_Str_d(30, -30, (void*)debugPos);
+#endif
 		}
 		// print player end
 
@@ -124,11 +132,7 @@ void battle_play(void)
 			current_player = &current_game.players[i];
 			current_player->get_input(current_player);
 
-			// vvvvvvvvvvvvvvvvvvvvTODO:vvvvvvvvvvvvvvvvvvvvvvvvvv
-			// hier weitermachen
 			move_player(current_player); // TODO: better function name <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			// hier weitermachen
-			// ^^^^^^^^^^^^^^^^^^^^TODO:^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 			if (current_player->input.pause_button && !current_game.pause.is_pause)
 			{
@@ -138,6 +142,7 @@ void battle_play(void)
 			}
 		}
 
+#if DEBUG_ENABLED
 		// timer
 		// TODO: Better Timer
 		frames++;
@@ -156,6 +161,7 @@ void battle_play(void)
 			timer_not_exceeded = 0;
 		}
 		// timer end
+#endif
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
 }
