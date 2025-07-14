@@ -49,8 +49,13 @@ void get_bot_input(struct player_t* player)
 		.pause_button = 0,
 		.joystick_direction = JOY_8_WAY_CENTER,
 	};
-	player->input = input;
-	// return input;
+
+	// if current game human player are in radius 25 drive to them and shoot or sth like that
+	// input.fire_button = 1;
+	// input.reverse_button = 1;
+	// input.joystick_direction = JOY_8_WAY_UP;
+
+	player->input = input; // TODO: optimize by setting values directly
 };
 
 typedef int (*joystick_func)();

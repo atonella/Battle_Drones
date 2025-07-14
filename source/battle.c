@@ -63,7 +63,8 @@ void battle_play(void)
 	unsigned int seconds = 0;
 	unsigned int timer_not_exceeded = 1;
 	char time_elapsed[4] = "00\x80";
-	char debugPos[4] = "00\x80";
+	// temporary disabled
+	// char debugPos[4] = "00\x80";
 #endif
 
 	while (current_battle.status == BATTLE_PLAY)
@@ -97,9 +98,10 @@ void battle_play(void)
 			dp_VIA_t1_cnt_lo = 24; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 			Draw_VLp(&vectors_battle_car); // draw vector list
 #if DEBUG_ENABLED
-			debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
-			debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
-			Print_Str_d(30, -30, (void*)debugPos);
+			// temporary disabled
+			// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
+			// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
+			// Print_Str_d(30, -30, (void*)debugPos);
 #endif
 		}
 		// print player end
