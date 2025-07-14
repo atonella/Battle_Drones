@@ -3,8 +3,6 @@
 // ***************************************************************************
 
 #include "game.h"
-#include "battle.h"
-#include "player.h"
 #include "print/print.h"
 #include "utils/controller.h"
 #include "utils/utils.h"
@@ -17,12 +15,14 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
-		{ .is_human = 0, .health = 0 },
+		{ .is_human = 0, .health = 0, .player_id = 0 },
+		{ .is_human = 0, .health = 0, .player_id = 1 },
+		{ .is_human = 0, .health = 0, .player_id = 2 },
+		{ .is_human = 0, .health = 0, .player_id = 3 },
 	},
 	.current_player = 0,
+	.no_of_players = 0,
+	.pause = { .is_pause = 0, .player_who_requested_pause = 255 },
 };
 
 // ---------------------------------------------------------------------------
@@ -41,38 +41,73 @@ void game_init(void)
 	enable_controller_1_y();
 
 	// player 1 (always human)
-	current_game.players[1].is_human = 1;
+	current_game.players[0].is_human = 1;
+	current_game.players[0].get_input = get_human_input;
+	current_game.players[0].position.y = 40;
+	current_game.players[0].position.x = -40;
+	switch (current_game.current_gamemode)
+	{
+		case SINGLEPLAYER:
+			disable_controller_2_x();
+			disable_controller_2_y();
+			current_game.no_of_players = 4;
+			// Bot 2-4
+			current_game.players[1].is_human = 0;
+			current_game.players[1].get_input = get_bot_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
 
-	if (current_game.current_gamemode == SINGLEPLAYER)
-	{
-		disable_controller_2_x();
-		disable_controller_2_y();
-		current_game.no_of_players = 4;
-		// COM 2-4
-		current_game.players[1].is_human = 0;
-		current_game.players[2].is_human = 0;
-		current_game.players[3].is_human = 0;
-	}
-	else if (current_game.current_gamemode == MULTIPLAYER)
-	{
-		enable_controller_2_x();
-		enable_controller_2_y();
-		current_game.no_of_players = 4;
-		// human player 2, COM 3-4
-		current_game.players[1].is_human = 1;
-		current_game.players[2].is_human = 0;
-		current_game.players[3].is_human = 0;
-	}
-	else if (current_game.current_gamemode == DUELL)
-	{
-		enable_controller_2_x();
-		enable_controller_2_y();
-		current_game.no_of_players = 2;
-		// human player 2
-		current_game.players[1].is_human = 1;
-	}
+			current_game.players[2].is_human = 0;
+			current_game.players[2].get_input = get_bot_input;
+			current_game.players[2].position.y = -40;
+			current_game.players[2].position.x = -40;
 
+			current_game.players[3].is_human = 0;
+			current_game.players[3].get_input = get_bot_input;
+			current_game.players[3].position.y = -40;
+			current_game.players[3].position.x = 40;
+			break;
+
+		case MULTIPLAYER:
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.no_of_players = 4;
+			// human player 2, Bot 3-4
+			current_game.players[1].is_human = 1;
+			current_game.players[1].get_input = get_human_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
+
+			current_game.players[2].is_human = 0;
+			current_game.players[2].get_input = get_bot_input;
+			current_game.players[2].position.y = -40;
+			current_game.players[2].position.x = -40;
+
+			current_game.players[3].is_human = 0;
+			current_game.players[3].get_input = get_bot_input;
+			current_game.players[3].position.y = -40;
+			current_game.players[3].position.x = 40;
+			break;
+
+		case DUELL:
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.no_of_players = 2;
+			// human player 2
+			current_game.players[1].is_human = 1;
+			current_game.players[1].get_input = get_human_input;
+			current_game.players[1].position.y = 40;
+			current_game.players[1].position.x = 40;
+
+			break;
+
+		default:
+			// TODO:
+			break;
+	}
 	current_game.current_player = 0;
+
+	assert(current_game.current_gamemode != 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -80,9 +115,9 @@ void game_init(void)
 
 void game_play(void)
 {
-
+	int return_code = 0;
 	// while (current_game.lives[0] + current_game.lives[1])
-	while (0 /* TODO: sth that changed dynamically if game ends */)
+	while (return_code == 0 /* TODO: sth that changed dynamically if game ends */)
 	{
 		battle_init();
 		battle_play();
