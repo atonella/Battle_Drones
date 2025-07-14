@@ -6,8 +6,36 @@
 #include "car.h"
 #include "player.h"
 #include "utils/controller.h"
+#include "utils/vector.h"
+#include <vectrex.h>
 
+// ---------------------------------------------------------------------------
 
+// coordinates of battle arena:
+const struct packet_t battle_arena[]
+	= {
+		  // y | x
+		  { MOVE, { 80, -100 } },
+		  // 80 | -100
+		  // upper boarder
+		  { DRAW, { 0, 100 } },
+		  { DRAW, { 0, 100 } },
+		  // 80 | 100
+		  // right boarder
+		  { DRAW, { -100, 0 } },
+		  { DRAW, { -100, 0 } },
+		  // -120 | 100
+		  // bottom boarder
+		  { DRAW, { 0, -100 } },
+		  { DRAW, { 0, -100 } },
+		  // -120 | -100
+		  // left boarder
+		  { DRAW, { 100, 0 } },
+		  { DRAW, { 100, 0 } },
+		  // 80 | -100
+		  { MOVE, { -80, 100 } },
+		  VL_END
+	  };
 // ---------------------------------------------------------------------------
 
 enum battle_status

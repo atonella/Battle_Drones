@@ -5,34 +5,6 @@
 #include "battle.h"
 #include "game.h"
 #include "utils/utils.h"
-#include "utils/vector.h"
-#include <vectrex.h>
-
-// ---------------------------------------------------------------------------
-
-const struct packet_t battle_arena[]
-	= {
-		  { MOVE, { 80, -100 } },
-		  // 100 | -100
-		  // upper boarder
-		  { DRAW, { 0, 100 } },
-		  { DRAW, { 0, 100 } },
-		  // 100 | 100
-		  // right boarder
-		  { DRAW, { -100, 0 } },
-		  { DRAW, { -100, 0 } },
-		  // -100 | 100
-		  // bottom boarder
-		  { DRAW, { 0, -100 } },
-		  { DRAW, { 0, -100 } },
-		  // -100 | -100
-		  // left boarder
-		  { DRAW, { 100, 0 } },
-		  { DRAW, { 100, 0 } },
-		  // 100 | -100
-		  { MOVE, { -80, 100 } },
-		  VL_END
-	  };
 
 struct battle_t current_battle = {
 	.status = BATTLE_FINISHED,
