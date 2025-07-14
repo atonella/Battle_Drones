@@ -11,7 +11,7 @@
 
 // ---------------------------------------------------------------------------
 
-// coordinates of battle arena:
+// battle arena size: 200 x 200 (y,x)
 const struct packet_t battle_arena[]
 	= {
 		  // y | x
