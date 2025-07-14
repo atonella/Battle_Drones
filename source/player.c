@@ -3,13 +3,13 @@
 #define ACCELERATION_MAX 2
 
 // boundary checks: (1) determine direction (2) check for boundary
-static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
+static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
 	return (delta > 0 && player->position.y + delta < 88) || // upper boundary
 		(delta < 0 && player->position.y + delta > -117); // lower boundary
 }
 
-static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
+static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
 {
 	return (delta < 0 && player->position.x + delta > -105) || // left boundary
 		(delta > 0 && player->position.x + delta < 105); // right boundary
@@ -40,7 +40,8 @@ void move_player(struct player_t* player)
 		player->acceleration += player->acceleration < 0 ? 1 : 0;
 	}
 
-	int delta = player->acceleration * 1; // TODO: noch nicht sinnvoll
+	int delta = player->acceleration * 1;
+	int reduced_delta = delta / 2; // slower speed, if sliding against wall
 
 	switch (player->input.joystick_direction)
 	{
@@ -48,75 +49,78 @@ void move_player(struct player_t* player)
 			break;
 
 		case JOY_8_WAY_UP:
-			if (would_not_hit_vertical_boundary(player, delta))
+			if (would_not_hit_horizontal_boundary(player, delta))
 				player->position.y += delta;
 			else
 				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_DOWN:
-			if (would_not_hit_vertical_boundary(player, -delta))
+			if (would_not_hit_horizontal_boundary(player, -delta))
 				player->position.y -= delta;
 			else
 				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_LEFT:
-			if (would_not_hit_horizontal_boundary(player, -delta))
+			if (would_not_hit_vertical_boundary(player, -delta))
 				player->position.x -= delta;
 			else
 				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_RIGHT:
-			if (would_not_hit_horizontal_boundary(player, delta))
+			if (would_not_hit_vertical_boundary(player, delta))
 				player->position.x += delta;
 			else
 				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_LEFT_UP:
-			if (would_not_hit_horizontal_boundary(player, -delta) && would_not_hit_vertical_boundary(player, delta))
+			if (would_not_hit_vertical_boundary(player, -delta))
 			{
-				player->position.x -= delta;
-				player->position.y += delta;
+				player->position.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
 			}
-			else
-				player->acceleration = 0;
+			if (would_not_hit_horizontal_boundary(player, delta))
+			{
+				player->position.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+			}
 			break;
 
 		case JOY_8_WAY_RIGHT_UP:
-			if (would_not_hit_horizontal_boundary(player, delta) && would_not_hit_vertical_boundary(player, delta))
+			if (would_not_hit_vertical_boundary(player, delta))
 			{
-				player->position.x += delta;
-				player->position.y += delta;
+				player->position.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
 			}
-			else
-				player->acceleration = 0;
+			if (would_not_hit_horizontal_boundary(player, delta))
+			{
+				player->position.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+			}
 			break;
 
 		case JOY_8_WAY_LEFT_DOWN:
-			if (would_not_hit_horizontal_boundary(player, -delta) && would_not_hit_vertical_boundary(player, -delta))
+			if (would_not_hit_vertical_boundary(player, -delta))
 			{
-				player->position.x -= delta;
-				player->position.y -= delta;
+				player->position.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
 			}
-			else
-				player->acceleration = 0;
+			if (would_not_hit_horizontal_boundary(player, -delta))
+			{
+				player->position.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+			}
 			break;
 
 		case JOY_8_WAY_RIGHT_DOWN:
-			if (would_not_hit_horizontal_boundary(player, delta) && would_not_hit_vertical_boundary(player, -delta))
+			if (would_not_hit_vertical_boundary(player, delta))
 			{
-				player->position.x += delta;
-				player->position.y -= delta;
+				player->position.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
 			}
-			else
-				player->acceleration = 0;
+			if (would_not_hit_horizontal_boundary(player, -delta))
+			{
+				player->position.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+			}
 			break;
 
 		default:
-			// assert(1 == 0);
 			break;
 	}
 }
