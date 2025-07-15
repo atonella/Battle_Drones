@@ -1,17 +1,56 @@
 #include "player.h"
+#include "game.h"
 
 #define ACCELERATION_MAX 2
+#define CAR_WIDTH 12 // empirical value
+#define CAR_HEIGHT 16 // empirical value
+
+// boundary checks: (1) determine direction (2) check for boundary
+static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
+{
+	return (delta > 0 && player->position.y + delta < 88) || // upper boundary
+		(delta < 0 && player->position.y + delta > -117); // lower boundary
+}
+
+static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
+{
+	return (delta < 0 && player->position.x + delta > -105) || // left boundary
+		(delta > 0 && player->position.x + delta < 105); // right boundary
+}
+
+int check_for_car_collision(const struct player_t* car1, const struct player_t* car2)
+{
+	// calculate distance between car1 and car2
+	int diff_x = car1->position.x - car2->position.x;
+	if (diff_x < 0)
+	{
+		diff_x = -diff_x;
+	}
+	int diff_y = car1->position.y - car2->position.y;
+	if (diff_y < 0)
+	{
+		diff_y = -diff_y;
+	}
+	// check for collision
+	// TODO: does only work now, without rotation of car
+	return (diff_x < (CAR_WIDTH) && diff_y < (CAR_HEIGHT));
+}
 
 void move_player(struct player_t* player)
 {
+	// for restoring position if collision detected
+	struct position_t original_position = {
+		.x = player->position.x,
+		.y = player->position.y
+	};
+
 	if (player->input.fire_button)
 	{
 		// TODO:
 		// shoot
 	}
-
-	// Either throttle or reverse possible; reverse first enables "breaking" while driving forwards
-	// TODO: bug if throttle + reverse + diagonally joystick direction pressed -> ultra fast and screen flickering
+	// Either throttle or reverse possible; checking for reverse first -> enables "breaking" while driving forwards
+	// FIXME: bug if throttle + reverse + diagonally joystick direction pressed -> ultra fast and screen flickering | (14/07/2025: can't reproduce)
 	if (player->input.reverse_button)
 	{
 		player->acceleration += (player->acceleration > -ACCELERATION_MAX) ? -1 : 0; // TODO: better
@@ -22,55 +61,112 @@ void move_player(struct player_t* player)
 	}
 	else
 	{
+		// no button pressed: reduce acceleration steadily
 		player->acceleration += player->acceleration > 0 ? -1 : 0;
 		player->acceleration += player->acceleration < 0 ? 1 : 0;
 	}
 
+	int delta = player->acceleration * 1;
+	int reduced_delta = delta / 2; // slower speed, if sliding against wall
+
+	// move the player
 	switch (player->input.joystick_direction)
 	{
-		// TODO: begrenzung (collision detection)
 		case JOY_8_WAY_CENTER:
 			break;
 
 		case JOY_8_WAY_UP:
-			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			break;
-
-		case JOY_8_WAY_LEFT_UP:
-			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			break;
-
-		case JOY_8_WAY_LEFT:
-			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-
-			break;
-
-		case JOY_8_WAY_LEFT_DOWN:
-			player->position.x -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			if (would_not_hit_horizontal_boundary(player, delta))
+				player->position.y += delta;
+			else
+				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_DOWN:
-			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			if (would_not_hit_horizontal_boundary(player, -delta))
+				player->position.y -= delta;
+			else
+				player->acceleration = 0;
 			break;
 
-		case JOY_8_WAY_RIGHT_DOWN:
-			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			player->position.y -= player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+		case JOY_8_WAY_LEFT:
+			if (would_not_hit_vertical_boundary(player, -delta))
+				player->position.x -= delta;
+			else
+				player->acceleration = 0;
 			break;
 
 		case JOY_8_WAY_RIGHT:
-			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			if (would_not_hit_vertical_boundary(player, delta))
+				player->position.x += delta;
+			else
+				player->acceleration = 0;
+			break;
+
+		case JOY_8_WAY_LEFT_UP:
+			if (would_not_hit_vertical_boundary(player, -delta))
+			{
+				player->position.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+			}
+			if (would_not_hit_horizontal_boundary(player, delta))
+			{
+				player->position.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+			}
 			break;
 
 		case JOY_8_WAY_RIGHT_UP:
-			player->position.x += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
-			player->position.y += player->acceleration * 1; // WARNING: IM AUGE BEHALTEN
+			if (would_not_hit_vertical_boundary(player, delta))
+			{
+				player->position.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+			}
+			if (would_not_hit_horizontal_boundary(player, delta))
+			{
+				player->position.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+			}
+			break;
+
+		case JOY_8_WAY_LEFT_DOWN:
+			if (would_not_hit_vertical_boundary(player, -delta))
+			{
+				player->position.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+			}
+			if (would_not_hit_horizontal_boundary(player, -delta))
+			{
+				player->position.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+			}
+			break;
+
+		case JOY_8_WAY_RIGHT_DOWN:
+			if (would_not_hit_vertical_boundary(player, delta))
+			{
+				player->position.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+			}
+			if (would_not_hit_horizontal_boundary(player, -delta))
+			{
+				player->position.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+			}
 			break;
 
 		default:
-			// assert(1 == 0);
 			break;
+	}
+
+	// check collisions with other cars
+	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	{
+		struct player_t* other = &current_game.players[i];
+		// skip identical player
+		if (other == player)
+		{
+			continue;
+		}
+		if (check_for_car_collision(player, other))
+		{
+			// Collision detected => revert movement; stop acceleration
+			player->position = original_position;
+			player->acceleration = 0;
+			other->acceleration = 0;
+			break;
+		}
 	}
 }

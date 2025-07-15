@@ -69,12 +69,12 @@ int check_joystick_direction(unsigned int player_id, unsigned int axis)
 	return get_joystick_direction[player_id][axis]();
 }
 
-enum joystick_8_way eval_joystick_position(struct player_t* player)
+enum joystick_8_way eval_joystick_position(const struct player_t* player)
 {
 	/*
 	Determines the direction of the joystick belonging to the passed player.
 
-	Worst Case: 5 if-statements
+	Worst Case: 5 if-else-statements
 	*/
 	enum joystick_8_way direction;
 	if (check_joystick_direction(player->player_id, DIR_LEFT))
@@ -109,13 +109,13 @@ enum joystick_8_way eval_joystick_position(struct player_t* player)
 			direction = JOY_8_WAY_RIGHT;
 		}
 	}
-	else if (check_joystick_direction(player->player_id, DIR_UP))
-	{
-		direction = JOY_8_WAY_UP;
-	}
 	else if (check_joystick_direction(player->player_id, DIR_DOWN))
 	{
 		direction = JOY_8_WAY_DOWN;
+	}
+	else if (check_joystick_direction(player->player_id, DIR_UP))
+	{
+		direction = JOY_8_WAY_UP;
 	}
 	else
 	{

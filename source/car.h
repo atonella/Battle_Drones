@@ -7,7 +7,7 @@ struct car_t
 	unsigned int x;
 	// unsigned int health;
 	unsigned int velocity;
-	unsigned int sf;
+	unsigned int scaling_factor;
 };
 
 // TODO: maybe move to battle.h and player.h

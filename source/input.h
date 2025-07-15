@@ -40,4 +40,4 @@ struct input_t
 // struct input_t get_bot_input();
 void get_human_input(struct player_t* player);
 void get_bot_input(struct player_t* player);
-enum joystick_8_way eval_joystick_position(struct player_t* player);
+enum joystick_8_way eval_joystick_position(const struct player_t* player);
