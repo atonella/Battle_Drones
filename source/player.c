@@ -2,8 +2,10 @@
 #include "game.h"
 
 #define ACCELERATION_MAX 2
-#define CAR_WIDTH 12 // empirical value
+#define CAR_WIDTH 11 // empirical value
 #define CAR_HEIGHT 16 // empirical value
+#define CAR_WIDTH_HALF 6 // empirical value
+#define CAR_HEIGHT_HALF 8 // empirical value
 
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
@@ -18,7 +20,8 @@ static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary
 		(delta > 0 && player->position.x + delta < 105); // right boundary
 }
 
-int check_for_car_collision(const struct player_t* car1, const struct player_t* car2)
+// TODO: does only work now (without rotation of car)
+static inline __attribute__((always_inline)) int check_for_car_collision(const struct player_t* car1, const struct player_t* car2)
 {
 	// calculate distance between car1 and car2
 	int diff_x = car1->position.x - car2->position.x;
@@ -26,14 +29,46 @@ int check_for_car_collision(const struct player_t* car1, const struct player_t* 
 	{
 		diff_x = -diff_x;
 	}
+	if (diff_x >= CAR_WIDTH)
+	{
+		// no hit possible -> exit early
+		return 0;
+	}
 	int diff_y = car1->position.y - car2->position.y;
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
 	}
 	// check for collision
-	// TODO: does only work now, without rotation of car
 	return (diff_x < (CAR_WIDTH) && diff_y < (CAR_HEIGHT));
+}
+
+// TODO: does only work now (without rotation of car)
+static inline __attribute__((always_inline)) int check_for_bullet_car_collision(const struct bullet_t* bullet, const struct player_t* car)
+{
+	// car can't hit itself
+	if (bullet->owner_id == car->player_id)
+	{
+		return 0;
+	}
+	// calculate distance between bullet and car
+	int diff_y = bullet->position.y - (car->position.y - CAR_HEIGHT_HALF); // bugfix: real center of car is on the front (!= in the middle)
+	if (diff_y < 0)
+	{
+		diff_y = -diff_y;
+	}
+	if (diff_y >= CAR_HEIGHT)
+	{
+		// no hit possible -> exit early
+		return 0;
+	}
+	int diff_x = bullet->position.x - car->position.x;
+	if (diff_x < 0)
+	{
+		diff_x = -diff_x;
+	}
+	// check for collision
+	return (diff_x < CAR_WIDTH_HALF && diff_y < CAR_HEIGHT_HALF);
 }
 
 static struct bullet_t* find_free_bullet(struct player_t* player)
@@ -89,10 +124,23 @@ void update_bullet_position(struct bullet_t* bullet)
 			break;
 	}
 
-	// check arena border
+	// check for collision with arena border
 	if (bullet->position.x < -105 || bullet->position.x > 105 || bullet->position.y < -117 || bullet->position.y > 88)
 	{
 		bullet->is_active = BULLET_INACTIVE;
+		return; // return early, because only 1 type of collision possible
+	}
+	// check for collision with car
+	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	{
+		struct player_t* car = &current_game.players[i];
+		if (check_for_bullet_car_collision(bullet, car))
+		{
+			bullet->is_active = BULLET_INACTIVE;
+			// TODO: add damage handling here; add sound effect; add visual effects
+
+			break;
+		}
 	}
 }
 
