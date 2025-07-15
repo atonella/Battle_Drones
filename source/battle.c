@@ -49,9 +49,10 @@ void battle_play(void)
 		Do_Sound();
 		Intensity_5F();
 		// game loop header end
+		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 		// print arena
-		Intensity_5F(); // set brightness of the electron beam
+		Intensity_3F(); // set medium-low brightness of the electron beam
 		Reset0Ref(); // reset beam to center
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 		Moveto_d(0, 0); // move beam to object coordinates
@@ -62,7 +63,7 @@ void battle_play(void)
 		// print player
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
-			Intensity_7F(); // set brightness of the electron beam
+			Intensity_5F(); // set medium brightness of the electron beam
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
@@ -78,8 +79,25 @@ void battle_play(void)
 		}
 		// print player end
 
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+		// draw active bullets
+		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		{
+			for (unsigned int j = 0; j < MAX_BULLETS; j++)
+			{
+				struct bullet_t* bullet = &current_game.players[i].bullets[j];
+				if (bullet->is_active == BULLET_ACTIVE)
+				{
+					Intensity_7F(); // set max. brightness of the electron beam
+					Reset0Ref(); // reset beam to center
+					dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
+					Moveto_d(bullet->position.y, bullet->position.x); // move beam to bullet coordinates
+					Dot_here(); // Simple dot for bullet
+				}
+			}
+		}
+		// draw active bullets end
 #if DEBUG_ENABLED
+		Reset0Ref(); // reset beam to center
 		Print_Str_d(70, -120, (void*)"RUNNING\x80");
 #endif
 
@@ -106,7 +124,8 @@ void battle_play(void)
 			current_player = &current_game.players[i];
 			current_player->get_input(current_player);
 
-			move_player(current_player); // TODO: better function name <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			// move player and objectiles; collision detection
+			update_player(current_player);
 
 			if (current_player->input.pause_button && !current_game.pause.is_pause)
 			{
