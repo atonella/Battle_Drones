@@ -23,3 +23,4 @@ struct player_t
 };
 
 void move_player(struct player_t* player);
+int check_for_car_collision(const struct player_t* car1, const struct player_t* car2);

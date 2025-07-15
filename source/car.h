@@ -1,7 +1,5 @@
 #pragma once
 #include "utils/vector.h" // provides a C data type for vector lists
-#define CAR_LENGTH 75
-#define CAR_WIDTH 50
 
 struct car_t
 {
