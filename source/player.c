@@ -2,8 +2,8 @@
 #include "game.h"
 
 #define ACCELERATION_MAX 2
-#define CAR_WIDTH 12 // empirical value
-#define CAR_HEIGHT 16 // empirical value
+#define DRONE_WIDTH 14 // empirical value
+#define DRONE_HEIGHT 14 // empirical value
 
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
@@ -18,22 +18,22 @@ static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary
 		(delta > 0 && player->position.x + delta < 105); // right boundary
 }
 
-int check_for_car_collision(const struct player_t* car1, const struct player_t* car2)
+int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
 {
-	// calculate distance between car1 and car2
-	int diff_x = car1->position.x - car2->position.x;
+	// calculate distance between drone1 and drone2
+	int diff_x = drone1->position.x - drone2->position.x;
 	if (diff_x < 0)
 	{
 		diff_x = -diff_x;
 	}
-	int diff_y = car1->position.y - car2->position.y;
+	int diff_y = drone1->position.y - drone2->position.y;
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
 	}
 	// check for collision
-	// TODO: does only work now, without rotation of car
-	return (diff_x < (CAR_WIDTH) && diff_y < (CAR_HEIGHT));
+	// TODO: does only work now, without rotation of drone
+	return (diff_x < (DRONE_WIDTH) && diff_y < (DRONE_HEIGHT));
 }
 
 void move_player(struct player_t* player)
@@ -151,7 +151,7 @@ void move_player(struct player_t* player)
 			break;
 	}
 
-	// check collisions with other cars
+	// check collisions with other drones
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
 	{
 		struct player_t* other = &current_game.players[i];
@@ -160,7 +160,7 @@ void move_player(struct player_t* player)
 		{
 			continue;
 		}
-		if (check_for_car_collision(player, other))
+		if (check_for_drone_collision(player, other))
 		{
 			// Collision detected => revert movement; stop acceleration
 			player->position = original_position;
