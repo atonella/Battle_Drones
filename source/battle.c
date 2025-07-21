@@ -67,6 +67,7 @@ void battle_play(void)
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
+			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 			Draw_VLp(&DroneVectorList); // draw vector list
 #if DEBUG_ENABLED
