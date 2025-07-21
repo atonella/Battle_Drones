@@ -65,7 +65,7 @@ enum joystick_8_way eval_joystick_position(const struct player_t* player)
 	/*
 	Determines the direction of the joystick belonging to the passed player.
 
-	Worst Case: 5 if-else-statements
+	Worst Case: 5 condition checks
 	*/
 	enum joystick_8_way direction;
 	if (check_joystick_direction(player->player_id, DIR_LEFT))
