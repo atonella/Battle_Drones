@@ -3,11 +3,12 @@
 // ***************************************************************************
 
 #pragma once
-#include "car.h"
 #include "player.h"
 #include "utils/controller.h"
 #include "utils/vector.h"
 #include <vectrex.h>
+
+#define BLOW_UP 1
 
 // ---------------------------------------------------------------------------
 
@@ -36,6 +37,30 @@ const struct packet_t battle_arena[]
 		  { MOVE, { -80, 100 } },
 		  VL_END
 	  };
+
+// Generated with VIDE
+const signed char DroneVectorList[] = {
+	(signed char)-1, +0 * BLOW_UP, +6 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +0 * BLOW_UP, -6 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +2 * BLOW_UP, -2 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -2 * BLOW_UP, -2 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +4 * BLOW_UP, +4 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -4 * BLOW_UP, +6 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +2 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
+	(signed char)+0, +2 * BLOW_UP, -2 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -4 * BLOW_UP, +4 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -6 * BLOW_UP, -4 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -2 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
+	(signed char)+0, +2 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -4 * BLOW_UP, -4 * BLOW_UP, // pattern, y, x
+	(signed char)+0, +4 * BLOW_UP, -6 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -2 * BLOW_UP, -2 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -2 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
+	(signed char)-1, +4 * BLOW_UP, -4 * BLOW_UP, // pattern, y, x
+	(signed char)+1 // endmarker (high bit in pattern not set)
+};
 // ---------------------------------------------------------------------------
 
 enum battle_status

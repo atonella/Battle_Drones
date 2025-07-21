@@ -100,14 +100,6 @@ void debug_print_input(struct input_t input)
 	{
 		Print_Str_d(-81, -127, (void*)"FIRE\x80");
 	}
-	if (input.throttle_button)
-	{
-		Print_Str_d(-94, -127, (void*)"THROTTLE\x80");
-	}
-	if (input.reverse_button)
-	{
-		Print_Str_d(-107, -127, (void*)"REVERSE\x80");
-	}
 	if (input.pause_button)
 	{
 		Print_Str_d(-120, -127, (void*)"PAUSE\x80");
