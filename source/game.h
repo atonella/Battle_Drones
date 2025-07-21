@@ -9,7 +9,6 @@
 #include "pause.h"
 #include "player.h"
 
-
 #define MAX_PLAYERS 4
 #define NO_OF_GAMEMODES 3
 // ---------------------------------------------------------------------------

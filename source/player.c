@@ -1,23 +1,17 @@
 #include "player.h"
 #include "game.h"
 
-#define SPEED_MAX 1
-#define DRONE_WIDTH 14
-#define DRONE_HEIGHT 14
-#define DRONE_WIDTH_HALF 7
-#define DRONE_HEIGHT_HALF 7
-
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
-	return (delta > 0 && player->position.y + delta < 88) || // upper boundary
-		(delta < 0 && player->position.y + delta > -117); // lower boundary
+	return (delta > 0 && player->position.y + delta < 74) || // upper boundary
+		(delta < 0 && player->position.y + delta > -127); // lower boundary
 }
 
 static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
 {
-	return (delta < 0 && player->position.x + delta > -105) || // left boundary
-		(delta > 0 && player->position.x + delta < 105); // right boundary
+	return (delta < 0 && player->position.x + delta > -121) || // left boundary
+		(delta > 0 && player->position.x + delta < 121); // right boundary
 }
 
 static inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
@@ -128,7 +122,8 @@ void update_bullet_position(struct bullet_t* bullet)
 		bullet->is_active = BULLET_INACTIVE;
 		return; // return early, because only 1 type of collision possible
 	}
-	// check for collision with drone
+	// check for collision with drones
+	// OPTIMIZE: this approach is very resource instense
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
 	{
 		struct player_t* drone = &current_game.players[i];
@@ -273,6 +268,7 @@ void update_player(struct player_t* player)
 
 	// move the player
 	move_player(player);
+
 	// check collisions with other drones
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
 	{
