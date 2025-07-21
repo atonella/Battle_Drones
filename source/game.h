@@ -9,7 +9,6 @@
 #include "pause.h"
 #include "player.h"
 
-
 #define MAX_PLAYERS 4
 #define NO_OF_GAMEMODES 3
 // ---------------------------------------------------------------------------
@@ -41,7 +40,7 @@ extern struct game_t current_game;
 int game(void);
 
 void game_init(void);
-void game_play(void);
+__attribute__((__noreturn__)) void game_play(void);
 void game_end(void);
 void game_over(void);
 

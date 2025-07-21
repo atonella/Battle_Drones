@@ -121,11 +121,10 @@ void game_init(void)
 // ---------------------------------------------------------------------------
 // main game loop, this is where the action happens
 
-void game_play(void)
+__attribute__((__noreturn__)) void game_play(void)
 {
-	int return_code = 0;
 	// while (current_game.lives[0] + current_game.lives[1])
-	while (return_code == 0 /* TODO: sth that changed dynamically if game ends */)
+	while (1 /* TODO: sth that changed dynamically if game ends */)
 	{
 		battle_init();
 		battle_play();
