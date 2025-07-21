@@ -1,7 +1,7 @@
 #include "player.h"
 #include "game.h"
 
-#define ACCELERATION_MAX 2
+#define ACCELERATION_MAX 1
 #define DRONE_WIDTH 14 // empirical value
 #define DRONE_HEIGHT 14 // empirical value
 
@@ -49,19 +49,14 @@ void move_player(struct player_t* player)
 		// TODO:
 		// shoot
 	}
-	// Either throttle or reverse possible; checking for reverse first -> enables "breaking" while driving forwards
-	// FIXME: bug if throttle + reverse + diagonally joystick direction pressed -> ultra fast and screen flickering | (14/07/2025: can't reproduce)
-	if (player->input.reverse_button)
+
+	if (player->input.joystick_direction != JOY_8_WAY_CENTER)
 	{
-		player->acceleration += (player->acceleration > -ACCELERATION_MAX) ? -1 : 0; // TODO: better
-	}
-	else if (player->input.throttle_button)
-	{
-		player->acceleration += (player->acceleration < ACCELERATION_MAX) ? 1 : 0; // TODO: better
+		player->acceleration = ACCELERATION_MAX;
 	}
 	else
 	{
-		// no button pressed: reduce acceleration steadily
+		// reduce acceleration
 		player->acceleration += player->acceleration > 0 ? -1 : 0;
 		player->acceleration += player->acceleration < 0 ? 1 : 0;
 	}
@@ -74,7 +69,7 @@ void move_player(struct player_t* player)
 	{
 		case JOY_8_WAY_CENTER:
 			break;
-
+		// vertically
 		case JOY_8_WAY_UP:
 			if (would_not_hit_horizontal_boundary(player, delta))
 				player->position.y += delta;
@@ -88,7 +83,7 @@ void move_player(struct player_t* player)
 			else
 				player->acceleration = 0;
 			break;
-
+		// horizontally
 		case JOY_8_WAY_LEFT:
 			if (would_not_hit_vertical_boundary(player, -delta))
 				player->position.x -= delta;
@@ -102,48 +97,69 @@ void move_player(struct player_t* player)
 			else
 				player->acceleration = 0;
 			break;
-
+		// diagonally
 		case JOY_8_WAY_LEFT_UP:
-			if (would_not_hit_vertical_boundary(player, -delta))
+			// adjust the diagonally speed to approx. the same as horizontally/vertically
+			player->diagonally_counter += 7;
+			if (player->diagonally_counter > 10)
 			{
-				player->position.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
-			}
-			if (would_not_hit_horizontal_boundary(player, delta))
-			{
-				player->position.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+				player->diagonally_counter -= 10;
+				if (would_not_hit_vertical_boundary(player, -delta))
+				{
+					player->position.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+				}
+				if (would_not_hit_horizontal_boundary(player, delta))
+				{
+					player->position.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+				}
 			}
 			break;
 
 		case JOY_8_WAY_RIGHT_UP:
-			if (would_not_hit_vertical_boundary(player, delta))
+			player->diagonally_counter += 7;
+			if (player->diagonally_counter > 10)
 			{
-				player->position.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
-			}
-			if (would_not_hit_horizontal_boundary(player, delta))
-			{
-				player->position.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+				player->diagonally_counter -= 10;
+				if (would_not_hit_vertical_boundary(player, delta))
+				{
+					player->position.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+				}
+				if (would_not_hit_horizontal_boundary(player, delta))
+				{
+					player->position.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+				}
 			}
 			break;
 
 		case JOY_8_WAY_LEFT_DOWN:
-			if (would_not_hit_vertical_boundary(player, -delta))
+			player->diagonally_counter += 7;
+			if (player->diagonally_counter > 10)
 			{
-				player->position.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
-			}
-			if (would_not_hit_horizontal_boundary(player, -delta))
-			{
-				player->position.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+				player->diagonally_counter -= 10;
+				if (would_not_hit_vertical_boundary(player, -delta))
+				{
+					player->position.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+				}
+				if (would_not_hit_horizontal_boundary(player, -delta))
+				{
+					player->position.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+				}
 			}
 			break;
 
 		case JOY_8_WAY_RIGHT_DOWN:
-			if (would_not_hit_vertical_boundary(player, delta))
+			player->diagonally_counter += 7;
+			if (player->diagonally_counter > 10)
 			{
-				player->position.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
-			}
-			if (would_not_hit_horizontal_boundary(player, -delta))
-			{
-				player->position.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+				player->diagonally_counter -= 10;
+				if (would_not_hit_vertical_boundary(player, delta))
+				{
+					player->position.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+				}
+				if (would_not_hit_horizontal_boundary(player, -delta))
+				{
+					player->position.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+				}
 			}
 			break;
 

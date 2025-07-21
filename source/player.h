@@ -14,6 +14,7 @@ struct player_t
 	struct position_t position;
 	int acceleration;
 	struct input_t input;
+	unsigned int diagonally_counter;
 	// score
 	// status
 	// coordinate y,x (union?)
