@@ -10,7 +10,7 @@
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
 	return (delta > 0 && player->position.y + delta < ARENA_LIMIT_UP) || // upper boundary
-		(delta < 0 && player->position.y + delta > ARENA_LIMIT_LOW); // lower boundary
+		(delta < 0 && player->position.y + delta > ARENA_LIMIT_LOW); // lower boundary, FIXME: treat possible overflow
 }
 
 static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
