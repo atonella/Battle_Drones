@@ -33,3 +33,4 @@ struct player_t
 
 void update_player(struct player_t* player);
 void update_bullet_position(struct bullet_t* bullet);
+void move_player(struct player_t* player);
