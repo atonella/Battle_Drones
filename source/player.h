@@ -32,5 +32,4 @@ struct player_t
 };
 
 void update_player(struct player_t* player);
-int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2);
 void update_bullet_position(struct bullet_t* bullet);

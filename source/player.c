@@ -1,9 +1,6 @@
 #include "player.h"
 #include "game.h"
 
-#define SPEED_MAX 1
-#define DRONE_WIDTH 14 // empirical value
-#define DRONE_HEIGHT 14 // empirical value
 #define ARENA_LIMIT_UP 74
 #define ARENA_LIMIT_LOW -127
 #define ARENA_LIMIT_LEFT -121
