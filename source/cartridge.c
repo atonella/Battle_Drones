@@ -7,7 +7,6 @@
 #include "cartridge.h"
 #include "utils/utils.h"
 
-
 // ---------------------------------------------------------------------------
 
 const struct cartridge_t game_header __attribute__((section(".cartridge"), used)) = {
@@ -16,8 +15,8 @@ const struct cartridge_t game_header __attribute__((section(".cartridge"), used)
 	.title_height = -8,
 	.title_width = 80,
 	.title_y = 24,
-	.title_x = CENTER_TEXT(TEXT_WIDTH_L, 11),
-	.title = "BATTLE CARS\x80" // note that \x00 is automatically appended!
+	.title_x = CENTER_TEXT(TEXT_WIDTH_L, 13),
+	.title = "BATTLE DRONES\x80" // note that \x00 is automatically appended!
 };
 
 // ***************************************************************************

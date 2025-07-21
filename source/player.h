@@ -14,17 +14,18 @@ struct player_t
 	unsigned int is_human;
 	unsigned int health;
 	struct position_t position;
-	int acceleration;
 	struct input_t input;
+	unsigned int diagonally_counter;
 	// score
 	// status
 	// coordinate y,x (union?)
-	// struct battlecar_t battlecar;
 	// struct input_t (*get_input)(struct player_t*); // TODO: ptr?
 	void (*get_input)(struct player_t*); // TODO: ptr?
 	struct bullet_t bullets[MAX_BULLETS];
+	// unsigned int velocity;
+	// unsigned int scaling_factor;
 };
 
 void update_player(struct player_t* player);
-int check_for_car_collision(const struct player_t* car1, const struct player_t* car2);
+int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2);
 void update_bullet_position(struct bullet_t* bullet);
