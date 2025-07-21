@@ -31,8 +31,6 @@ struct input_t
 {
 	unsigned int fire_button;
 	unsigned int pause_button;
-	unsigned int reverse_button;
-	unsigned int throttle_button;
 	enum joystick_8_way joystick_direction;
 };
 

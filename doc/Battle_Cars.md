@@ -1,8 +1,8 @@
-# Battle Cars
+# Battle Drones
 
 ## Principle
-Battle Cars is a top down perspective game, where the player drives a car and has to shoot down other cars.
-Each car is equipped with a canon on the front.
+Battle Drones is a top down perspective game, where the player controles a drone and has to shoot down other drones.
+Each drone is equipped with a canon.
 Randomly spawned power-ups can be collected to make the game more intersting and diverse.
 
 
@@ -37,8 +37,8 @@ Power-ups do spawn randomly and can be collected by the player.
 ## More Ideas:
 - Add more Game Modes: Best of 3, Increasing Speed/Damage, ...
 - collision: should bounce like go karts
-- "HDR": bullets are mor bright than everything else
-- different car vector lists can indicate condition of car (much damage/ damaged slightly / as new)
+- "HDR": bullets are more bright than everything else
+- different drone vector lists can indicate condition of drone (much damage/ damaged slightly / as new)
 
 TODO: same speed diagonally vs horizonzal/vertival
 

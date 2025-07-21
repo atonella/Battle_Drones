@@ -7,23 +7,17 @@ void get_human_input(struct player_t* player)
 	check_buttons();
 	struct input_t input = {
 		.fire_button = 0,
-		.throttle_button = 0,
-		.reverse_button = 0,
 		.pause_button = 0,
 		.joystick_direction = JOY_8_WAY_CENTER,
 	};
 	if (player->player_id == 0)
 	{
 		input.fire_button = button_1_4_pressed();
-		input.throttle_button = button_1_3_held();
-		input.reverse_button = button_1_2_held();
 		input.pause_button = button_1_1_pressed();
 	}
 	else if (player->player_id == 1)
 	{
 		input.fire_button = button_2_4_pressed();
-		input.throttle_button = button_2_3_held();
-		input.reverse_button = button_2_2_held();
 		input.pause_button = button_2_1_pressed();
 	}
 	else
@@ -44,15 +38,12 @@ void get_bot_input(struct player_t* player)
 	// TODO: based on game info, make a move ==> decision making
 	struct input_t input = {
 		.fire_button = 0,
-		.throttle_button = 0,
-		.reverse_button = 0,
 		.pause_button = 0,
 		.joystick_direction = JOY_8_WAY_CENTER,
 	};
 
 	// if current game human player are in radius 25 drive to them and shoot or sth like that
 	// input.fire_button = 1;
-	// input.reverse_button = 1;
 	// input.joystick_direction = JOY_8_WAY_UP;
 
 	player->input = input; // TODO: optimize by setting values directly
