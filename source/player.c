@@ -1,17 +1,22 @@
 #include "player.h"
 #include "game.h"
 
+#define ARENA_LIMIT_UP 74
+#define ARENA_LIMIT_LOW -127
+#define ARENA_LIMIT_LEFT -121
+#define ARENA_LIMIT_RIGHT 121
+
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
-	return (delta > 0 && player->position.y + delta < 74) || // upper boundary
-		(delta < 0 && player->position.y + delta > -127); // lower boundary
+	return (delta > 0 && player->position.y + delta < ARENA_LIMIT_UP) || // upper boundary
+		(delta < 0 && player->position.y + delta > ARENA_LIMIT_LOW); // lower boundary
 }
 
 static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
 {
-	return (delta < 0 && player->position.x + delta > -121) || // left boundary
-		(delta > 0 && player->position.x + delta < 121); // right boundary
+	return (delta < 0 && player->position.x + delta > ARENA_LIMIT_LEFT) || // left boundary
+		(delta > 0 && player->position.x + delta < ARENA_LIMIT_RIGHT); // right boundary
 }
 
 static inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
@@ -44,7 +49,7 @@ static inline __attribute__((always_inline)) int check_for_bullet_drone_collisio
 		return 0;
 	}
 	// calculate distance between bullet and drone
-	int diff_y = bullet->position.y - (drone->position.y); // bugfix: real center of drone is on the front (!= in the middle)
+	int diff_y = bullet->position.y - (drone->position.y);
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
@@ -77,6 +82,7 @@ static struct bullet_t* find_free_bullet(struct player_t* player)
 }
 
 // TODO maybe combine with switch case below
+// FIXME: Overflow possible (Arena Border -1 + BULLET_SPEED)
 void update_bullet_position(struct bullet_t* bullet)
 {
 	// move bullet based on direction
@@ -117,7 +123,8 @@ void update_bullet_position(struct bullet_t* bullet)
 	}
 
 	// check for collision with arena border
-	if (bullet->position.x < -105 || bullet->position.x > 105 || bullet->position.y < -117 || bullet->position.y > 88)
+	// FIXME: BUG (OVERFLOW)
+	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
 	{
 		bullet->is_active = BULLET_INACTIVE;
 		return; // return early, because only 1 type of collision possible
