@@ -6,7 +6,7 @@
 
 #define DEFAULT_HEALTH 100
 #define MAX_HEALTH 128
-#define MAX_BULLETS 8
+#define MAX_BULLETS 3
 #define SPEED_MAX 1
 #define DRONE_WIDTH 15
 #define DRONE_HEIGHT 15
