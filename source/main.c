@@ -2,7 +2,6 @@
 // main
 // ***************************************************************************
 
-#include "car.h"
 #include "game.h"
 #include <vectrex.h>
 
@@ -13,8 +12,6 @@
 // warm reset: skip vectrex logo and keep ram data
 // after each reset, the game title screen is shown and then main() is called
 // ---------------------------------------------------------------------------
-
-// Original main, commented out for displaying vectors_car[]
 
 int main(void)
 {
