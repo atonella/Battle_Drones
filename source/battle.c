@@ -38,7 +38,7 @@ void battle_play(void)
 	// temporary disabled
 	// char debugPos[4] = "00\x80";
 #endif
-
+	unsigned int animation_counter = 0;
 	while (current_battle.status == BATTLE_PLAY)
 	{
 		// game loop header start - do not change
@@ -69,12 +69,28 @@ void battle_play(void)
 			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
 			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
-			Draw_VLp(&DroneVectorList); // draw vector list
+			switch (animation_counter)
+			{
+				case 0:
+					Draw_VLp(&DroneVectorList_0);
+					break;
+				case 1:
+					Draw_VLp(&DroneVectorList_1);
+					break;
+				case 2:
+					Draw_VLp(&DroneVectorList_2);
+					break;
+				case 3:
+					Draw_VLp(&DroneVectorList_3);
+					break;
+				default:
+					assert(1 == 0);
+			}
 #if DEBUG_ENABLED
-			// temporary disabled
-			// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
-			// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
-			// Print_Str_d(30, -30, (void*)debugPos);
+				// temporary disabled
+				// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
+				// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
+				// Print_Str_d(30, -30, (void*)debugPos);
 #endif
 		}
 		// print player end
@@ -134,8 +150,11 @@ void battle_play(void)
 				current_game.pause.player_who_requested_pause = current_player->player_id;
 			}
 		}
-
+		// animation counter increase
+		animation_counter = (animation_counter < 3) ? (animation_counter + 1) : 0; // 0,1,2,3
+		// animation counter increase end
 #if DEBUG_ENABLED
+
 		// timer
 		// TODO: Better Timer
 		frames++;
