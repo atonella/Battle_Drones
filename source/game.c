@@ -46,6 +46,7 @@ void game_init(void)
 	current_game.players[0].position.y = 40;
 	current_game.players[0].position.x = -40;
 	current_game.players[0].diagonally_counter = 0;
+	current_game.players[0].respawn_counter = 0;
 	switch (current_game.current_gamemode)
 	{
 		case SINGLEPLAYER:
@@ -58,18 +59,21 @@ void game_init(void)
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
 			current_game.players[1].diagonally_counter = 0;
+			current_game.players[1].respawn_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = -40;
 			current_game.players[2].position.x = -40;
 			current_game.players[2].diagonally_counter = 0;
+			current_game.players[2].respawn_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = -40;
 			current_game.players[3].position.x = 40;
 			current_game.players[3].diagonally_counter = 0;
+			current_game.players[3].respawn_counter = 0;
 			break;
 
 		case MULTIPLAYER:
@@ -82,18 +86,21 @@ void game_init(void)
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
 			current_game.players[1].diagonally_counter = 0;
+			current_game.players[1].respawn_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = -40;
 			current_game.players[2].position.x = -40;
 			current_game.players[2].diagonally_counter = 0;
+			current_game.players[2].respawn_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = -40;
 			current_game.players[3].position.x = 40;
 			current_game.players[3].diagonally_counter = 0;
+			current_game.players[3].respawn_counter = 0;
 			break;
 
 		case DUELL:
@@ -106,6 +113,7 @@ void game_init(void)
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
 			current_game.players[1].diagonally_counter = 0;
+			current_game.players[1].respawn_counter = 0;
 
 			break;
 

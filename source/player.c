@@ -138,6 +138,18 @@ void update_bullet_position(struct bullet_t* bullet)
 		{
 			bullet->is_active = BULLET_INACTIVE;
 			// TODO: add damage handling here; add sound effect; add visual effects
+			if (drone->health > 10)
+			{
+				drone->health -= 10;
+			}
+			else
+			{
+				// death
+				drone->respawn_counter = 100;
+				// pos out of arena border
+				drone->position.x = 0;
+				drone->position.y = 127;
+			}
 
 			break;
 		}

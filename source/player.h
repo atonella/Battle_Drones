@@ -29,6 +29,7 @@ struct player_t
 	struct bullet_t bullets[MAX_BULLETS];
 	// unsigned int velocity;
 	// unsigned int scaling_factor;
+	unsigned int respawn_counter;
 };
 
 void update_player(struct player_t* player);
