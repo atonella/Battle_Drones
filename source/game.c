@@ -124,6 +124,11 @@ void game_init(void)
 	current_game.current_player = 0;
 
 	assert(current_game.current_gamemode != 0);
+
+	void init_bot_rng(void)
+	{
+		init_rng(&bot_rng, 47, 11, 42, 1);
+	}
 }
 
 // ---------------------------------------------------------------------------
