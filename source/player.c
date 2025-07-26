@@ -5,6 +5,8 @@
 #define ARENA_LIMIT_LOW -127
 #define ARENA_LIMIT_LEFT -121
 #define ARENA_LIMIT_RIGHT 121
+#define BULLET_DAMAGE_DEFAULT 10
+#define PLAYER_HEALTH_DEFAULT 50
 
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
@@ -116,14 +118,15 @@ void update_bullet_position(struct bullet_t* bullet)
 		{
 			bullet->is_active = BULLET_INACTIVE;
 			// TODO: add damage handling here; add sound effect; add visual effects
-			if (drone->health > 10)
+			if (drone->health > BULLET_DAMAGE_DEFAULT)
 			{
-				drone->health -= 10;
+				drone->health -= BULLET_DAMAGE_DEFAULT;
 			}
 			else
 			{
 				// death
-				drone->respawn_counter = 100;
+				drone->health = PLAYER_HEALTH_DEFAULT;
+				drone->respawn_counter = 200;
 				// pos out of arena border
 				drone->position.x = 0;
 				drone->position.y = 127;

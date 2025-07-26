@@ -15,10 +15,10 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 0, .player_id = 0 },
-		{ .is_human = 0, .health = 0, .player_id = 1 },
-		{ .is_human = 0, .health = 0, .player_id = 2 },
-		{ .is_human = 0, .health = 0, .player_id = 3 },
+		{ .is_human = 0, .health = 50, .player_id = 0, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 1, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 2, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 3, .diagonally_counter = 0, .respawn_counter = 0 },
 	},
 	.current_player = 0,
 	.no_of_players = 0,
@@ -45,8 +45,6 @@ void game_init(void)
 	current_game.players[0].get_input = get_human_input;
 	current_game.players[0].position.y = 40;
 	current_game.players[0].position.x = -40;
-	current_game.players[0].diagonally_counter = 0;
-	current_game.players[0].respawn_counter = 0;
 	switch (current_game.current_gamemode)
 	{
 		case SINGLEPLAYER:
@@ -58,22 +56,16 @@ void game_init(void)
 			current_game.players[1].get_input = get_bot_input;
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
-			current_game.players[1].diagonally_counter = 0;
-			current_game.players[1].respawn_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = -40;
 			current_game.players[2].position.x = -40;
-			current_game.players[2].diagonally_counter = 0;
-			current_game.players[2].respawn_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = -40;
 			current_game.players[3].position.x = 40;
-			current_game.players[3].diagonally_counter = 0;
-			current_game.players[3].respawn_counter = 0;
 			break;
 
 		case MULTIPLAYER:
@@ -85,22 +77,16 @@ void game_init(void)
 			current_game.players[1].get_input = get_human_input;
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
-			current_game.players[1].diagonally_counter = 0;
-			current_game.players[1].respawn_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = -40;
 			current_game.players[2].position.x = -40;
-			current_game.players[2].diagonally_counter = 0;
-			current_game.players[2].respawn_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = -40;
 			current_game.players[3].position.x = 40;
-			current_game.players[3].diagonally_counter = 0;
-			current_game.players[3].respawn_counter = 0;
 			break;
 
 		case DUELL:
@@ -112,8 +98,6 @@ void game_init(void)
 			current_game.players[1].get_input = get_human_input;
 			current_game.players[1].position.y = 40;
 			current_game.players[1].position.x = 40;
-			current_game.players[1].diagonally_counter = 0;
-			current_game.players[1].respawn_counter = 0;
 
 			break;
 
