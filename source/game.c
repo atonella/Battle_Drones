@@ -125,10 +125,9 @@ void game_init(void)
 
 	assert(current_game.current_gamemode != 0);
 
-	void init_bot_rng(void)
-	{
-		init_rng(&bot_rng, 47, 11, 42, 1);
-	}
+	// init of random number generators
+	init_rng(&bot_rng, 47, 11, 42, 1);
+	init_rng(&respawn_pos_rng, 92, 12, 90, 3);
 }
 
 // ---------------------------------------------------------------------------

@@ -32,6 +32,27 @@ struct player_t
 	unsigned int respawn_counter;
 };
 
+inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
+{
+	// calculate distance between drone1 and drone2
+	int diff_x = drone1->position.x - drone2->position.x;
+	if (diff_x < 0)
+	{
+		diff_x = -diff_x;
+	}
+	if (diff_x >= DRONE_WIDTH)
+	{
+		// no hit possible -> exit early
+		return 0;
+	}
+	int diff_y = drone1->position.y - drone2->position.y;
+	if (diff_y < 0)
+	{
+		diff_y = -diff_y;
+	}
+	// check for collision
+	return (diff_x < (DRONE_WIDTH) && diff_y < (DRONE_HEIGHT));
+}
 void update_player(struct player_t* player);
 void update_bullet_position(struct bullet_t* bullet);
 void move_player(struct player_t* player);
