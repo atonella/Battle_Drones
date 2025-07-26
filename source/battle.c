@@ -38,7 +38,7 @@ void battle_play(void)
 	// temporary disabled
 	// char debugPos[4] = "00\x80";
 #endif
-
+	unsigned int animation_counter = 0;
 	while (current_battle.status == BATTLE_PLAY)
 	{
 		// game loop header start - do not change
@@ -69,7 +69,27 @@ void battle_play(void)
 			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
 			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
-			Draw_VLp(&DroneVectorList); // draw vector list
+			// update rotors every 2 frames
+			if (animation_counter < 2)
+			{
+				Draw_VLp(&drone_vector_list_0);
+			}
+			else if (animation_counter < 4)
+			{
+				Draw_VLp(&drone_vector_list_1);
+			}
+			else if (animation_counter < 6)
+			{
+				Draw_VLp(&drone_vector_list_2);
+			}
+			else if (animation_counter < 8)
+			{
+				Draw_VLp(&drone_vector_list_3);
+			}
+			else
+			{
+				assert(1 == 0); // should never evaluated
+			}
 #if DEBUG_ENABLED
 			// temporary disabled
 			// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
@@ -134,8 +154,11 @@ void battle_play(void)
 				current_game.pause.player_who_requested_pause = current_player->player_id;
 			}
 		}
-
+		// animation counter increase
+		animation_counter = (animation_counter < 7) ? (animation_counter + 1) : 0;
+		// animation counter increase end
 #if DEBUG_ENABLED
+
 		// timer
 		// TODO: Better Timer
 		frames++;
