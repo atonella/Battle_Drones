@@ -2,22 +2,9 @@
 // good 32-bit seed pseudo 8-bit random number generator (rng)
 // ****************************************************************************************
 
-#include <stdio.h>
+#include "better_rng.h"
 
-// ----------------------------------------------------------------------------------------
-// data type
-
-struct rng_t
-{
-	unsigned char a;
-	unsigned char b;
-	unsigned char c;
-	unsigned char x;
-};
-
-// ---------------------------------------------------------------------------
 // set seeds
-
 void init_rng(struct rng_t* p, unsigned char seed0, unsigned char seed1, unsigned char seed2, unsigned char seed3)
 {
 	p->a = seed0;
