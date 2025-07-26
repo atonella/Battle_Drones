@@ -1,4 +1,5 @@
 #include "input.h"
+#include "game.h"
 #include "player.h"
 
 void get_human_input(struct player_t* player)
