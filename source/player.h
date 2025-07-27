@@ -6,7 +6,7 @@
 
 #define PLAYER_HEALTH_DEFAULT 50
 #define PLAYER_MAX_HEALTH 128
-#define MAX_BULLETS 3
+#define MAX_BULLETS 1
 #define SPEED_MAX 1
 #define DRONE_WIDTH 12
 #define DRONE_HEIGHT 12
@@ -30,6 +30,7 @@ struct player_t
 	// unsigned int velocity;
 	// unsigned int scaling_factor;
 	unsigned int respawn_counter;
+	unsigned int bot_difficulty;
 };
 
 inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)

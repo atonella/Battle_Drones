@@ -36,19 +36,115 @@ void get_human_input(struct player_t* player)
 
 void get_bot_input(struct player_t* player)
 {
-	// TODO: based on game info, make a move ==> decision making
-	struct input_t input = {
-		.fire_button = 0,
-		.pause_button = 0,
-		.joystick_direction = JOY_8_WAY_CENTER,
-	};
+	player->input.fire_button = 0;
+	player->input.joystick_direction = JOY_8_WAY_CENTER;
 
-	// if current game human player are in radius 25 drive to them and shoot or sth like that
-	// input.fire_button = 1;
-	// input.joystick_direction = JOY_8_WAY_UP;
+	// for random behavior
+	unsigned char random_behavior = rand(&bot_rng) & 0x0F; // range: 0-15
 
-	player->input = input; // TODO: optimize by setting values directly
-};
+	// find nearest human player to target
+	struct player_t* target = 0;
+	int closest_distance = 127; // large initial value
+	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	{
+		struct player_t* other = &current_game.players[i];
+		if (other == player || other->position.y > 120)
+		{
+			// skip itself and ignore destroyed invisible drones at position (127 | 0)
+			continue;
+		}
+		// calculate distance approximately
+		int diff_x = player->position.x - other->position.x;
+		int diff_y = player->position.y - other->position.y;
+		if (diff_x < 0)
+		{
+			diff_x = -diff_x;
+		}
+		if (diff_y < 0)
+		{
+			diff_y = -diff_y;
+		}
+		int distance = diff_x + diff_y;
+
+		if (distance < closest_distance)
+		{
+			closest_distance = distance;
+			target = other;
+		}
+	}
+
+	if (target != 0)
+	{
+		// direction to target
+		int diff_x = target->position.x - player->position.x;
+		int diff_y = target->position.y - player->position.y;
+
+		// move towards target with a propability
+		if (random_behavior < player->bot_difficulty)
+		{
+			// move
+			// (1) horizontal (2) vertical
+			if (diff_x < DRONE_WIDTH_HALF)
+			{
+				if (diff_y < -DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_LEFT_DOWN;
+				}
+				else if (diff_y > DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_LEFT_UP;
+				}
+				else
+				{
+					player->input.joystick_direction = JOY_8_WAY_LEFT;
+				}
+			}
+			else if (diff_x > DRONE_WIDTH_HALF)
+			{
+				if (diff_y < -DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_RIGHT_DOWN;
+				}
+				else if (diff_y > DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_RIGHT_UP;
+				}
+				else
+				{
+					player->input.joystick_direction = JOY_8_WAY_RIGHT;
+				}
+			}
+			else
+			{
+				// target in line vertically
+				if (diff_y < -DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_DOWN;
+				}
+				else if (diff_y > DRONE_HEIGHT_HALF)
+				{
+					player->input.joystick_direction = JOY_8_WAY_UP;
+				}
+			}
+
+			// fire if in target is within range (also shoot if target not aligned perfectly) and with a 1/16 chance
+			if (((-DRONE_WIDTH < diff_x && diff_x < DRONE_WIDTH) || (-DRONE_WIDTH < diff_y && diff_y < DRONE_WIDTH)) && random_behavior == 1)
+			{
+				player->input.fire_button = 1;
+			}
+		}
+		else
+		{
+			// move in random direction (also some sort of dodging bullets) by the rest of the propability
+			player->input.joystick_direction = (enum joystick_8_way)(random_behavior & 0b111) + 1; // range: 1 .. 8 (JOY_8_WAY_CENTER excluded)
+		}
+	}
+	else
+	{
+		// no target found, move into random direction
+		player->input.joystick_direction = (enum joystick_8_way)(random_behavior % 9);
+	}
+}
 
 typedef int (*joystick_func)();
 joystick_func get_joystick_direction[2][4] = {

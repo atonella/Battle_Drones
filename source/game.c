@@ -15,10 +15,10 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 50, .player_id = 0, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 1, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 2, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 3, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 0, .diagonally_counter = 0, .respawn_counter = 0, .bot_difficulty = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 1, .diagonally_counter = 0, .respawn_counter = 0, .bot_difficulty = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 2, .diagonally_counter = 0, .respawn_counter = 0, .bot_difficulty = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 3, .diagonally_counter = 0, .respawn_counter = 0, .bot_difficulty = 0 },
 	},
 	.current_player = 0,
 	.no_of_players = 0,
@@ -58,18 +58,21 @@ void game_init(void)
 			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
 			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
+			current_game.players[1].bot_difficulty = 4;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
 			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
 			current_game.players[2].diagonally_counter = 0;
+			current_game.players[2].bot_difficulty = 5;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
 			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[3].diagonally_counter = 0;
+			current_game.players[3].bot_difficulty = 6;
 			break;
 
 		case MULTIPLAYER:
@@ -77,24 +80,24 @@ void game_init(void)
 			enable_controller_2_x();
 			enable_controller_2_y();
 			current_game.no_of_players = 4;
-			// human player 2, Bot 3-4
+			// human player 2
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
 			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
 			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
-
+			// Bot 3-4
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
 			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
 			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
-			current_game.players[2].diagonally_counter = 0;
+			current_game.players[2].diagonally_counter = 4;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
 			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
 			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[3].diagonally_counter = 0;
+			current_game.players[3].diagonally_counter = 6;
 			break;
 
 		case DUEL:
