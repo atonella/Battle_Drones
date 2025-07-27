@@ -100,23 +100,22 @@ void update_bullet_position(struct bullet_t* bullet)
 		struct player_t* drone = &current_game.players[i];
 		if (check_for_bullet_drone_collision(bullet, drone))
 		{
+			// bullet hits a drone
 			bullet->is_active = BULLET_INACTIVE;
-			// TODO: add damage handling here; add sound effect; add visual effects
+			// TODO: add sound effect; add visual effects
 			if (drone->health > BULLET_DAMAGE_DEFAULT)
 			{
 				drone->health -= BULLET_DAMAGE_DEFAULT;
 			}
 			else
 			{
-				// death
+				// drone destroyed
 				drone->health = PLAYER_HEALTH_DEFAULT;
 				drone->respawn_counter = 200;
 				// pos out of arena border
 				drone->position.x = 0;
 				drone->position.y = 127;
 			}
-
-			break;
 		}
 	}
 	// check for collision with arena border

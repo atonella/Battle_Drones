@@ -76,8 +76,8 @@ void battle_play(void)
 						// limit pos by arena border
 						// TODO: long test with final arena borders
 						is_collision = 0;
-						current_game.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b10110111)) - 50;
-						current_game.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b10110111)) - 75;
+						current_game.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50; // -50 .. 77
+						current_game.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75; // -75 .. 52
 						for (unsigned int j = 0; j < current_game.no_of_players; j++)
 						{
 							// dont check itself
