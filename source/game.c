@@ -15,10 +15,10 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 0, .player_id = 0 },
-		{ .is_human = 0, .health = 0, .player_id = 1 },
-		{ .is_human = 0, .health = 0, .player_id = 2 },
-		{ .is_human = 0, .health = 0, .player_id = 3 },
+		{ .is_human = 0, .health = 50, .player_id = 0, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 1, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 2, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .is_human = 0, .health = 50, .player_id = 3, .diagonally_counter = 0, .respawn_counter = 0 },
 	},
 	.current_player = 0,
 	.no_of_players = 0,
@@ -120,6 +120,10 @@ void game_init(void)
 	current_game.current_player = 0;
 
 	assert(current_game.current_gamemode != 0);
+
+	// init of random number generators
+	init_rng(&bot_rng, 47, 11, 42, 1);
+	init_rng(&respawn_pos_rng, 92, 12, 90, 3);
 }
 
 // ---------------------------------------------------------------------------

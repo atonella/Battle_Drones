@@ -5,7 +5,7 @@
 #pragma once
 
 #include "battle.h"
-#include "input.h"
+#include "math/better_rng.h"
 #include "pause.h"
 #include "player.h"
 
