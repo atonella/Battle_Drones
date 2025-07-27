@@ -43,8 +43,8 @@ void game_init(void)
 	// player 1 (always human)
 	current_game.players[0].is_human = 1;
 	current_game.players[0].get_input = get_human_input;
-	current_game.players[0].position.y = 40;
-	current_game.players[0].position.x = -40;
+	current_game.players[0].position.y = ARENA_LIMIT_UP / 2;
+	current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
 	current_game.players[0].diagonally_counter = 0;
 	switch (current_game.current_gamemode)
 	{
@@ -55,20 +55,20 @@ void game_init(void)
 			// Bot 2-4
 			current_game.players[1].is_human = 0;
 			current_game.players[1].get_input = get_bot_input;
-			current_game.players[1].position.y = 40;
-			current_game.players[1].position.x = 40;
+			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
+			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
-			current_game.players[2].position.y = -40;
-			current_game.players[2].position.x = -40;
+			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
 			current_game.players[2].diagonally_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
-			current_game.players[3].position.y = -40;
-			current_game.players[3].position.x = 40;
+			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[3].diagonally_counter = 0;
 			break;
 
@@ -80,20 +80,20 @@ void game_init(void)
 			// human player 2, Bot 3-4
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
-			current_game.players[1].position.y = 40;
-			current_game.players[1].position.x = 40;
+			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
+			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
 
 			current_game.players[2].is_human = 0;
 			current_game.players[2].get_input = get_bot_input;
-			current_game.players[2].position.y = -40;
-			current_game.players[2].position.x = -40;
+			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
 			current_game.players[2].diagonally_counter = 0;
 
 			current_game.players[3].is_human = 0;
 			current_game.players[3].get_input = get_bot_input;
-			current_game.players[3].position.y = -40;
-			current_game.players[3].position.x = 40;
+			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[3].diagonally_counter = 0;
 			break;
 
@@ -104,8 +104,8 @@ void game_init(void)
 			// human player 2
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
-			current_game.players[1].position.y = 40;
-			current_game.players[1].position.x = 40;
+			current_game.players[1].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
 
 			break;
