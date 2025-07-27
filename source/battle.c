@@ -63,6 +63,32 @@ void battle_play(void)
 		// print player
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
+			if (current_game.players[i].respawn_counter > 0)
+			{
+				current_game.players[i].respawn_counter -= 1;
+				if (current_game.players[i].respawn_counter == 0)
+				{
+					// spawn player on random free position
+					// TODO: random number + check for collision
+					unsigned int is_collision = 0;
+					do
+					{
+						// limit pos by arena border
+						// TODO: long test with final arena borders
+						is_collision = 0;
+						current_game.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50; // -50 .. 77
+						current_game.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75; // -75 .. 52
+						for (unsigned int j = 0; j < current_game.no_of_players; j++)
+						{
+							// dont check itself
+							if (i == j)
+								continue;
+							is_collision |= (unsigned)check_for_drone_collision(&current_game.players[i], &current_game.players[j]);
+						}
+					} while (is_collision);
+				}
+				continue;
+			}
 			Intensity_5F(); // set medium brightness of the electron beam
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning

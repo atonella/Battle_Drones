@@ -14,28 +14,6 @@ static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary
 		(delta > 0 && player->position.x + delta < ARENA_LIMIT_RIGHT); // right boundary
 }
 
-static inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
-{
-	// calculate distance between drone1 and drone2
-	int diff_x = drone1->position.x - drone2->position.x;
-	if (diff_x < 0)
-	{
-		diff_x = -diff_x;
-	}
-	if (diff_x >= DRONE_WIDTH)
-	{
-		// no hit possible -> exit early
-		return 0;
-	}
-	int diff_y = drone1->position.y - drone2->position.y;
-	if (diff_y < 0)
-	{
-		diff_y = -diff_y;
-	}
-	// check for collision
-	return (diff_x < (DRONE_WIDTH) && diff_y < (DRONE_HEIGHT));
-}
-
 static inline __attribute__((always_inline)) int check_for_bullet_drone_collision(const struct bullet_t* bullet, const struct player_t* drone)
 {
 	// drone can't hit itself
@@ -122,10 +100,22 @@ void update_bullet_position(struct bullet_t* bullet)
 		struct player_t* drone = &current_game.players[i];
 		if (check_for_bullet_drone_collision(bullet, drone))
 		{
+			// bullet hits a drone
 			bullet->is_active = BULLET_INACTIVE;
-			// TODO: add damage handling here; add sound effect; add visual effects
-
-			break;
+			// TODO: add sound effect; add visual effects
+			if (drone->health > BULLET_DAMAGE_DEFAULT)
+			{
+				drone->health -= BULLET_DAMAGE_DEFAULT;
+			}
+			else
+			{
+				// drone destroyed
+				drone->health = PLAYER_HEALTH_DEFAULT;
+				drone->respawn_counter = 200;
+				// pos out of arena border
+				drone->position.x = 0;
+				drone->position.y = 127;
+			}
 		}
 	}
 	// check for collision with arena border
