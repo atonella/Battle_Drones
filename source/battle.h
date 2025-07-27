@@ -9,6 +9,12 @@
 #include <vectrex.h>
 
 #define BLOW_UP 1
+// To prevent overflow, take bullet travel distance into account: values should not exceed max_val(int) - BULLET_TRAVEL_DISTANCE_PER_TICK = 121.
+// Diagonally bullets travel less in x or y direction, therefore only non-diagonal travel distance is taken into account.
+#define ARENA_LIMIT_UP 90
+#define ARENA_LIMIT_LOW -120
+#define ARENA_LIMIT_LEFT -120
+#define ARENA_LIMIT_RIGHT 120
 
 // ---------------------------------------------------------------------------
 
@@ -16,24 +22,24 @@
 const struct packet_t battle_arena[]
 	= {
 		  // y | x
-		  { MOVE, { 80, -127 } },
-		  // 80 | -127
+		  { MOVE, { ARENA_LIMIT_UP + DRONE_HEIGHT_HALF, ARENA_LIMIT_LEFT - DRONE_WIDTH_HALF } },
+		  // 96 | -126
 		  // upper boarder
-		  { DRAW, { 0, 127 } },
-		  { DRAW, { 0, 127 } },
-		  // 80 | 127
+		  { DRAW, { 0, -ARENA_LIMIT_LEFT + DRONE_WIDTH_HALF } },
+		  { DRAW, { 0, ARENA_LIMIT_RIGHT + DRONE_WIDTH_HALF } },
+		  // 96 | 126
 		  // right boarder
-		  { DRAW, { -113, 0 } },
-		  { DRAW, { -100, 0 } },
-		  // -133 | 127
+		  { DRAW, { -ARENA_LIMIT_UP - DRONE_HEIGHT_HALF, 0 } },
+		  { DRAW, { ARENA_LIMIT_LOW - DRONE_HEIGHT_HALF, 0 } },
+		  // -126 | 126
 		  // bottom boarder
-		  { DRAW, { 0, -127 } },
-		  { DRAW, { 0, -127 } },
-		  // -133 | -127
+		  { DRAW, { 0, -ARENA_LIMIT_RIGHT - DRONE_WIDTH_HALF } },
+		  { DRAW, { 0, ARENA_LIMIT_LEFT - DRONE_WIDTH_HALF } },
+		  // -126 | -126
 		  // left boarder
-		  { DRAW, { 100, 0 } },
-		  { DRAW, { 113, 0 } },
-		  // 80 | -127
+		  { DRAW, { -ARENA_LIMIT_LOW + DRONE_HEIGHT_HALF, 0 } },
+		  { DRAW, { ARENA_LIMIT_UP + DRONE_HEIGHT_HALF, 0 } },
+		  // 96 | -126
 		  VL_END
 	  };
 

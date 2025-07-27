@@ -1,11 +1,6 @@
 #include "player.h"
 #include "game.h"
 
-#define ARENA_LIMIT_UP 74
-#define ARENA_LIMIT_LOW -127
-#define ARENA_LIMIT_LEFT -121
-#define ARENA_LIMIT_RIGHT 121
-
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
@@ -82,7 +77,6 @@ static struct bullet_t* find_free_bullet(struct player_t* player)
 }
 
 // TODO maybe combine with switch case below
-// FIXME: Overflow possible (Arena Border -1 + BULLET_SPEED)
 void update_bullet_position(struct bullet_t* bullet)
 {
 	// move bullet based on direction
@@ -121,14 +115,6 @@ void update_bullet_position(struct bullet_t* bullet)
 		default:
 			break;
 	}
-
-	// check for collision with arena border
-	// FIXME: BUG (OVERFLOW)
-	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
-	{
-		bullet->is_active = BULLET_INACTIVE;
-		return; // return early, because only 1 type of collision possible
-	}
 	// check for collision with drones
 	// OPTIMIZE: this approach is very resource instense
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
@@ -141,6 +127,11 @@ void update_bullet_position(struct bullet_t* bullet)
 
 			break;
 		}
+	}
+	// check for collision with arena border
+	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
+	{
+		bullet->is_active = BULLET_INACTIVE;
 	}
 }
 
