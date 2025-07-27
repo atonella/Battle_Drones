@@ -17,7 +17,7 @@ enum gamemode
 {
 	SINGLEPLAYER = 1,
 	MULTIPLAYER,
-	DUELL,
+	DUEL,
 };
 
 struct game_t
