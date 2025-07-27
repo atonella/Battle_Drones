@@ -91,32 +91,32 @@ void update_bullet_position(struct bullet_t* bullet)
 		case JOY_8_WAY_CENTER:
 			break;
 		case JOY_8_WAY_UP:
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_DOWN:
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT:
-			bullet->position.x -= BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_RIGHT:
-			bullet->position.x += BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT_UP:
-			bullet->position.x -= BULLET_SPEED;
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_UP:
-			bullet->position.x += BULLET_SPEED;
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_LEFT_DOWN:
-			bullet->position.x -= BULLET_SPEED;
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_DOWN:
-			bullet->position.x += BULLET_SPEED;
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		default:
 			break;

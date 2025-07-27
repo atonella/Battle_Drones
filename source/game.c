@@ -73,6 +73,7 @@ void game_init(void)
 			break;
 
 		case MULTIPLAYER:
+			// does not work in PARA JVE. Works only in VIDE and on real VECTREX
 			enable_controller_2_x();
 			enable_controller_2_y();
 			current_game.no_of_players = 4;
