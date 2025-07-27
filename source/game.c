@@ -97,14 +97,17 @@ void game_init(void)
 			current_game.players[3].diagonally_counter = 0;
 			break;
 
-		case DUELL:
+		case DUEL:
 			enable_controller_2_x();
 			enable_controller_2_y();
 			current_game.no_of_players = 2;
+			// human player 1
+			current_game.players[0].position.y = 0;
+			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
 			// human player 2
 			current_game.players[1].is_human = 1;
 			current_game.players[1].get_input = get_human_input;
-			current_game.players[1].position.y = ARENA_LIMIT_LOW / 2;
+			current_game.players[1].position.y = 0;
 			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
 			current_game.players[1].diagonally_counter = 0;
 
