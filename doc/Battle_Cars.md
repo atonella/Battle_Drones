@@ -10,7 +10,7 @@ Randomly spawned power-ups can be collected to make the game more intersting and
 - 2 game modes:
     1. Singleplayer (Player 1 vs. Bot1 vs Bot2 vs Bot3)
     2. Multiplayer (Player 1 vs Player 2 vs Bot1 vs Bot2)
-	3. Duell (Player 1 vs Player 2)
+	3. Duel (Player 1 vs Player 2)
 - Game stats on top
 - Time indicator intecrated in game stats
 

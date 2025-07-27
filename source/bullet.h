@@ -2,7 +2,9 @@
 #include "input.h"
 #include "position.h"
 
-#define BULLET_SPEED 8
+#define BULLET_TRAVEL_DISTANCE_PER_TICK 6
+#define BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY BULLET_TRAVEL_DISTANCE_PER_TICK - 2 // 6 % slower; unnoticeable but efficient
+#define BULLET_DAMAGE_DEFAULT 10
 #define BULLET_ACTIVE 1
 #define BULLET_INACTIVE 0
 

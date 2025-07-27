@@ -4,12 +4,12 @@
 #include "input.h"
 #include "position.h"
 
-#define DEFAULT_HEALTH 100
-#define MAX_HEALTH 128
+#define PLAYER_HEALTH_DEFAULT 50
+#define PLAYER_MAX_HEALTH 128
 #define MAX_BULLETS 3
 #define SPEED_MAX 1
-#define DRONE_WIDTH 15
-#define DRONE_HEIGHT 15
+#define DRONE_WIDTH 12
+#define DRONE_HEIGHT 12
 #define DRONE_WIDTH_HALF DRONE_WIDTH / 2
 #define DRONE_HEIGHT_HALF DRONE_HEIGHT / 2
 

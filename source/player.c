@@ -1,13 +1,6 @@
 #include "player.h"
 #include "game.h"
 
-#define ARENA_LIMIT_UP 74
-#define ARENA_LIMIT_LOW -127
-#define ARENA_LIMIT_LEFT -121
-#define ARENA_LIMIT_RIGHT 121
-#define BULLET_DAMAGE_DEFAULT 10
-#define PLAYER_HEALTH_DEFAULT 50
-
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
@@ -62,7 +55,6 @@ static struct bullet_t* find_free_bullet(struct player_t* player)
 }
 
 // TODO maybe combine with switch case below
-// FIXME: Overflow possible (Arena Border -1 + BULLET_SPEED)
 void update_bullet_position(struct bullet_t* bullet)
 {
 	// move bullet based on direction
@@ -71,43 +63,35 @@ void update_bullet_position(struct bullet_t* bullet)
 		case JOY_8_WAY_CENTER:
 			break;
 		case JOY_8_WAY_UP:
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_DOWN:
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT:
-			bullet->position.x -= BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_RIGHT:
-			bullet->position.x += BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT_UP:
-			bullet->position.x -= BULLET_SPEED;
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_UP:
-			bullet->position.x += BULLET_SPEED;
-			bullet->position.y += BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_LEFT_DOWN:
-			bullet->position.x -= BULLET_SPEED;
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_DOWN:
-			bullet->position.x += BULLET_SPEED;
-			bullet->position.y -= BULLET_SPEED;
+			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		default:
 			break;
-	}
-
-	// check for collision with arena border
-	// FIXME: BUG (OVERFLOW)
-	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
-	{
-		bullet->is_active = BULLET_INACTIVE;
-		return; // return early, because only 1 type of collision possible
 	}
 	// check for collision with drones
 	// OPTIMIZE: this approach is very resource instense
@@ -134,6 +118,11 @@ void update_bullet_position(struct bullet_t* bullet)
 
 			break;
 		}
+	}
+	// check for collision with arena border
+	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
+	{
+		bullet->is_active = BULLET_INACTIVE;
 	}
 }
 
