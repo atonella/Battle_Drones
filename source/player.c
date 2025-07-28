@@ -14,6 +14,7 @@ static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary
 		(delta > 0 && player->position.x + delta < ARENA_LIMIT_RIGHT); // right boundary
 }
 
+// This is slightly faster than using Obj_Hit() bios routine.
 static inline __attribute__((always_inline)) int check_for_bullet_drone_collision(const struct bullet_t* bullet, const struct player_t* drone)
 {
 	// drone can't hit itself
