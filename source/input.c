@@ -40,7 +40,7 @@ void get_bot_input(struct player_t* player)
 	player->input.joystick_direction = JOY_8_WAY_CENTER;
 
 	// for random behavior
-	unsigned char random_behavior = rand(&bot_rng) & 0x0F; // range: 0-15
+	unsigned int random_behavior = rand(&bot_rng) & 0x0F; // range: 0-15
 
 	// find nearest human player to target
 	struct player_t* target = 0;
