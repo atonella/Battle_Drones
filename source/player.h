@@ -15,22 +15,20 @@
 
 struct player_t
 {
-	unsigned int player_id;
-	unsigned int is_human;
-	unsigned int health;
-	struct position_t position;
-	struct input_t input;
-	unsigned int diagonally_counter;
-	// score
-	// status
-	// coordinate y,x (union?)
-	// struct input_t (*get_input)(struct player_t*); // TODO: ptr?
-	void (*get_input)(struct player_t*); // TODO: ptr?
 	struct bullet_t bullets[MAX_BULLETS];
-	// unsigned int velocity;
-	// unsigned int scaling_factor;
-	unsigned int respawn_counter;
 	unsigned int bot_difficulty;
+	unsigned int diagonally_counter;
+	void (*get_input)(struct player_t*);
+	unsigned int health;
+	struct input_t input;
+	unsigned int is_human;
+	unsigned int player_id;
+	struct position_t position;
+	unsigned int respawn_counter;
+	// status
+	// coordinate y,x (union?) (optimization)
+	// score
+	// unsigned int scaling_factor;
 };
 
 inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
