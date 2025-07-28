@@ -15,10 +15,10 @@ struct game_t current_game = {
 	.current_gamemode = 0,
 	.score = { 0, 0, 0, 0 },
 	.players = {
-		{ .is_human = 0, .health = 50, .player_id = 0, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 1, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 2, .diagonally_counter = 0, .respawn_counter = 0 },
-		{ .is_human = 0, .health = 50, .player_id = 3, .diagonally_counter = 0, .respawn_counter = 0 },
+		{ .player_id = 0, .diagonally_counter = 0 },
+		{ .player_id = 1, .diagonally_counter = 0 },
+		{ .player_id = 2, .diagonally_counter = 0 },
+		{ .player_id = 3, .diagonally_counter = 0 },
 	},
 	.current_player = 0,
 	.no_of_players = 0,
@@ -37,80 +37,116 @@ static inline __attribute__((always_inline)) void game_options(void)
 
 void game_init(void)
 {
+	// player 1 (always human)
 	enable_controller_1_x();
 	enable_controller_1_y();
-
-	// player 1 (always human)
-	current_game.players[0].is_human = 1;
-	current_game.players[0].get_input = get_human_input;
-	current_game.players[0].position.y = ARENA_LIMIT_UP / 2;
-	current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
-	current_game.players[0].diagonally_counter = 0;
+	current_game.players[0] = (struct player_t) {
+		.bot_difficulty = 0,
+		.diagonally_counter = 0,
+		.get_input = get_human_input,
+		.health = PLAYER_HEALTH_DEFAULT,
+		.is_human = 1,
+		.player_id = 0,
+		.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 },
+		.respawn_counter = 0,
+	};
 	switch (current_game.current_gamemode)
 	{
 		case SINGLEPLAYER:
 			disable_controller_2_x();
 			disable_controller_2_y();
 			current_game.no_of_players = 4;
-			// Bot 2-4
-			current_game.players[1].is_human = 0;
-			current_game.players[1].get_input = get_bot_input;
-			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
-			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[1].diagonally_counter = 0;
-
-			current_game.players[2].is_human = 0;
-			current_game.players[2].get_input = get_bot_input;
-			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
-			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
-			current_game.players[2].diagonally_counter = 0;
-
-			current_game.players[3].is_human = 0;
-			current_game.players[3].get_input = get_bot_input;
-			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
-			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[3].diagonally_counter = 0;
+			// bot 2
+			current_game.players[1] = (struct player_t) {
+				.bot_difficulty = 4,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 5,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
 			break;
 
 		case MULTIPLAYER:
-			// does not work in PARA JVE. Works only in VIDE and on real VECTREX
+			current_game.no_of_players = 4;
+			// human player 2
+			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
 			enable_controller_2_x();
 			enable_controller_2_y();
-			current_game.no_of_players = 4;
-			// human player 2, Bot 3-4
-			current_game.players[1].is_human = 1;
-			current_game.players[1].get_input = get_human_input;
-			current_game.players[1].position.y = ARENA_LIMIT_UP / 2;
-			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[1].diagonally_counter = 0;
-
-			current_game.players[2].is_human = 0;
-			current_game.players[2].get_input = get_bot_input;
-			current_game.players[2].position.y = ARENA_LIMIT_LOW / 2;
-			current_game.players[2].position.x = ARENA_LIMIT_LEFT / 2;
-			current_game.players[2].diagonally_counter = 0;
-
-			current_game.players[3].is_human = 0;
-			current_game.players[3].get_input = get_bot_input;
-			current_game.players[3].position.y = ARENA_LIMIT_LOW / 2;
-			current_game.players[3].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[3].diagonally_counter = 0;
+			current_game.players[1] = (struct player_t) {
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 6,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
 			break;
 
 		case DUEL:
-			enable_controller_2_x();
-			enable_controller_2_y();
 			current_game.no_of_players = 2;
 			// human player 1
 			current_game.players[0].position.y = 0;
 			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
 			// human player 2
-			current_game.players[1].is_human = 1;
-			current_game.players[1].get_input = get_human_input;
-			current_game.players[1].position.y = 0;
-			current_game.players[1].position.x = ARENA_LIMIT_RIGHT / 2;
-			current_game.players[1].diagonally_counter = 0;
-
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.players[1] = (struct player_t) {
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.player_id = 1,
+				.position = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
 			break;
 
 		default:

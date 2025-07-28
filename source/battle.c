@@ -48,7 +48,6 @@ void battle_play(void)
 		Wait_Recal();
 		Do_Sound();
 		Intensity_5F();
-		// game loop header end
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 		// print arena
@@ -58,7 +57,6 @@ void battle_play(void)
 		Moveto_d(0, 0); // move beam to object coordinates
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing
 		Draw_VLp(&battle_arena); // draw vector list
-		// print arena end
 
 		// print player
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
@@ -123,8 +121,6 @@ void battle_play(void)
 			// Print_Str_d(30, -30, (void*)debugPos);
 #endif
 		}
-		// print player end
-
 		// draw active bullets
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
@@ -141,7 +137,6 @@ void battle_play(void)
 				}
 			}
 		}
-		// draw active bullets end
 #if DEBUG_ENABLED
 		Reset0Ref(); // reset beam to center
 		Print_Str_d(70, -120, (void*)"RUNNING\x80");
@@ -168,6 +163,10 @@ void battle_play(void)
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
 			current_player = &current_game.players[i];
+			if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
+			{
+				continue;
+			}
 			current_player->get_input(current_player);
 
 			// move player and objectiles; collision detection
@@ -182,7 +181,6 @@ void battle_play(void)
 		}
 		// animation counter increase
 		animation_counter = (animation_counter < 7) ? (animation_counter + 1) : 0;
-		// animation counter increase end
 #if DEBUG_ENABLED
 
 		// timer
@@ -202,7 +200,6 @@ void battle_play(void)
 		{
 			timer_not_exceeded = 0;
 		}
-		// timer end
 #endif
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
