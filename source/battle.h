@@ -23,6 +23,7 @@ extern const signed char drone_vector_list_0[];
 extern const signed char drone_vector_list_1[];
 extern const signed char drone_vector_list_2[];
 extern const signed char drone_vector_list_3[];
+extern const signed char drone_vector_list_skin_1[];
 
 // ---------------------------------------------------------------------------
 

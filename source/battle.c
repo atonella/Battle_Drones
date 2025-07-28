@@ -116,11 +116,30 @@ void battle_play(void)
 			{
 				assert(1 == 0); // should never evaluated
 			}
+			// draw individual drone skin
+			switch (current_game.players[i].player_id)
+			{
+				case 0:
+					Draw_VLp(&drone_vector_list_skin_1);
+					break;
+				case 1:
+					Draw_VLp(&drone_vector_list_skin_1);
+					break;
+				case 2:
+					Draw_VLp(&drone_vector_list_skin_1);
+					break;
+				case 3:
+					Draw_VLp(&drone_vector_list_skin_1);
+					break;
+				default:
+					assert(1 == 0);
+					break;
+			}
 #if DEBUG_ENABLED
-			// temporary disabled
-			// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
-			// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
-			// Print_Str_d(30, -30, (void*)debugPos);
+				// temporary disabled
+				// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
+				// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
+				// Print_Str_d(30, -30, (void*)debugPos);
 #endif
 		}
 		// print player end

@@ -46,6 +46,7 @@ const signed char drone_vector_list_0[] = {
 	(signed char)-1, +4 * BLOW_UP, -4 * BLOW_UP, // pattern, y, x
 	(signed char)+0, +0 * BLOW_UP, +4 * BLOW_UP, // pattern, y, x
 	(signed char)-1, +6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -3 * BLOW_UP, +3 * BLOW_UP, // move to center
 	(signed char)+1 // endmarker (high bit in pattern not set)
 };
 const signed char drone_vector_list_1[] = {
@@ -69,6 +70,7 @@ const signed char drone_vector_list_1[] = {
 	(signed char)-1, +0 * BLOW_UP, -6 * BLOW_UP, // pattern, y, x
 	(signed char)+0, +0 * BLOW_UP, +3 * BLOW_UP, // pattern, y, x
 	(signed char)-1, +2 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
+	(signed char)+0, +3 * BLOW_UP, +3 * BLOW_UP, // move to center
 	(signed char)+1 // endmarker (high bit in pattern not set)
 };
 
@@ -85,6 +87,7 @@ const signed char drone_vector_list_2[] = {
 	(signed char)-1, -4 * BLOW_UP, -4 * BLOW_UP, // pattern, y, x
 	(signed char)+0, +4 * BLOW_UP, +4 * BLOW_UP, // pattern, y, x
 	(signed char)-1, +6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -3 * BLOW_UP, +3 * BLOW_UP, // move to center
 	(signed char)+1 // endmarker (high bit in pattern not set)
 };
 const signed char drone_vector_list_3[] = {
@@ -108,5 +111,12 @@ const signed char drone_vector_list_3[] = {
 	(signed char)-1, +6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
 	(signed char)+0, -1 * BLOW_UP, +2 * BLOW_UP, // pattern, y, x
 	(signed char)-1, +6 * BLOW_UP, +0 * BLOW_UP, // pattern, y, x
+	(signed char)+0, -3 * BLOW_UP, +3 * BLOW_UP, // move to center
+	(signed char)+1 // endmarker (high bit in pattern not set)
+};
+const signed char drone_vector_list_skin_1[] = {
+	(signed char)+0, -3 * BLOW_UP, -3 * BLOW_UP, // move from center
+	(signed char)-1, +6 * BLOW_UP, +3 * BLOW_UP, // pattern, y, x
+	(signed char)-1, -6 * BLOW_UP, +3 * BLOW_UP, // pattern, y, x
 	(signed char)+1 // endmarker (high bit in pattern not set)
 };
