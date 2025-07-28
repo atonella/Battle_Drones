@@ -261,14 +261,14 @@ void update_player(struct player_t* player)
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
 	{
 		struct player_t* other = &current_game.players[i];
-		// skip identical player
 		if (other == player)
 		{
+			// skip identical player
 			continue;
 		}
 		if (check_for_drone_collision(player, other))
 		{
-			// Collision detected => revert movement; stop speed
+			// Collision detected => revert movement
 			player->position = original_position;
 			break;
 		}
