@@ -34,8 +34,9 @@ struct player_t
 
 inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
 {
-	// calculate distance between drone1 and drone2
-	int diff_x = drone1->position.x - drone2->position.x;
+	// calculate absolute distance between drone1 and drone2
+	// use of long int to prevent under/overflow. However, this is approx. 0.7 % more CPU intensive.
+	long int diff_x = drone1->position.x - drone2->position.x;
 	if (diff_x < 0)
 	{
 		diff_x = -diff_x;
@@ -45,7 +46,7 @@ inline __attribute__((always_inline)) int check_for_drone_collision(const struct
 		// no hit possible -> exit early
 		return 0;
 	}
-	int diff_y = drone1->position.y - drone2->position.y;
+	long int diff_y = drone1->position.y - drone2->position.y;
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
