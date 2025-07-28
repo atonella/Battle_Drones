@@ -64,7 +64,7 @@ void get_bot_input(struct player_t* player)
 		{
 			diff_y = -diff_y;
 		}
-		int distance = diff_x + diff_y;
+		int distance = diff_x + diff_y; // approximation: pythagoras is to resource intensive
 
 		if (distance < closest_distance)
 		{
@@ -79,7 +79,7 @@ void get_bot_input(struct player_t* player)
 		int diff_x = target->position.x - player->position.x;
 		int diff_y = target->position.y - player->position.y;
 
-		// move towards target with a propability
+		// move towards target with a probability
 		if (random_behavior < player->bot_difficulty)
 		{
 			// move
@@ -127,15 +127,15 @@ void get_bot_input(struct player_t* player)
 				}
 			}
 
-			// fire if in target is within range (also shoot if target not aligned perfectly) and with a 1/16 chance
-			if (((-DRONE_WIDTH < diff_x && diff_x < DRONE_WIDTH) || (-DRONE_WIDTH < diff_y && diff_y < DRONE_WIDTH)) && random_behavior == 1)
+			// fire if the target is within range (also shoot if target not aligned perfectly) and with a 1/16 chance
+			if (((-DRONE_WIDTH < diff_x && diff_x < DRONE_WIDTH) || (-DRONE_HEIGHT < diff_y && diff_y < DRONE_HEIGHT)) && random_behavior == 1)
 			{
 				player->input.fire_button = 1;
 			}
 		}
 		else
 		{
-			// move in random direction (also some sort of dodging bullets) by the rest of the propability
+			// move in random direction (also some sort of dodging bullets) by the rest of the probability
 			player->input.joystick_direction = (enum joystick_8_way)(random_behavior & 0b111) + 1; // range: 1 .. 8 (JOY_8_WAY_CENTER excluded)
 		}
 	}
