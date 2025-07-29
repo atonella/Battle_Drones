@@ -374,7 +374,6 @@ int battle_show_winner_screen(void)
 	for (unsigned int i = 0; i < current_game.no_of_players; i++)
 	{
 		stats[i].player_id = current_game.players[i].player_id;
-		// stats[i].has_won = current_battle.winner_player_id == current_game.players[i].player_id ? 1 : 0;
 		stats[i].kills = current_game.players[i].kill_counter;
 		stats[i].deaths = current_game.players[i].death_counter;
 	}

@@ -36,7 +36,6 @@ struct player_stats_t
 	unsigned int kills;
 	unsigned int deaths;
 	char printable_stats[22];
-	unsigned int has_won;
 };
 // ---------------------------------------------------------------------------
 
