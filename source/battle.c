@@ -188,6 +188,9 @@ void battle_play(void)
 	// char debugPos[4] = "00\x80";
 #endif
 	unsigned int animation_counter = 0;
+	struct player_stats_t player_stats[current_game.no_of_players];
+	unsigned int stats_collected = 0;
+
 	while (current_battle.status == BATTLE_PLAY)
 	{
 		// game loop header start - do not change
@@ -307,12 +310,17 @@ void battle_play(void)
 				// continue the battle
 				current_game.pause.is_pause = 0;
 				current_game.pause.player_who_requested_pause = INVALID_PLAYER_ID;
+				stats_collected = 0;
 			}
 			else
 			{
-				struct player_stats_t stats[current_game.no_of_players];
-				collect_player_stats(stats);
-				display_player_stats(stats);
+				// collect stats only once when entering pause mode
+				if (stats_collected == 0)
+				{
+					collect_player_stats(player_stats);
+					stats_collected = 1;
+				}
+				display_player_stats(player_stats);
 				continue;
 			}
 		}
