@@ -32,181 +32,16 @@ static inline __attribute__((always_inline)) void game_options(void)
 
 // ---------------------------------------------------------------------------
 
-void game_init(void)
-{
-	// player 1 (always human)
-	enable_controller_1_x();
-	enable_controller_1_y();
-	current_game.players[0] = (struct player_t) {
-		.bot_difficulty = 0,
-		.diagonally_counter = 0,
-		.get_input = get_human_input,
-		.health = PLAYER_HEALTH_DEFAULT,
-		.is_human = 1,
-		.player_id = 0,
-		.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 },
-		.respawn_counter = 0,
-	};
-	switch (current_game.current_gamemode)
-	{
-		case SINGLEPLAYER:
-			disable_controller_2_x();
-			disable_controller_2_y();
-			current_game.no_of_players = 4;
-			// bot 2
-			current_game.players[1] = (struct player_t) {
-				.bot_difficulty = 4,
-				.diagonally_counter = 0,
-				.get_input = get_bot_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 0,
-				.player_id = 1,
-				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
-				.respawn_counter = 0,
-			};
-			// bot 3
-			current_game.players[2] = (struct player_t) {
-				.bot_difficulty = 5,
-				.diagonally_counter = 0,
-				.get_input = get_bot_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 0,
-				.player_id = 2,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
-				.respawn_counter = 0,
-			};
-			// bot 4
-			current_game.players[3] = (struct player_t) {
-				.bot_difficulty = 6,
-				.diagonally_counter = 0,
-				.get_input = get_bot_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 0,
-				.player_id = 3,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
-				.respawn_counter = 0,
-			};
-			break;
-
-		case MULTIPLAYER:
-			current_game.no_of_players = 4;
-			// human player 2
-			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
-			enable_controller_2_x();
-			enable_controller_2_y();
-			current_game.players[1] = (struct player_t) {
-				.diagonally_counter = 0,
-				.get_input = get_human_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 1,
-				.player_id = 1,
-				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
-				.respawn_counter = 0,
-			};
-			// bot 3
-			current_game.players[2] = (struct player_t) {
-				.bot_difficulty = 6,
-				.diagonally_counter = 0,
-				.get_input = get_bot_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 0,
-				.player_id = 2,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
-				.respawn_counter = 0,
-			};
-			// bot 4
-			current_game.players[3] = (struct player_t) {
-				.bot_difficulty = 6,
-				.diagonally_counter = 0,
-				.get_input = get_bot_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 0,
-				.player_id = 3,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
-				.respawn_counter = 0,
-			};
-			break;
-
-		case DUEL:
-			current_game.no_of_players = 2;
-			// human player 1
-			current_game.players[0].position.y = 0;
-			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
-			// human player 2
-			enable_controller_2_x();
-			enable_controller_2_y();
-			current_game.players[1] = (struct player_t) {
-				.diagonally_counter = 0,
-				.get_input = get_human_input,
-				.health = PLAYER_HEALTH_DEFAULT,
-				.is_human = 1,
-				.player_id = 1,
-				.position = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 },
-				.respawn_counter = 0,
-			};
-			break;
-
-		default:
-			// TODO:
-			break;
-	}
-	current_game.current_player = 0;
-
-	assert(current_game.current_gamemode != 0);
-
-	// init of random number generators
-	init_rng(&bot_rng, 47, 11, 42, 1);
-	init_rng(&respawn_pos_rng, 92, 12, 90, 3);
-}
-
-// ---------------------------------------------------------------------------
 // main game loop, this is where the action happens
-
-__attribute__((__noreturn__)) void game_play(void)
+void game_play(void)
 {
-	// while (current_game.lives[0] + current_game.lives[1])
-	while (1 /* TODO: sth that changed dynamically if game ends */)
+	int returncode = 1;
+	while (returncode == 1)
 	{
 		battle_init();
 		battle_play();
-
-		if (1 /* TODO: a player has no lives anymore OR time finished*/)
-		{
-			game_over(); // TODO: Evaluate the ending: Who has won? e.g. most health, most kills, etc.
-		}
+		returncode = battle_show_winner_screen();
 	}
-}
-
-// ---------------------------------------------------------------------------
-
-void game_end(void)
-{
-	// TODO: Print Winner + Scoreboard + clean up ?
-	return;
-}
-
-// ---------------------------------------------------------------------------
-
-void game_over(void)
-{
-	// update system high score
-	int score[7];
-	Clear_Score(&score);
-	Add_Score_a(current_game.score[current_game.current_player], &score);
-	New_High_Score(&score, (void*)&Vec_High_Score);
-
-	unsigned int delay = 150;
-
-	do
-	{
-		sync();
-		Intensity_5F();
-		print_string(0, -64, "GAME OVER\x80");
-		print_string(20, -100, "PLAYER\x80");
-		print_unsigned_int(20, 40, current_game.current_player + 1);
-		Print_Ships(0x69, current_game.players[current_game.current_player].health, 0xC0E2);
-		check_buttons();
-	} while ((--delay) && !button_1_4_pressed());
 }
 
 // ---------------------------------------------------------------------------
@@ -217,9 +52,7 @@ int game(void)
 
 	if (button_1_4_held())
 	{
-		game_init();
 		game_play();
-		game_end();
 		return 0; // go to option screen, repeat cycle
 	}
 	else

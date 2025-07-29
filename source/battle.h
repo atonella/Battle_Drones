@@ -1,4 +1,5 @@
 #pragma once
+#include "math/better_rng.h"
 #include "player.h"
 #include "utils/controller.h"
 #include "utils/vector.h"
@@ -59,6 +60,12 @@ extern struct battle_t current_battle;
 
 // ---------------------------------------------------------------------------
 
+/*
+	The battle_init function initializes the game state for a battle. The
+	complete configuration of the players (incl. controllers) based on the
+	chosen game mode is done here. Random number generators for the bots and
+	the	respawn positions are also done here.
+*/
 void battle_init(void);
 /*
 	The battle_play function implements the main game loop for the actual battle.
@@ -67,6 +74,16 @@ void battle_init(void);
 	handling.
 */
 void battle_play(void);
+/*
+	Prints the winning player and all stats to the screen. Players can choose
+	if the want to play again or return to the title screen.
+
+	Returns:
+		0, int: if not playing again (returning to title screen)
+		1, int: if playing again
+
+*/
+int battle_show_winner_screen(void);
 
 // ***************************************************************************
 // end of file

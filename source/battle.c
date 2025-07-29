@@ -20,8 +20,147 @@ struct battle_t current_battle = {
 
 void battle_init()
 {
-	// Generate Arena, set stats, spawn player, countdown, ...
 	current_battle.status = BATTLE_PLAY;
+	current_battle.winner_player_id = WINNER_NOT_SET;
+
+	// player 1 (always human)
+	enable_controller_1_x();
+	enable_controller_1_y();
+	current_game.players[0] = (struct player_t) {
+		.death_counter = 0,
+		.diagonally_counter = 0,
+		.get_input = get_human_input,
+		.health = PLAYER_HEALTH_DEFAULT,
+		.is_human = 1,
+		.kill_counter = 0,
+		.player_id = 0,
+		.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 },
+		.respawn_counter = 0,
+	};
+	switch (current_game.current_gamemode)
+	{
+		case SINGLEPLAYER:
+			disable_controller_2_x();
+			disable_controller_2_y();
+			current_game.no_of_players = 4;
+			// bot 2
+			current_game.players[1] = (struct player_t) {
+				.bot_difficulty = 4,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 5,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		case MULTIPLAYER:
+			current_game.no_of_players = 4;
+			// human player 2
+			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.players[1] = (struct player_t) {
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		case DUEL:
+			current_game.no_of_players = 2;
+			// human player 1
+			current_game.players[0].position.y = 0;
+			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
+			// human player 2
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.players[1] = (struct player_t) {
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		default:
+			assert(1 == 0);
+			break;
+	}
+	current_game.current_player = 0;
+
+	assert(current_game.current_gamemode != 0);
+
+	// init of random number generators
+	init_rng(&bot_rng, 47, 11, 42, 1);
+	init_rng(&respawn_pos_rng, 92, 12, 90, 3);
 }
 
 // ---------------------------------------------------------------------------

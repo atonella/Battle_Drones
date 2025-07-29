@@ -5,7 +5,6 @@
 #pragma once
 
 #include "battle.h"
-#include "math/better_rng.h"
 #include "pause.h"
 #include "player.h"
 
@@ -38,11 +37,7 @@ extern struct game_t current_game;
 // ---------------------------------------------------------------------------
 
 int game(void);
-
-void game_init(void);
-__attribute__((__noreturn__)) void game_play(void);
-void game_end(void);
-void game_over(void);
+void game_play(void);
 
 // ***************************************************************************
 // end of file
