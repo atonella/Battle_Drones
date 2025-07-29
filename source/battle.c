@@ -381,6 +381,21 @@ int battle_show_winner_screen(void)
 		stats[i].player_id = current_game.players[i].player_id;
 		stats[i].kills = current_game.players[i].kill_counter;
 		stats[i].deaths = current_game.players[i].death_counter;
+
+		// calculate K/D ratio
+		if (stats[i].deaths == 0)
+		{
+			// don't divide through zero
+			stats[i].kd_ratio_int = stats[i].kills;
+			stats[i].kd_ratio_frac = 0;
+		}
+		else
+		{
+			// calculate ratio as (kills * 10) / deaths --> 1 decimal place
+			unsigned int ratio_times_10 = (stats[i].kills * 10) / stats[i].deaths;
+			stats[i].kd_ratio_int = ratio_times_10 / 10; //  example: 1 if K/D=1.5
+			stats[i].kd_ratio_frac = ratio_times_10 % 10; // example: 5 if K/D=1.5
+		}
 	}
 
 	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
@@ -395,8 +410,8 @@ int battle_show_winner_screen(void)
 		print_string(110, -100, "BATTLE FINISHED!\x80");
 		print_string(65, -112, "WINNER: PLAYER\x80");
 		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
-		print_string(20, -85, "PLAYER  K   D\x80");
-		print_string(10, -85, "------ --- ---\x80");
+		print_string(20, -125, "PLAYER  K   D   K/D \x80");
+		print_string(10, -125, "------ --- --- ------\x80");
 		//                      * <- indicates winning player
 
 		// Print stats for each player
@@ -408,7 +423,14 @@ int battle_show_winner_screen(void)
 			// K
 			print_unsigned_int(line_y, -6, stats[i].kills);
 			// D
-			print_unsigned_int(line_y, 39, stats[i].deaths);
+			print_unsigned_int(line_y, -1, stats[i].deaths);
+
+			// K/D
+			print_unsigned_int(line_y, 45, stats[i].kd_ratio_int);
+			// dot
+			Moveto_d(line_y - 10, 91);
+			Dot_here();
+			print_unsigned_int(line_y, 79, stats[i].kd_ratio_frac);
 		}
 		// indicate player who won
 		print_string(0 - ((int)current_battle.winner_player_id * 15), -85, "* \x80"); // without trailing whitespace nothing gets printed

@@ -35,6 +35,8 @@ struct player_stats_t
 	unsigned int player_id;
 	unsigned int kills;
 	unsigned int deaths;
+	unsigned int kd_ratio_int; // K/D ratio as integer part (e.g., 2 for 2.5)
+	unsigned int kd_ratio_frac; // K/D ratio fractional part * 10 (e.g., 5 for 2.5)
 	char printable_stats[22];
 };
 // ---------------------------------------------------------------------------
