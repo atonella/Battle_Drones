@@ -209,6 +209,9 @@ void battle_play(void)
 		Wait_Recal();
 		Do_Sound();
 		Intensity_5F();
+		// Bugfix #67: read controller state once per frame
+		check_buttons();
+		check_joysticks();
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 		// print arena
@@ -319,6 +322,10 @@ void battle_play(void)
 				current_battle.pause.is_pause = 0;
 				current_battle.pause.player_who_requested_pause = INVALID_PLAYER_ID;
 				stats_collected = 0;
+				// Bugfix #65: Update the buttons, before getting the input of the same player
+				// in the following loop (would lead otherwise to new pause request).
+				// Alternative (if this leads to unexpected behavior): cooldown of pause button
+				check_buttons();
 			}
 			else
 			{
@@ -337,6 +344,7 @@ void battle_play(void)
 		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 		{
 			current_player = &current_battle.players[i];
+			// if increasing the bullets, then this breaks
 			if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
 			{
 				continue;
@@ -424,7 +432,7 @@ int battle_show_winner_screen(void)
 		}
 		else
 		{
-			// play again instruction
+			// instructions
 			print_string(-85, -127, "PRESS:\x80");
 			print_string(-105, -110, "1 -> HOMESCREEN\x80");
 			print_string(-125, -110, "4 -> PLAY AGAIN\x80");

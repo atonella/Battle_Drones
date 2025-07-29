@@ -5,7 +5,6 @@
 void get_human_input(struct player_t* player)
 {
 	// TODO: optimize
-	check_buttons();
 	struct input_t input = {
 		.fire_button = 0,
 		.pause_button = 0,
@@ -26,7 +25,6 @@ void get_human_input(struct player_t* player)
 		// should never be evaluated
 		assert(1 == 0);
 	}
-	check_joysticks();
 	input.joystick_direction = eval_joystick_position(player);
 #if DEBUG_ENABLED
 	debug_print_input(input);
