@@ -45,9 +45,9 @@ void get_bot_input(struct player_t* player)
 	// find nearest human player to target
 	struct player_t* target = 0;
 	int closest_distance = 127; // large initial value
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
-		struct player_t* other = &current_game.players[i];
+		struct player_t* other = &current_battle.players[i];
 		if (other == player || other->position.y > 120)
 		{
 			// skip itself and ignore destroyed invisible drones at position (127 | 0)

@@ -5,10 +5,7 @@
 #pragma once
 
 #include "battle.h"
-#include "pause.h"
-#include "player.h"
 
-#define MAX_PLAYERS 4
 #define NO_OF_GAMEMODES 3
 // ---------------------------------------------------------------------------
 
@@ -22,11 +19,6 @@ enum gamemode
 struct game_t
 {
 	enum gamemode current_gamemode;
-	unsigned int score[4];
-	struct player_t players[4];
-	unsigned int current_player;
-	unsigned int no_of_players;
-	struct pause_t pause;
 };
 
 // ---------------------------------------------------------------------------

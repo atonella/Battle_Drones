@@ -14,6 +14,15 @@
 struct battle_t current_battle = {
 	.status = BATTLE_FINISHED,
 	.winner_player_id = WINNER_NOT_SET,
+	.players = {
+		{ .player_id = 0, .diagonally_counter = 0 },
+		{ .player_id = 1, .diagonally_counter = 0 },
+		{ .player_id = 2, .diagonally_counter = 0 },
+		{ .player_id = 3, .diagonally_counter = 0 },
+	},
+	.current_player = 0,
+	.no_of_players = 0,
+	.pause = { .is_pause = 0, .player_who_requested_pause = INVALID_PLAYER_ID },
 };
 
 // ---------------------------------------------------------------------------
@@ -26,7 +35,7 @@ void battle_init()
 	// player 1 (always human)
 	enable_controller_1_x();
 	enable_controller_1_y();
-	current_game.players[0] = (struct player_t) {
+	current_battle.players[0] = (struct player_t) {
 		.death_counter = 0,
 		.diagonally_counter = 0,
 		.get_input = get_human_input,
@@ -42,9 +51,9 @@ void battle_init()
 		case SINGLEPLAYER:
 			disable_controller_2_x();
 			disable_controller_2_y();
-			current_game.no_of_players = 4;
+			current_battle.no_of_players = 4;
 			// bot 2
-			current_game.players[1] = (struct player_t) {
+			current_battle.players[1] = (struct player_t) {
 				.bot_difficulty = 4,
 				.death_counter = 0,
 				.diagonally_counter = 0,
@@ -57,7 +66,7 @@ void battle_init()
 				.respawn_counter = 0,
 			};
 			// bot 3
-			current_game.players[2] = (struct player_t) {
+			current_battle.players[2] = (struct player_t) {
 				.bot_difficulty = 5,
 				.death_counter = 0,
 				.diagonally_counter = 0,
@@ -70,7 +79,7 @@ void battle_init()
 				.respawn_counter = 0,
 			};
 			// bot 4
-			current_game.players[3] = (struct player_t) {
+			current_battle.players[3] = (struct player_t) {
 				.bot_difficulty = 6,
 				.death_counter = 0,
 				.diagonally_counter = 0,
@@ -85,12 +94,12 @@ void battle_init()
 			break;
 
 		case MULTIPLAYER:
-			current_game.no_of_players = 4;
+			current_battle.no_of_players = 4;
 			// human player 2
 			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
 			enable_controller_2_x();
 			enable_controller_2_y();
-			current_game.players[1] = (struct player_t) {
+			current_battle.players[1] = (struct player_t) {
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_human_input,
@@ -102,7 +111,7 @@ void battle_init()
 				.respawn_counter = 0,
 			};
 			// bot 3
-			current_game.players[2] = (struct player_t) {
+			current_battle.players[2] = (struct player_t) {
 				.bot_difficulty = 6,
 				.death_counter = 0,
 				.diagonally_counter = 0,
@@ -115,7 +124,7 @@ void battle_init()
 				.respawn_counter = 0,
 			};
 			// bot 4
-			current_game.players[3] = (struct player_t) {
+			current_battle.players[3] = (struct player_t) {
 				.bot_difficulty = 6,
 				.death_counter = 0,
 				.diagonally_counter = 0,
@@ -130,14 +139,14 @@ void battle_init()
 			break;
 
 		case DUEL:
-			current_game.no_of_players = 2;
+			current_battle.no_of_players = 2;
 			// human player 1
-			current_game.players[0].position.y = 0;
-			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
+			current_battle.players[0].position.y = 0;
+			current_battle.players[0].position.x = ARENA_LIMIT_LEFT / 2;
 			// human player 2
 			enable_controller_2_x();
 			enable_controller_2_y();
-			current_game.players[1] = (struct player_t) {
+			current_battle.players[1] = (struct player_t) {
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_human_input,
@@ -154,8 +163,8 @@ void battle_init()
 			assert(1 == 0);
 			break;
 	}
-	current_game.current_player = 0;
-	current_game.pause = (struct pause_t) {
+	current_battle.current_player = 0;
+	current_battle.pause = (struct pause_t) {
 		.is_pause = 0,
 		.player_who_requested_pause = INVALID_PLAYER_ID,
 	};
@@ -188,7 +197,7 @@ void battle_play(void)
 	// char debugPos[4] = "00\x80";
 #endif
 	unsigned int animation_counter = 0;
-	struct player_stats_t player_stats[current_game.no_of_players];
+	struct player_stats_t player_stats[current_battle.no_of_players];
 	unsigned int stats_collected = 0;
 
 	while (current_battle.status == BATTLE_PLAY)
@@ -211,17 +220,17 @@ void battle_play(void)
 		Draw_VLp(&battle_arena); // draw vector list
 
 		// print player
-		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 		{
-			if (current_game.players[i].respawn_counter > 0)
+			if (current_battle.players[i].respawn_counter > 0)
 			{
-				if (current_game.pause.is_pause == 1)
+				if (current_battle.pause.is_pause == 1)
 				{
 					// dont decrement the respawn counter during pause
 					continue;
 				}
-				current_game.players[i].respawn_counter -= 1;
-				if (current_game.players[i].respawn_counter == 0)
+				current_battle.players[i].respawn_counter -= 1;
+				if (current_battle.players[i].respawn_counter == 0)
 				{
 					// spawn player on random free position
 					// TODO: random number + check for collision
@@ -231,14 +240,14 @@ void battle_play(void)
 						// limit pos by arena border
 						// TODO: long test with final arena borders
 						is_collision = 0;
-						current_game.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50; // -50 .. 77
-						current_game.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75; // -75 .. 52
-						for (unsigned int j = 0; j < current_game.no_of_players; j++)
+						current_battle.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50; // -50 .. 77
+						current_battle.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75; // -75 .. 52
+						for (unsigned int j = 0; j < current_battle.no_of_players; j++)
 						{
 							// dont check itself
 							if (i == j)
 								continue;
-							is_collision |= (unsigned)check_for_drone_collision(&current_game.players[i], &current_game.players[j]);
+							is_collision |= (unsigned)check_for_drone_collision(&current_battle.players[i], &current_battle.players[j]);
 						}
 					} while (is_collision);
 				}
@@ -247,8 +256,7 @@ void battle_play(void)
 			Intensity_5F(); // set medium brightness of the electron beam
 			Reset0Ref(); // reset beam to center
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-			Moveto_d(current_game.players[i].position.y, current_game.players[i].position.x); // move beam to object coordinates
-			// Moveto_d(current_game.players[i].position.y, current_game.players[i].position.y); // move beam to object coordinates
+			Moveto_d(current_battle.players[i].position.y, current_battle.players[i].position.x); // move beam to object coordinates
 			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 			// update rotors every 2 frames
 			if (animation_counter < 2)
@@ -273,17 +281,17 @@ void battle_play(void)
 			}
 #if DEBUG_ENABLED
 			// temporary disabled
-			// debugPos[0] = (char)('0' + (current_game.players[i].position.y / 10));
-			// debugPos[1] = (char)('0' + (current_game.players[i].position.y % 10));
+			// debugPos[0] = (char)('0' + (current_battle.players[i].position.y / 10));
+			// debugPos[1] = (char)('0' + (current_battle.players[i].position.y % 10));
 			// Print_Str_d(30, -30, (void*)debugPos);
 #endif
 		}
 		// draw active bullets
-		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 		{
 			for (unsigned int j = 0; j < MAX_BULLETS; j++)
 			{
-				struct bullet_t* bullet = &current_game.players[i].bullets[j];
+				struct bullet_t* bullet = &current_battle.players[i].bullets[j];
 				if (bullet->is_active == BULLET_ACTIVE)
 				{
 					Intensity_7F(); // set max. brightness of the electron beam
@@ -300,16 +308,16 @@ void battle_play(void)
 #endif
 
 		// check if the game is paused, after rendering the game and before doing some logic stuff
-		if (current_game.pause.is_pause)
+		if (current_battle.pause.is_pause)
 		{
 			print_string(118, -110, "--- GAME PAUSED ---\x80");
-			current_player = &current_game.players[current_game.pause.player_who_requested_pause];
+			current_player = &current_battle.players[current_battle.pause.player_who_requested_pause];
 			current_player->get_input(current_player);
 			if (current_player->input.pause_button)
 			{
 				// continue the battle
-				current_game.pause.is_pause = 0;
-				current_game.pause.player_who_requested_pause = INVALID_PLAYER_ID;
+				current_battle.pause.is_pause = 0;
+				current_battle.pause.player_who_requested_pause = INVALID_PLAYER_ID;
 				stats_collected = 0;
 			}
 			else
@@ -326,9 +334,9 @@ void battle_play(void)
 		}
 
 		// iterate over all player objects: (1) get input (2) process resulting actions (3) check for winner
-		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 		{
-			current_player = &current_game.players[i];
+			current_player = &current_battle.players[i];
 			if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
 			{
 				continue;
@@ -338,11 +346,11 @@ void battle_play(void)
 			// move player and objectiles; includes collision detection
 			update_player(current_player);
 
-			if (current_player->input.pause_button && !current_game.pause.is_pause)
+			if (current_player->input.pause_button && !current_battle.pause.is_pause)
 			{
 				// only one player can request the pause
-				current_game.pause.is_pause = 1;
-				current_game.pause.player_who_requested_pause = current_player->player_id;
+				current_battle.pause.is_pause = 1;
+				current_battle.pause.player_who_requested_pause = current_player->player_id;
 			}
 			// check for winner
 			if (current_player->kill_counter >= BATTLE_WINNING_CONDITION)
@@ -355,7 +363,7 @@ void battle_play(void)
 			}
 #if DEBUG_ENABLED
 			// Display the kill counter of Player 0 for debugging
-			print_unsigned_int(90, -10, current_game.players[0].kill_counter);
+			print_unsigned_int(90, -10, current_battle.players[0].kill_counter);
 #endif
 		}
 		// animation counter increase
@@ -389,7 +397,7 @@ void battle_play(void)
 int battle_show_winner_screen(void)
 {
 	int returncode = 0;
-	struct player_stats_t stats[current_game.no_of_players];
+	struct player_stats_t stats[current_battle.no_of_players];
 	collect_player_stats(stats);
 	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
 	unsigned int should_exit = 0;
