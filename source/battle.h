@@ -1,5 +1,6 @@
 #pragma once
 #include "math/better_rng.h"
+#include "pause.h"
 #include "player.h"
 #include "player_stats.h"
 #include "utils/controller.h"
@@ -20,6 +21,7 @@
 #define ARENA_LIMIT_RIGHT 120
 #define BLOW_UP 1
 #define WINNER_NOT_SET 255
+#define MAX_PLAYERS 4
 
 // ---------------------------------------------------------------------------
 
@@ -43,6 +45,10 @@ struct battle_t
 {
 	enum battle_status status;
 	unsigned int winner_player_id;
+	struct player_t players[MAX_PLAYERS];
+	unsigned int current_player;
+	unsigned int no_of_players;
+	struct pause_t pause;
 };
 
 // ---------------------------------------------------------------------------

@@ -3,11 +3,11 @@
 void collect_player_stats(struct player_stats_t* stats)
 {
 	// collect stats for each player
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
-		stats[i].player_id = current_game.players[i].player_id;
-		stats[i].kills = current_game.players[i].kill_counter;
-		stats[i].deaths = current_game.players[i].death_counter;
+		stats[i].player_id = current_battle.players[i].player_id;
+		stats[i].kills = current_battle.players[i].kill_counter;
+		stats[i].deaths = current_battle.players[i].death_counter;
 	}
 }
 
@@ -17,7 +17,7 @@ void display_player_stats(struct player_stats_t* stats)
 	print_string(10, -85, "------ --- ---\x80");
 
 	// Print stats for each player
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
 		int line_y = 0 - ((int)i * 15);
 		// PLAYER

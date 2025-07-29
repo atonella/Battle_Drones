@@ -96,9 +96,9 @@ void update_bullet_position(struct bullet_t* bullet)
 	}
 	// check for collision with drones
 	// OPTIMIZE: this approach is very resource instense
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
-		struct player_t* drone = &current_game.players[i];
+		struct player_t* drone = &current_battle.players[i];
 		if (check_for_bullet_drone_collision(bullet, drone))
 		{
 			// bullet hits a drone
@@ -117,7 +117,7 @@ void update_bullet_position(struct bullet_t* bullet)
 				drone->health = PLAYER_HEALTH_DEFAULT;
 				drone->respawn_counter = 200;
 				drone->death_counter += 1;
-				current_game.players[bullet->owner_id].kill_counter += 1;
+				current_battle.players[bullet->owner_id].kill_counter += 1;
 			}
 		}
 	}
@@ -261,9 +261,9 @@ void update_player(struct player_t* player)
 	move_player(player);
 
 	// check collisions with other drones
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
-		struct player_t* other = &current_game.players[i];
+		struct player_t* other = &current_battle.players[i];
 		if (other == player)
 		{
 			// skip identical player

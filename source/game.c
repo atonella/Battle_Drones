@@ -10,16 +10,6 @@
 // definition of global variable that will be accessed from a different file
 struct game_t current_game = {
 	.current_gamemode = 0,
-	.score = { 0, 0, 0, 0 },
-	.players = {
-		{ .player_id = 0, .diagonally_counter = 0 },
-		{ .player_id = 1, .diagonally_counter = 0 },
-		{ .player_id = 2, .diagonally_counter = 0 },
-		{ .player_id = 3, .diagonally_counter = 0 },
-	},
-	.current_player = 0,
-	.no_of_players = 0,
-	.pause = { .is_pause = 0, .player_who_requested_pause = INVALID_PLAYER_ID },
 };
 
 // ---------------------------------------------------------------------------
