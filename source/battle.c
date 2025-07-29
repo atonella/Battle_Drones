@@ -391,8 +391,8 @@ int battle_show_winner_screen(void)
 		print_string(110, -100, "BATTLE FINISHED!\x80"); // TODO:verify
 		print_string(65, -112, "WINNER: PLAYER\x80");
 		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
-		print_string(20, -125, "PLAYER  K   D\x80");
-		print_string(10, -125, "------ --- ---\x80");
+		print_string(20, -85, "PLAYER  K   D\x80");
+		print_string(10, -85, "------ --- ---\x80");
 		//                      * <- indicates winning player
 
 		// Print stats for each player
@@ -400,14 +400,14 @@ int battle_show_winner_screen(void)
 		{
 			int line_y = 0 - ((int)i * 15);
 			// PLAYER
-			print_unsigned_int(line_y, -91, stats[i].player_id + 1);
+			print_unsigned_int(line_y, -51, stats[i].player_id + 1);
 			// K
-			print_unsigned_int(line_y, -46, stats[i].kills);
+			print_unsigned_int(line_y, -6, stats[i].kills);
 			// D
-			print_unsigned_int(line_y, -1, stats[i].deaths);
+			print_unsigned_int(line_y, 39, stats[i].deaths);
 		}
 		// indicate player who won
-		print_string(0 - ((int)current_battle.winner_player_id * 15), -125, "* \x80"); // without trailing whitespace nothing gets printed
+		print_string(0 - ((int)current_battle.winner_player_id * 15), -85, "* \x80"); // without trailing whitespace nothing gets printed
 
 		// Check for button press after delay
 		if (button_delay > 0)
