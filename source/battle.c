@@ -188,6 +188,9 @@ void battle_play(void)
 	// char debugPos[4] = "00\x80";
 #endif
 	unsigned int animation_counter = 0;
+	struct player_stats_t player_stats[current_game.no_of_players];
+	unsigned int stats_collected = 0;
+
 	while (current_battle.status == BATTLE_PLAY)
 	{
 		// game loop header start - do not change
@@ -212,6 +215,11 @@ void battle_play(void)
 		{
 			if (current_game.players[i].respawn_counter > 0)
 			{
+				if (current_game.pause.is_pause == 1)
+				{
+					// dont decrement the respawn counter during pause
+					continue;
+				}
 				current_game.players[i].respawn_counter -= 1;
 				if (current_game.players[i].respawn_counter == 0)
 				{
@@ -291,10 +299,10 @@ void battle_play(void)
 		Print_Str_d(70, -120, (void*)"RUNNING\x80");
 #endif
 
-		// check if the game is paused
+		// check if the game is paused, after rendering the game and before doing some logic stuff
 		if (current_game.pause.is_pause)
 		{
-			Print_Str_d(85, 0, (void*)"PAUSE\x80");
+			print_string(118, -110, "--- GAME PAUSED ---\x80");
 			current_player = &current_game.players[current_game.pause.player_who_requested_pause];
 			current_player->get_input(current_player);
 			if (current_player->input.pause_button)
@@ -302,9 +310,17 @@ void battle_play(void)
 				// continue the battle
 				current_game.pause.is_pause = 0;
 				current_game.pause.player_who_requested_pause = INVALID_PLAYER_ID;
+				stats_collected = 0;
 			}
 			else
 			{
+				// collect stats only once when entering pause mode
+				if (stats_collected == 0)
+				{
+					collect_player_stats(player_stats);
+					stats_collected = 1;
+				}
+				display_player_stats(player_stats);
 				continue;
 			}
 		}
@@ -374,15 +390,7 @@ int battle_show_winner_screen(void)
 {
 	int returncode = 0;
 	struct player_stats_t stats[current_game.no_of_players];
-
-	// collect & calculate stats for each player
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
-	{
-		stats[i].player_id = current_game.players[i].player_id;
-		stats[i].kills = current_game.players[i].kill_counter;
-		stats[i].deaths = current_game.players[i].death_counter;
-	}
-
+	collect_player_stats(stats);
 	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
 	unsigned int should_exit = 0;
 
@@ -395,21 +403,9 @@ int battle_show_winner_screen(void)
 		print_string(110, -100, "BATTLE FINISHED!\x80");
 		print_string(65, -112, "WINNER: PLAYER\x80");
 		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
-		print_string(20, -85, "PLAYER  K   D\x80");
-		print_string(10, -85, "------ --- ---\x80");
-		//                      * <- indicates winning player
 
-		// Print stats for each player
-		for (unsigned int i = 0; i < current_game.no_of_players; i++)
-		{
-			int line_y = 0 - ((int)i * 15);
-			// PLAYER
-			print_unsigned_int(line_y, -51, stats[i].player_id + 1);
-			// K
-			print_unsigned_int(line_y, -6, stats[i].kills);
-			// D
-			print_unsigned_int(line_y, 39, stats[i].deaths);
-		}
+		display_player_stats(stats);
+
 		// indicate player who won
 		print_string(0 - ((int)current_battle.winner_player_id * 15), -85, "* \x80"); // without trailing whitespace nothing gets printed
 
