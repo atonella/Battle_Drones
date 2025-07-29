@@ -4,18 +4,167 @@
 
 #include "battle.h"
 #include "game.h"
+#include "lib/print/print.h"
 #include "utils/utils.h"
+
+#define BATTLE_WINNING_CONDITION 3
+#define RETURN_TO_TITLE_SCREEN 0
+#define PLAY_AGAIN 1
 
 struct battle_t current_battle = {
 	.status = BATTLE_FINISHED,
+	.winner_player_id = WINNER_NOT_SET,
 };
 
 // ---------------------------------------------------------------------------
 
 void battle_init()
 {
-	// Generate Arena, set stats, spawn player, countdown, ...
 	current_battle.status = BATTLE_PLAY;
+	current_battle.winner_player_id = WINNER_NOT_SET;
+
+	// player 1 (always human)
+	enable_controller_1_x();
+	enable_controller_1_y();
+	current_game.players[0] = (struct player_t) {
+		.death_counter = 0,
+		.diagonally_counter = 0,
+		.get_input = get_human_input,
+		.health = PLAYER_HEALTH_DEFAULT,
+		.is_human = 1,
+		.kill_counter = 0,
+		.player_id = 0,
+		.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 },
+		.respawn_counter = 0,
+	};
+	switch (current_game.current_gamemode)
+	{
+		case SINGLEPLAYER:
+			disable_controller_2_x();
+			disable_controller_2_y();
+			current_game.no_of_players = 4;
+			// bot 2
+			current_game.players[1] = (struct player_t) {
+				.bot_difficulty = 4,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 5,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		case MULTIPLAYER:
+			current_game.no_of_players = 4;
+			// human player 2
+			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.players[1] = (struct player_t) {
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 3
+			current_game.players[2] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 2,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.respawn_counter = 0,
+			};
+			// bot 4
+			current_game.players[3] = (struct player_t) {
+				.bot_difficulty = 6,
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_bot_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 0,
+				.kill_counter = 0,
+				.player_id = 3,
+				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		case DUEL:
+			current_game.no_of_players = 2;
+			// human player 1
+			current_game.players[0].position.y = 0;
+			current_game.players[0].position.x = ARENA_LIMIT_LEFT / 2;
+			// human player 2
+			enable_controller_2_x();
+			enable_controller_2_y();
+			current_game.players[1] = (struct player_t) {
+				.death_counter = 0,
+				.diagonally_counter = 0,
+				.get_input = get_human_input,
+				.health = PLAYER_HEALTH_DEFAULT,
+				.is_human = 1,
+				.kill_counter = 0,
+				.player_id = 1,
+				.position = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 },
+				.respawn_counter = 0,
+			};
+			break;
+
+		default:
+			assert(1 == 0);
+			break;
+	}
+	current_game.current_player = 0;
+	current_game.pause = (struct pause_t) {
+		.is_pause = 0,
+		.player_who_requested_pause = INVALID_PLAYER_ID,
+	};
+
+	assert(current_game.current_gamemode != 0);
+
+	// init of random number generators
+	init_rng(&bot_rng, 47, 11, 42, 1);
+	init_rng(&respawn_pos_rng, 92, 12, 90, 3);
 }
 
 // ---------------------------------------------------------------------------
@@ -150,8 +299,9 @@ void battle_play(void)
 			current_player->get_input(current_player);
 			if (current_player->input.pause_button)
 			{
+				// continue the battle
 				current_game.pause.is_pause = 0;
-				current_game.pause.player_who_requested_pause = 255;
+				current_game.pause.player_who_requested_pause = INVALID_PLAYER_ID;
 			}
 			else
 			{
@@ -159,7 +309,7 @@ void battle_play(void)
 			}
 		}
 
-		// iterate over all player objects: (1) get input (2) process resulting actions
+		// iterate over all player objects: (1) get input (2) process resulting actions (3) check for winner
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
 			current_player = &current_game.players[i];
@@ -169,7 +319,7 @@ void battle_play(void)
 			}
 			current_player->get_input(current_player);
 
-			// move player and objectiles; collision detection
+			// move player and objectiles; includes collision detection
 			update_player(current_player);
 
 			if (current_player->input.pause_button && !current_game.pause.is_pause)
@@ -178,6 +328,19 @@ void battle_play(void)
 				current_game.pause.is_pause = 1;
 				current_game.pause.player_who_requested_pause = current_player->player_id;
 			}
+			// check for winner
+			if (current_player->kill_counter >= BATTLE_WINNING_CONDITION)
+			{
+				current_battle.status = BATTLE_FINISHED;
+				if (current_battle.winner_player_id == WINNER_NOT_SET)
+				{
+					current_battle.winner_player_id = current_player->player_id;
+				}
+			}
+#if DEBUG_ENABLED
+			// Display the kill counter of Player 0 for debugging
+			print_unsigned_int(90, -10, current_game.players[0].kill_counter);
+#endif
 		}
 		// animation counter increase
 		animation_counter = (animation_counter < 7) ? (animation_counter + 1) : 0;
@@ -203,6 +366,81 @@ void battle_play(void)
 #endif
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
+}
+
+// ---------------------------------------------------------------------------
+
+int battle_show_winner_screen(void)
+{
+	int returncode = 0;
+	struct player_stats_t stats[current_game.no_of_players];
+
+	// collect & calculate stats for each player
+	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	{
+		stats[i].player_id = current_game.players[i].player_id;
+		stats[i].kills = current_game.players[i].kill_counter;
+		stats[i].deaths = current_game.players[i].death_counter;
+	}
+
+	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
+	unsigned int should_exit = 0;
+
+	while (!should_exit)
+	{
+		Wait_Recal();
+		Intensity_5F();
+		Reset0Ref(); // reset beam to center
+		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv DRAW WINNING SCREEN vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+		print_string(110, -100, "BATTLE FINISHED!\x80");
+		print_string(65, -112, "WINNER: PLAYER\x80");
+		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
+		print_string(20, -85, "PLAYER  K   D\x80");
+		print_string(10, -85, "------ --- ---\x80");
+		//                      * <- indicates winning player
+
+		// Print stats for each player
+		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		{
+			int line_y = 0 - ((int)i * 15);
+			// PLAYER
+			print_unsigned_int(line_y, -51, stats[i].player_id + 1);
+			// K
+			print_unsigned_int(line_y, -6, stats[i].kills);
+			// D
+			print_unsigned_int(line_y, 39, stats[i].deaths);
+		}
+		// indicate player who won
+		print_string(0 - ((int)current_battle.winner_player_id * 15), -85, "* \x80"); // without trailing whitespace nothing gets printed
+
+		// Check for button press after delay
+		if (button_delay > 0)
+		{
+			button_delay--;
+		}
+		else
+		{
+			// play again instruction
+			print_string(-85, -127, "PRESS:\x80");
+			print_string(-105, -110, "1 -> HOMESCREEN\x80");
+			print_string(-125, -110, "4 -> PLAY AGAIN\x80");
+
+			check_buttons();
+			if (button_1_1_pressed() || button_2_1_pressed())
+			{
+				should_exit = 1;
+				print_string(-70, -80, "RETURNING ...\x80");
+				returncode = RETURN_TO_TITLE_SCREEN;
+			}
+			else if (button_1_4_pressed() || button_2_4_pressed())
+			{
+				should_exit = 1;
+				print_string(-70, -80, "RESTARTING ...\x80");
+				returncode = PLAY_AGAIN;
+			}
+		}
+	}
+	return returncode;
 }
 
 // ***************************************************************************

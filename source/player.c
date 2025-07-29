@@ -110,12 +110,14 @@ void update_bullet_position(struct bullet_t* bullet)
 			}
 			else
 			{
-				// drone destroyed
-				drone->health = PLAYER_HEALTH_DEFAULT;
-				drone->respawn_counter = 200;
-				// pos out of arena border
+				// drone got destroyed
+				// move drone out of arena
 				drone->position.x = 0;
 				drone->position.y = 127;
+				drone->health = PLAYER_HEALTH_DEFAULT;
+				drone->respawn_counter = 200;
+				drone->death_counter += 1;
+				current_game.players[bullet->owner_id].kill_counter += 1;
 			}
 		}
 	}
