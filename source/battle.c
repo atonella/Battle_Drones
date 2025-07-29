@@ -155,6 +155,10 @@ void battle_init()
 			break;
 	}
 	current_game.current_player = 0;
+	current_game.pause = (struct pause_t) {
+		.is_pause = 0,
+		.player_who_requested_pause = INVALID_PLAYER_ID,
+	};
 
 	assert(current_game.current_gamemode != 0);
 
@@ -295,8 +299,9 @@ void battle_play(void)
 			current_player->get_input(current_player);
 			if (current_player->input.pause_button)
 			{
+				// continue the battle
 				current_game.pause.is_pause = 0;
-				current_game.pause.player_who_requested_pause = 255;
+				current_game.pause.player_who_requested_pause = INVALID_PLAYER_ID;
 			}
 			else
 			{
@@ -387,7 +392,7 @@ int battle_show_winner_screen(void)
 		Intensity_5F();
 		Reset0Ref(); // reset beam to center
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv DRAW WINNING SCREEN vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-		print_string(110, -100, "BATTLE FINISHED!\x80"); // TODO:verify
+		print_string(110, -100, "BATTLE FINISHED!\x80");
 		print_string(65, -112, "WINNER: PLAYER\x80");
 		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
 		print_string(20, -85, "PLAYER  K   D\x80");
@@ -430,7 +435,6 @@ int battle_show_winner_screen(void)
 			else if (button_1_4_pressed() || button_2_4_pressed())
 			{
 				should_exit = 1;
-				// TODO: set inside init
 				print_string(-70, -80, "RESTARTING ...\x80");
 				returncode = PLAY_AGAIN;
 			}

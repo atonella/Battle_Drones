@@ -12,6 +12,7 @@
 #define DRONE_HEIGHT 12
 #define DRONE_WIDTH_HALF DRONE_WIDTH / 2
 #define DRONE_HEIGHT_HALF DRONE_HEIGHT / 2
+#define INVALID_PLAYER_ID 255
 
 struct player_t
 {

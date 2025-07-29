@@ -19,7 +19,7 @@ struct game_t current_game = {
 	},
 	.current_player = 0,
 	.no_of_players = 0,
-	.pause = { .is_pause = 0, .player_who_requested_pause = 255 },
+	.pause = { .is_pause = 0, .player_who_requested_pause = INVALID_PLAYER_ID },
 };
 
 // ---------------------------------------------------------------------------
