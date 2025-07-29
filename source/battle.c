@@ -374,15 +374,7 @@ int battle_show_winner_screen(void)
 {
 	int returncode = 0;
 	struct player_stats_t stats[current_game.no_of_players];
-
-	// collect & calculate stats for each player
-	for (unsigned int i = 0; i < current_game.no_of_players; i++)
-	{
-		stats[i].player_id = current_game.players[i].player_id;
-		stats[i].kills = current_game.players[i].kill_counter;
-		stats[i].deaths = current_game.players[i].death_counter;
-	}
-
+	collect_player_stats(stats);
 	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
 	unsigned int should_exit = 0;
 
@@ -395,21 +387,9 @@ int battle_show_winner_screen(void)
 		print_string(110, -100, "BATTLE FINISHED!\x80");
 		print_string(65, -112, "WINNER: PLAYER\x80");
 		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
-		print_string(20, -85, "PLAYER  K   D\x80");
-		print_string(10, -85, "------ --- ---\x80");
-		//                      * <- indicates winning player
 
-		// Print stats for each player
-		for (unsigned int i = 0; i < current_game.no_of_players; i++)
-		{
-			int line_y = 0 - ((int)i * 15);
-			// PLAYER
-			print_unsigned_int(line_y, -51, stats[i].player_id + 1);
-			// K
-			print_unsigned_int(line_y, -6, stats[i].kills);
-			// D
-			print_unsigned_int(line_y, 39, stats[i].deaths);
-		}
+		display_player_stats(stats);
+
 		// indicate player who won
 		print_string(0 - ((int)current_battle.winner_player_id * 15), -85, "* \x80"); // without trailing whitespace nothing gets printed
 

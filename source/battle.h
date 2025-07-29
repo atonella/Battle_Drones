@@ -1,6 +1,7 @@
 #pragma once
 #include "math/better_rng.h"
 #include "player.h"
+#include "player_stats.h"
 #include "utils/controller.h"
 #include "utils/vector.h"
 #include <vectrex.h>
@@ -28,15 +29,6 @@ extern const signed char drone_vector_list_1[];
 extern const signed char drone_vector_list_2[];
 extern const signed char drone_vector_list_3[];
 
-// ---------------------------------------------------------------------------
-
-struct player_stats_t
-{
-	unsigned int player_id;
-	unsigned int kills;
-	unsigned int deaths;
-	char printable_stats[22];
-};
 // ---------------------------------------------------------------------------
 
 enum battle_status
