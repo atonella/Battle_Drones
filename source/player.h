@@ -17,11 +17,13 @@ struct player_t
 {
 	struct bullet_t bullets[MAX_BULLETS];
 	unsigned int bot_difficulty;
+	unsigned int death_counter;
 	unsigned int diagonally_counter;
 	void (*get_input)(struct player_t*);
 	unsigned int health;
 	struct input_t input;
 	unsigned int is_human;
+	unsigned int kill_counter;
 	unsigned int player_id;
 	struct position_t position;
 	unsigned int respawn_counter;

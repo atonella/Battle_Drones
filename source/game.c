@@ -3,9 +3,6 @@
 // ***************************************************************************
 
 #include "game.h"
-#include "print/print.h"
-#include "utils/controller.h"
-#include "utils/utils.h"
 #include <vectrex.h>
 
 // ---------------------------------------------------------------------------

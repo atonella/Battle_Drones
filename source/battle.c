@@ -4,10 +4,16 @@
 
 #include "battle.h"
 #include "game.h"
+#include "lib/print/print.h"
 #include "utils/utils.h"
+
+#define BATTLE_WINNING_CONDITION 3
+#define RETURN_TO_TITLE_SCREEN 0
+#define PLAY_AGAIN 1
 
 struct battle_t current_battle = {
 	.status = BATTLE_FINISHED,
+	.winner_player_id = WINNER_NOT_SET,
 };
 
 // ---------------------------------------------------------------------------
@@ -159,7 +165,7 @@ void battle_play(void)
 			}
 		}
 
-		// iterate over all player objects: (1) get input (2) process resulting actions
+		// iterate over all player objects: (1) get input (2) process resulting actions (3) check for winner
 		for (unsigned int i = 0; i < current_game.no_of_players; i++)
 		{
 			current_player = &current_game.players[i];
@@ -169,7 +175,7 @@ void battle_play(void)
 			}
 			current_player->get_input(current_player);
 
-			// move player and objectiles; collision detection
+			// move player and objectiles; includes collision detection
 			update_player(current_player);
 
 			if (current_player->input.pause_button && !current_game.pause.is_pause)
@@ -178,6 +184,19 @@ void battle_play(void)
 				current_game.pause.is_pause = 1;
 				current_game.pause.player_who_requested_pause = current_player->player_id;
 			}
+			// check for winner
+			if (current_player->kill_counter >= BATTLE_WINNING_CONDITION)
+			{
+				current_battle.status = BATTLE_FINISHED;
+				if (current_battle.winner_player_id == WINNER_NOT_SET)
+				{
+					current_battle.winner_player_id = current_player->player_id;
+				}
+			}
+#if DEBUG_ENABLED
+			// Display the kill counter of Player 0 for debugging
+			print_unsigned_int(90, -10, current_game.players[0].kill_counter);
+#endif
 		}
 		// animation counter increase
 		animation_counter = (animation_counter < 7) ? (animation_counter + 1) : 0;
@@ -203,6 +222,83 @@ void battle_play(void)
 #endif
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
+}
+
+// ---------------------------------------------------------------------------
+
+int battle_show_winner_screen(void)
+{
+	int returncode = 0;
+	struct player_stats_t stats[current_game.no_of_players];
+
+	// collect & calculate stats for each player
+	for (unsigned int i = 0; i < current_game.no_of_players; i++)
+	{
+		stats[i].player_id = current_game.players[i].player_id;
+		// stats[i].has_won = current_battle.winner_player_id == current_game.players[i].player_id ? 1 : 0;
+		stats[i].kills = current_game.players[i].kill_counter;
+		stats[i].deaths = current_game.players[i].death_counter;
+	}
+
+	unsigned int button_delay = 35; // wait few ticks before checking buttons, to prevent accidental inputs
+	unsigned int should_exit = 0;
+
+	while (!should_exit)
+	{
+		Wait_Recal();
+		Intensity_5F();
+		Reset0Ref(); // reset beam to center
+		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv DRAW WINNING SCREEN vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+		print_string(110, -100, "BATTLE FINISHED!\x80"); // TODO:verify
+		print_string(65, -112, "WINNER: PLAYER\x80");
+		print_unsigned_int(65, 58, current_battle.winner_player_id + 1);
+		print_string(20, -125, "PLAYER  K   D\x80");
+		print_string(10, -125, "------ --- ---\x80");
+		//                      * <- indicates winning player
+
+		// Print stats for each player
+		for (unsigned int i = 0; i < current_game.no_of_players; i++)
+		{
+			int line_y = 0 - ((int)i * 15);
+			// PLAYER
+			print_unsigned_int(line_y, -91, stats[i].player_id + 1);
+			// K
+			print_unsigned_int(line_y, -46, stats[i].kills);
+			// D
+			print_unsigned_int(line_y, -1, stats[i].deaths);
+		}
+		// indicate player who won
+		print_string(0 - ((int)current_battle.winner_player_id * 15), -125, "* \x80"); // without trailing whitespace nothing gets printed
+
+		// Check for button press after delay
+		if (button_delay > 0)
+		{
+			button_delay--;
+		}
+		else
+		{
+			// play again instruction
+			print_string(-85, -127, "PRESS:\x80");
+			print_string(-105, -110, "1 -> HOMESCREEN\x80");
+			print_string(-125, -110, "4 -> PLAY AGAIN\x80");
+
+			check_buttons();
+			if (button_1_1_pressed() || button_2_1_pressed())
+			{
+				should_exit = 1;
+				print_string(-70, -80, "RETURNING ...\x80");
+				returncode = RETURN_TO_TITLE_SCREEN;
+			}
+			else if (button_1_4_pressed() || button_2_4_pressed())
+			{
+				should_exit = 1;
+				// TODO: set inside init
+				print_string(-70, -80, "RESTARTING ...\x80");
+				returncode = PLAY_AGAIN;
+			}
+		}
+	}
+	return returncode;
 }
 
 // ***************************************************************************
