@@ -212,6 +212,11 @@ void battle_play(void)
 		{
 			if (current_game.players[i].respawn_counter > 0)
 			{
+				if (current_game.pause.is_pause == 1)
+				{
+					// dont decrement the respawn counter during pause
+					continue;
+				}
 				current_game.players[i].respawn_counter -= 1;
 				if (current_game.players[i].respawn_counter == 0)
 				{
