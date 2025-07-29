@@ -291,10 +291,10 @@ void battle_play(void)
 		Print_Str_d(70, -120, (void*)"RUNNING\x80");
 #endif
 
-		// check if the game is paused
+		// check if the game is paused, after rendering the game and before doing some logic stuff
 		if (current_game.pause.is_pause)
 		{
-			Print_Str_d(85, 0, (void*)"PAUSE\x80");
+			print_string(118, -110, "--- GAME PAUSED ---\x80");
 			current_player = &current_game.players[current_game.pause.player_who_requested_pause];
 			current_player->get_input(current_player);
 			if (current_player->input.pause_button)
@@ -305,6 +305,9 @@ void battle_play(void)
 			}
 			else
 			{
+				struct player_stats_t stats[current_game.no_of_players];
+				collect_player_stats(stats);
+				display_player_stats(stats);
 				continue;
 			}
 		}
