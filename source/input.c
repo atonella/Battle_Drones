@@ -21,7 +21,7 @@ void get_human_input(struct player_t* player)
 	}
 	player->input.joystick_direction = eval_joystick_position(player);
 #if DEBUG_ENABLED
-	debug_print_input(input);
+	debug_print_input(player->input);
 #endif
 }
 
