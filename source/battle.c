@@ -371,6 +371,7 @@ void battle_play(void)
 		Wait_Recal();
 		Do_Sound();
 		Intensity_5F();
+		// Bugfix #67: read controller state once per frame
 		check_buttons();
 		check_joysticks();
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
