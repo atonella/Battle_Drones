@@ -11,6 +11,8 @@
 #define RETURN_TO_TITLE_SCREEN 0
 #define PLAY_AGAIN 1
 
+// ---------------------------------------------------------------------------
+
 struct battle_t current_battle = {
 	.status = BATTLE_FINISHED,
 	.winner_player_id = WINNER_NOT_SET,
@@ -165,9 +167,9 @@ void battle_init()
 	}
 	current_battle.current_player = 0;
 	current_battle.pause = (struct pause_t) {
-        .is_pause = PAUSE_OFF,
-        .player_who_requested_pause = INVALID_PLAYER_ID,
-    };
+		.is_pause = PAUSE_OFF,
+		.player_who_requested_pause = INVALID_PLAYER_ID,
+	};
 
 	assert(current_game.current_gamemode != 0);
 
@@ -178,27 +180,187 @@ void battle_init()
 
 // ---------------------------------------------------------------------------
 
+static inline void battle_draw_arena(void)
+{
+	Intensity_3F(); // set medium-low brightness of the electron beam
+	Reset0Ref(); // reset beam to center
+	dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
+	Moveto_d(0, 0); // move beam to object coordinates
+	dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing
+	Draw_VLp(&battle_arena); // draw vector list
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_draw_players(unsigned int animation_counter)
+{
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
+	{
+		if (current_battle.players[i].respawn_counter > 0)
+		{
+			continue;
+		}
+		Intensity_5F(); // set medium brightness of the electron beam
+		Reset0Ref(); // reset beam to center
+		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
+		Moveto_d(current_battle.players[i].position.y, current_battle.players[i].position.x); // move beam to object coordinates
+		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
+		// update rotors every 2 frames
+		if (animation_counter < 2)
+		{
+			Draw_VLp(&drone_vector_list_0);
+		}
+		else if (animation_counter < 4)
+		{
+			Draw_VLp(&drone_vector_list_1);
+		}
+		else if (animation_counter < 6)
+		{
+			Draw_VLp(&drone_vector_list_2);
+		}
+		else
+		{
+			Draw_VLp(&drone_vector_list_3);
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_draw_bullets(void)
+{
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
+	{
+		for (unsigned int j = 0; j < MAX_BULLETS; j++)
+		{
+			struct bullet_t* bullet = &current_battle.players[i].bullets[j];
+			if (bullet->is_active == BULLET_ACTIVE)
+			{
+				Intensity_7F(); // set max. brightness of the electron beam
+				Reset0Ref(); // reset beam to center
+				dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
+				Moveto_d(bullet->position.y, bullet->position.x); // move beam to bullet coordinates
+				Dot_here(); // Simple dot for bullet
+			}
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_update_players(void)
+{
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
+	{
+		struct player_t* current_player = &current_battle.players[i];
+		// if increasing the bullets, then this breaks
+		if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
+		{
+			continue;
+		}
+		current_player->get_input(current_player);
+		update_player(current_player);
+
+		if (current_player->input.pause_button && current_battle.pause.is_pause == PAUSE_OFF)
+		{
+			current_battle.pause.is_pause = PAUSE_ON;
+			current_battle.pause.player_who_requested_pause = current_player->player_id;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_handle_respawn(void)
+{
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
+	{
+		if (current_battle.players[i].respawn_counter > 0)
+		{
+			current_battle.players[i].respawn_counter -= 1;
+			if (current_battle.players[i].respawn_counter == 0)
+			{
+				unsigned int is_collision;
+				do
+				{
+					is_collision = 0;
+					current_battle.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50;
+					current_battle.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75;
+					for (unsigned int j = 0; j < current_battle.no_of_players; j++)
+					{
+						if (i == j)
+							continue;
+						is_collision |= (unsigned)check_for_drone_collision(&current_battle.players[i], &current_battle.players[j]);
+					}
+				} while (is_collision);
+			}
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_handle_pause(struct player_stats_t* player_stats, unsigned int* stats_collected)
+{
+	print_string(118, -110, "--- GAME PAUSED ---\x80");
+	struct player_t* current_player = &current_battle.players[current_battle.pause.player_who_requested_pause];
+	current_player->get_input(current_player);
+
+	if (current_player->input.pause_button)
+	{
+		// continue the battle
+		current_battle.pause.is_pause = PAUSE_OFF;
+		current_battle.pause.player_who_requested_pause = INVALID_PLAYER_ID;
+		*stats_collected = 0;
+		// Bugfix #65: Update the buttons, before getting the input of the same player
+		// in the following loop (would lead otherwise to new pause request).
+		// Alternative (if this leads to unexpected behavior): cooldown of pause button
+		check_buttons();
+	}
+	else
+	{
+		// collect stats only once when entering pause mode
+		if (*stats_collected == 0)
+		{
+			collect_player_stats(player_stats);
+			*stats_collected = 1;
+		}
+		display_player_stats(player_stats);
+	}
+}
+
+// ---------------------------------------------------------------------------
+
+static inline void battle_check_win_condition(void)
+{
+	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
+	{
+		if (current_battle.players[i].kill_counter >= BATTLE_WINNING_CONDITION)
+		{
+			current_battle.status = BATTLE_FINISHED;
+			if (current_battle.winner_player_id == WINNER_NOT_SET)
+			{
+				current_battle.winner_player_id = current_battle.players[i].player_id;
+			}
+			// exit early because there is a winner
+			return;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+
 void battle_play(void)
 {
-	/*
-	1. Rendering
-	2. Input
-	3. Computing
-	*/
-	// TODO: Optimize access of players by using pointers.
-	// variable declarations
-	struct player_t* current_player;
-#if DEBUG_ENABLED
-	unsigned int frames = 0;
-	unsigned int seconds = 0;
-	unsigned int timer_not_exceeded = 1;
-	char time_elapsed[4] = "00\x80";
-	// temporary disabled
-	// char debugPos[4] = "00\x80";
-#endif
+	// some variable declarations
 	unsigned int animation_counter = 0;
 	struct player_stats_t player_stats[current_battle.no_of_players];
 	unsigned int stats_collected = 0;
+#if DEBUG_ENABLED
+	unsigned int frames = 0;
+	unsigned int seconds = 0;
+	char time_elapsed[4] = "00\x80";
+#endif
 
 	while (current_battle.status == BATTLE_PLAY)
 	{
@@ -214,172 +376,33 @@ void battle_play(void)
 		check_joysticks();
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-		// print arena
-		Intensity_3F(); // set medium-low brightness of the electron beam
-		Reset0Ref(); // reset beam to center
-		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-		Moveto_d(0, 0); // move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing
-		Draw_VLp(&battle_arena); // draw vector list
+		battle_draw_arena();
+		battle_draw_players(animation_counter);
+		battle_draw_bullets();
 
-		// print player
-		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
-		{
-			if (current_battle.players[i].respawn_counter > 0)
-			{
-				if (current_battle.pause.is_pause == PAUSE_ON)
-				{
-					// dont decrement the respawn counter during pause
-					continue;
-				}
-				current_battle.players[i].respawn_counter -= 1;
-				if (current_battle.players[i].respawn_counter == 0)
-				{
-					// spawn player on random free position
-					// TODO: random number + check for collision
-					unsigned int is_collision = 0;
-					do
-					{
-						// limit pos by arena border
-						// TODO: long test with final arena borders
-						is_collision = 0;
-						current_battle.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50; // -50 .. 77
-						current_battle.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75; // -75 .. 52
-						for (unsigned int j = 0; j < current_battle.no_of_players; j++)
-						{
-							// dont check itself
-							if (i == j)
-								continue;
-							is_collision |= (unsigned)check_for_drone_collision(&current_battle.players[i], &current_battle.players[j]);
-						}
-					} while (is_collision);
-				}
-				continue;
-			}
-			Intensity_5F(); // set medium brightness of the electron beam
-			Reset0Ref(); // reset beam to center
-			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-			Moveto_d(current_battle.players[i].position.y, current_battle.players[i].position.x); // move beam to object coordinates
-			dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
-			// update rotors every 2 frames
-			if (animation_counter < 2)
-			{
-				Draw_VLp(&drone_vector_list_0);
-			}
-			else if (animation_counter < 4)
-			{
-				Draw_VLp(&drone_vector_list_1);
-			}
-			else if (animation_counter < 6)
-			{
-				Draw_VLp(&drone_vector_list_2);
-			}
-			else if (animation_counter < 8)
-			{
-				Draw_VLp(&drone_vector_list_3);
-			}
-			else
-			{
-				assert(1 == 0); // should never evaluated
-			}
 #if DEBUG_ENABLED
-			// temporary disabled
-			// debugPos[0] = (char)('0' + (current_battle.players[i].position.y / 10));
-			// debugPos[1] = (char)('0' + (current_battle.players[i].position.y % 10));
-			// Print_Str_d(30, -30, (void*)debugPos);
-#endif
-		}
-		// draw active bullets
-		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
-		{
-			for (unsigned int j = 0; j < MAX_BULLETS; j++)
-			{
-				struct bullet_t* bullet = &current_battle.players[i].bullets[j];
-				if (bullet->is_active == BULLET_ACTIVE)
-				{
-					Intensity_7F(); // set max. brightness of the electron beam
-					Reset0Ref(); // reset beam to center
-					dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-					Moveto_d(bullet->position.y, bullet->position.x); // move beam to bullet coordinates
-					Dot_here(); // Simple dot for bullet
-				}
-			}
-		}
-#if DEBUG_ENABLED
-		Reset0Ref(); // reset beam to center
+		Reset0Ref();
 		Print_Str_d(70, -120, (void*)"RUNNING\x80");
 #endif
 
-		// check if the game is paused, after rendering the game and before doing some logic stuff
-		if (current_battle.pause.is_pause)
+		if (current_battle.pause.is_pause == PAUSE_ON)
 		{
-			print_string(118, -110, "--- GAME PAUSED ---\x80");
-			current_player = &current_battle.players[current_battle.pause.player_who_requested_pause];
-			current_player->get_input(current_player);
-			if (current_player->input.pause_button)
-			{
-				// continue the battle
-				current_battle.pause.is_pause = PAUSE_OFF;
-				current_battle.pause.player_who_requested_pause = INVALID_PLAYER_ID;
-				stats_collected = 0;
-				// Bugfix #65: Update the buttons, before getting the input of the same player
-				// in the following loop (would lead otherwise to new pause request).
-				// Alternative (if this leads to unexpected behavior): cooldown of pause button
-				check_buttons();
-			}
-			else
-			{
-				// collect stats only once when entering pause mode
-				if (stats_collected == 0)
-				{
-					collect_player_stats(player_stats);
-					stats_collected = 1;
-				}
-				display_player_stats(player_stats);
-				continue;
-			}
+			battle_handle_pause(player_stats, &stats_collected);
+		}
+		else
+		{
+			battle_update_players();
+			battle_handle_respawn();
+			battle_check_win_condition();
+
+			animation_counter = (animation_counter + 1) & 7; // animation counter increase, range: 0..7
 		}
 
-		// iterate over all player objects: (1) get input (2) process resulting actions (3) check for winner
-		for (unsigned int i = 0; i < current_battle.no_of_players; i++)
-		{
-			current_player = &current_battle.players[i];
-			// if increasing the bullets, then this breaks
-			if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
-			{
-				continue;
-			}
-			current_player->get_input(current_player);
-
-			// move player and objectiles; includes collision detection
-			update_player(current_player);
-
-			if (current_player->input.pause_button && current_battle.pause.is_pause == PAUSE_OFF)
-			{
-				// only one player can request the pause
-				current_battle.pause.is_pause = PAUSE_ON;
-				current_battle.pause.player_who_requested_pause = current_player->player_id;
-			}
-			// check for winner
-			if (current_player->kill_counter >= BATTLE_WINNING_CONDITION)
-			{
-				current_battle.status = BATTLE_FINISHED;
-				if (current_battle.winner_player_id == WINNER_NOT_SET)
-				{
-					current_battle.winner_player_id = current_player->player_id;
-				}
-			}
 #if DEBUG_ENABLED
-			// Display the kill counter of Player 0 for debugging
-			print_unsigned_int(90, -10, current_battle.players[0].kill_counter);
-#endif
-		}
-		// animation counter increase
-		animation_counter = (animation_counter < 7) ? (animation_counter + 1) : 0;
-#if DEBUG_ENABLED
+		// Display the kill counter of Player 0 for debugging
+		print_unsigned_int(90, -10, current_battle.players[0].kill_counter);
 
 		// timer
-		// TODO: Better Timer
 		frames++;
 		if (frames >= 50)
 		{
@@ -387,14 +410,8 @@ void battle_play(void)
 			seconds++;
 			time_elapsed[0] = '0' + (seconds / 10);
 			time_elapsed[1] = '0' + (seconds % 10);
-			// TODO: Update time remaining on screen
 		}
 		Print_Str_d(120, -120, (void*)time_elapsed);
-
-		if (seconds > 90)
-		{
-			timer_not_exceeded = 0;
-		}
 #endif
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ FRAME END ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	}
