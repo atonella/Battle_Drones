@@ -7,7 +7,7 @@
 #include "lib/print/print.h"
 #include "utils/utils.h"
 
-#define BATTLE_WINNING_CONDITION 3
+#define BATTLE_WINNING_CONDITION 10
 #define RETURN_TO_TITLE_SCREEN 0
 #define PLAY_AGAIN 1
 
@@ -54,7 +54,7 @@ void battle_init()
 			current_battle.no_of_players = 4;
 			// bot 2
 			current_battle.players[1] = (struct player_t) {
-				.bot_difficulty = 4,
+				.bot_difficulty = 6,
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_bot_input,
@@ -67,7 +67,7 @@ void battle_init()
 			};
 			// bot 3
 			current_battle.players[2] = (struct player_t) {
-				.bot_difficulty = 5,
+				.bot_difficulty = 8,
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_bot_input,
@@ -80,7 +80,7 @@ void battle_init()
 			};
 			// bot 4
 			current_battle.players[3] = (struct player_t) {
-				.bot_difficulty = 6,
+				.bot_difficulty = 10,
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_bot_input,
@@ -112,7 +112,7 @@ void battle_init()
 			};
 			// bot 3
 			current_battle.players[2] = (struct player_t) {
-				.bot_difficulty = 6,
+				.bot_difficulty = 7,
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_bot_input,
@@ -125,7 +125,7 @@ void battle_init()
 			};
 			// bot 4
 			current_battle.players[3] = (struct player_t) {
-				.bot_difficulty = 6,
+				.bot_difficulty = 9,
 				.death_counter = 0,
 				.diagonally_counter = 0,
 				.get_input = get_bot_input,
@@ -165,9 +165,9 @@ void battle_init()
 	}
 	current_battle.current_player = 0;
 	current_battle.pause = (struct pause_t) {
-        .is_pause = PAUSE_OFF,
-        .player_who_requested_pause = INVALID_PLAYER_ID,
-    };
+		.is_pause = PAUSE_OFF,
+		.player_who_requested_pause = INVALID_PLAYER_ID,
+	};
 
 	assert(current_game.current_gamemode != 0);
 
