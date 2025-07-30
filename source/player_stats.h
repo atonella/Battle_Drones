@@ -21,4 +21,4 @@ void collect_player_stats(struct player_stats_t* stats);
 		- kills
 		- deaths
 */
-void display_player_stats();
+void display_player_stats(struct player_stats_t* stats);
