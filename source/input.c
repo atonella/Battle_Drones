@@ -4,32 +4,25 @@
 
 void get_human_input(struct player_t* player)
 {
-	// TODO: optimize
-	struct input_t input = {
-		.fire_button = 0,
-		.pause_button = 0,
-		.joystick_direction = JOY_8_WAY_CENTER,
-	};
 	if (player->player_id == 0)
 	{
-		input.fire_button = button_1_4_pressed();
-		input.pause_button = button_1_1_pressed();
+		player->input.fire_button = button_1_4_pressed();
+		player->input.pause_button = button_1_1_pressed();
 	}
 	else if (player->player_id == 1)
 	{
-		input.fire_button = button_2_4_pressed();
-		input.pause_button = button_2_1_pressed();
+		player->input.fire_button = button_2_4_pressed();
+		player->input.pause_button = button_2_1_pressed();
 	}
 	else
 	{
 		// should never be evaluated
 		assert(1 == 0);
 	}
-	input.joystick_direction = eval_joystick_position(player);
+	player->input.joystick_direction = eval_joystick_position(player);
 #if DEBUG_ENABLED
 	debug_print_input(input);
 #endif
-	player->input = input; // TODO: optimize by setting values directly
 }
 
 void get_bot_input(struct player_t* player)
