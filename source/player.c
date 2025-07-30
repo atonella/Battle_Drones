@@ -4,14 +4,14 @@
 // boundary checks: (1) determine direction (2) check for boundary
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
-	return (delta > 0 && player->position.y + delta < ARENA_LIMIT_UP) || // upper boundary
-		(delta < 0 && player->position.y + delta > ARENA_LIMIT_LOW); // lower boundary, FIXME: treat possible overflow
+	return (delta > 0 && player->position.coordinates.y + delta < ARENA_LIMIT_UP) || // upper boundary
+		(delta < 0 && player->position.coordinates.y + delta > ARENA_LIMIT_LOW); // lower boundary, FIXME: treat possible overflow
 }
 
 static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
 {
-	return (delta < 0 && player->position.x + delta > ARENA_LIMIT_LEFT) || // left boundary
-		(delta > 0 && player->position.x + delta < ARENA_LIMIT_RIGHT); // right boundary
+	return (delta < 0 && player->position.coordinates.x + delta > ARENA_LIMIT_LEFT) || // left boundary
+		(delta > 0 && player->position.coordinates.x + delta < ARENA_LIMIT_RIGHT); // right boundary
 }
 
 // This is slightly faster than using Obj_Hit() bios routine.
@@ -23,7 +23,7 @@ static inline __attribute__((always_inline)) int check_for_bullet_drone_collisio
 		return 0;
 	}
 	// calculate distance between bullet and drone
-	int diff_y = bullet->position.y - (drone->position.y);
+	int diff_y = bullet->position.coordinates.y - (drone->position.coordinates.y);
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
@@ -33,7 +33,7 @@ static inline __attribute__((always_inline)) int check_for_bullet_drone_collisio
 		// no hit possible -> exit early
 		return 0;
 	}
-	int diff_x = bullet->position.x - drone->position.x;
+	int diff_x = bullet->position.coordinates.x - drone->position.coordinates.x;
 	if (diff_x < 0)
 	{
 		diff_x = -diff_x;
@@ -64,32 +64,32 @@ void update_bullet_position(struct bullet_t* bullet)
 		case JOY_8_WAY_CENTER:
 			break;
 		case JOY_8_WAY_UP:
-			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK;
+			bullet->position.coordinates.y += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_DOWN:
-			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK;
+			bullet->position.coordinates.y -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT:
-			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK;
+			bullet->position.coordinates.x -= BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_RIGHT:
-			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK;
+			bullet->position.coordinates.x += BULLET_TRAVEL_DISTANCE_PER_TICK;
 			break;
 		case JOY_8_WAY_LEFT_UP:
-			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
-			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_UP:
-			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
-			bullet->position.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.y += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_LEFT_DOWN:
-			bullet->position.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
-			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.x -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		case JOY_8_WAY_RIGHT_DOWN:
-			bullet->position.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
-			bullet->position.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.x += BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
+			bullet->position.coordinates.y -= BULLET_TRAVEL_DISTANCE_PER_TICK_DIAGONALLY;
 			break;
 		default:
 			break;
@@ -112,8 +112,8 @@ void update_bullet_position(struct bullet_t* bullet)
 			{
 				// drone got destroyed
 				// move drone out of arena
-				drone->position.x = 0;
-				drone->position.y = 127;
+				drone->position.coordinates.x = 0;
+				drone->position.coordinates.y = 127;
 				drone->health = PLAYER_HEALTH_DEFAULT;
 				drone->respawn_counter = 200;
 				drone->death_counter += 1;
@@ -122,7 +122,7 @@ void update_bullet_position(struct bullet_t* bullet)
 		}
 	}
 	// check for collision with arena border
-	if (bullet->position.x < ARENA_LIMIT_LEFT || bullet->position.x > ARENA_LIMIT_RIGHT || bullet->position.y < ARENA_LIMIT_LOW || bullet->position.y > ARENA_LIMIT_UP)
+	if (bullet->position.coordinates.x < ARENA_LIMIT_LEFT || bullet->position.coordinates.x > ARENA_LIMIT_RIGHT || bullet->position.coordinates.y < ARENA_LIMIT_LOW || bullet->position.coordinates.y > ARENA_LIMIT_UP)
 	{
 		bullet->is_active = BULLET_INACTIVE;
 	}
@@ -140,22 +140,22 @@ void move_player(struct player_t* player)
 		// vertically
 		case JOY_8_WAY_UP:
 			if (would_not_hit_horizontal_boundary(player, delta))
-				player->position.y += delta;
+				player->position.coordinates.y += delta;
 			break;
 
 		case JOY_8_WAY_DOWN:
 			if (would_not_hit_horizontal_boundary(player, -delta))
-				player->position.y -= delta;
+				player->position.coordinates.y -= delta;
 			break;
 		// horizontally
 		case JOY_8_WAY_LEFT:
 			if (would_not_hit_vertical_boundary(player, -delta))
-				player->position.x -= delta;
+				player->position.coordinates.x -= delta;
 			break;
 
 		case JOY_8_WAY_RIGHT:
 			if (would_not_hit_vertical_boundary(player, delta))
-				player->position.x += delta;
+				player->position.coordinates.x += delta;
 			break;
 		// diagonally
 		case JOY_8_WAY_LEFT_UP:
@@ -166,11 +166,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, -delta))
 				{
-					player->position.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
 				}
 				if (would_not_hit_horizontal_boundary(player, delta))
 				{
-					player->position.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
 				}
 			}
 			break;
@@ -182,11 +182,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, delta))
 				{
-					player->position.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
 				}
 				if (would_not_hit_horizontal_boundary(player, delta))
 				{
-					player->position.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
 				}
 			}
 			break;
@@ -198,11 +198,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, -delta))
 				{
-					player->position.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
 				}
 				if (would_not_hit_horizontal_boundary(player, -delta))
 				{
-					player->position.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
 				}
 			}
 			break;
@@ -214,11 +214,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, delta))
 				{
-					player->position.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
 				}
 				if (would_not_hit_horizontal_boundary(player, -delta))
 				{
-					player->position.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
 				}
 			}
 			break;
@@ -231,10 +231,8 @@ void move_player(struct player_t* player)
 void update_player(struct player_t* player)
 {
 	// for restoring position if collision detected
-	struct position_t original_position = {
-		.x = player->position.x,
-		.y = player->position.y
-	};
+
+	long int original_position = player->position.yx; // copy position
 	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
 		// update bullet if active
@@ -250,7 +248,7 @@ void update_player(struct player_t* player)
 		struct bullet_t* bullet = find_free_bullet(player);
 		if (bullet != 0)
 		{
-			bullet->position = player->position;
+			bullet->position.yx = player->position.yx; // copy position
 			bullet->direction = player->input.joystick_direction;
 			bullet->is_active = BULLET_ACTIVE;
 			bullet->owner_id = player->player_id;
@@ -272,7 +270,7 @@ void update_player(struct player_t* player)
 		if (check_for_drone_collision(player, other))
 		{
 			// Collision detected => revert movement
-			player->position = original_position;
+			player->position.yx = original_position; // copy position
 			break;
 		}
 	}

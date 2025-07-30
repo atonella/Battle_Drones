@@ -26,7 +26,7 @@ struct player_t
 	unsigned int is_human;
 	unsigned int kill_counter;
 	unsigned int player_id;
-	struct position_t position;
+	union position_t position;
 	unsigned int respawn_counter;
 	// status
 	// coordinate y,x (union?) (optimization)
@@ -38,7 +38,7 @@ inline __attribute__((always_inline)) int check_for_drone_collision(const struct
 {
 	// calculate absolute distance between drone1 and drone2
 	// use of long int to prevent under/overflow. However, this is approx. 0.7 % more CPU intensive.
-	long int diff_x = drone1->position.x - drone2->position.x;
+	long int diff_x = drone1->position.coordinates.x - drone2->position.coordinates.x;
 	if (diff_x < 0)
 	{
 		diff_x = -diff_x;
@@ -48,7 +48,7 @@ inline __attribute__((always_inline)) int check_for_drone_collision(const struct
 		// no hit possible -> exit early
 		return 0;
 	}
-	long int diff_y = drone1->position.y - drone2->position.y;
+	long int diff_y = drone1->position.coordinates.y - drone2->position.coordinates.y;
 	if (diff_y < 0)
 	{
 		diff_y = -diff_y;
