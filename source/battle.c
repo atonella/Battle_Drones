@@ -239,7 +239,7 @@ static inline void battle_draw_bullets(void)
 				Intensity_7F(); // set max. brightness of the electron beam
 				Reset0Ref(); // reset beam to center
 				dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-				Moveto_dd(bullet->position.yx);// move beam to bullet coordinates
+				Moveto_dd(bullet->position.yx); // move beam to bullet coordinates
 				Dot_here(); // Simple dot for bullet
 			}
 		}
