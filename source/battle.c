@@ -203,7 +203,7 @@ static inline void battle_draw_players(unsigned int animation_counter)
 		Intensity_5F(); // set medium brightness of the electron beam
 		Reset0Ref(); // reset beam to center
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-		Moveto_d(current_battle.players[i].position.coordinates.y, current_battle.players[i].position.coordinates.x); // move beam to object coordinates
+		Moveto_dd(current_battle.players[i].position.yx); // move beam to object coordinates
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 		// update rotors every 2 frames
 		if (animation_counter < 2)
@@ -239,7 +239,7 @@ static inline void battle_draw_bullets(void)
 				Intensity_7F(); // set max. brightness of the electron beam
 				Reset0Ref(); // reset beam to center
 				dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-				Moveto_d(bullet->position.coordinates.y, bullet->position.coordinates.x); // move beam to bullet coordinates
+				Moveto_dd(bullet->position.yx);// move beam to bullet coordinates
 				Dot_here(); // Simple dot for bullet
 			}
 		}
