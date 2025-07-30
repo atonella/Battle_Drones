@@ -4,7 +4,7 @@
 
 #pragma once
 
-#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 0
 
 // ---------------------------------------------------------------------------
 
