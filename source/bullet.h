@@ -10,7 +10,7 @@
 
 struct bullet_t
 {
-	struct position_t position;
+	union position_t position;
 	enum joystick_8_way direction;
 	unsigned int is_active;
 	unsigned int owner_id;

@@ -45,7 +45,7 @@ void battle_init()
 		.is_human = 1,
 		.kill_counter = 0,
 		.player_id = 0,
-		.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 },
+		.position = { .coordinates = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_LEFT / 2 } },
 		.respawn_counter = 0,
 	};
 	switch (current_game.current_gamemode)
@@ -64,7 +64,7 @@ void battle_init()
 				.is_human = 0,
 				.kill_counter = 0,
 				.player_id = 1,
-				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 } },
 				.respawn_counter = 0,
 			};
 			// bot 3
@@ -77,7 +77,7 @@ void battle_init()
 				.is_human = 0,
 				.kill_counter = 0,
 				.player_id = 2,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 } },
 				.respawn_counter = 0,
 			};
 			// bot 4
@@ -90,7 +90,7 @@ void battle_init()
 				.is_human = 0,
 				.kill_counter = 0,
 				.player_id = 3,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 } },
 				.respawn_counter = 0,
 			};
 			break;
@@ -109,7 +109,7 @@ void battle_init()
 				.is_human = 1,
 				.kill_counter = 0,
 				.player_id = 1,
-				.position = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_UP / 2, .x = ARENA_LIMIT_RIGHT / 2 } },
 				.respawn_counter = 0,
 			};
 			// bot 3
@@ -122,7 +122,7 @@ void battle_init()
 				.is_human = 0,
 				.kill_counter = 0,
 				.player_id = 2,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_LEFT / 2 } },
 				.respawn_counter = 0,
 			};
 			// bot 4
@@ -135,7 +135,7 @@ void battle_init()
 				.is_human = 0,
 				.kill_counter = 0,
 				.player_id = 3,
-				.position = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 },
+				.position = { .coordinates = { .y = ARENA_LIMIT_LOW / 2, .x = ARENA_LIMIT_RIGHT / 2 } },
 				.respawn_counter = 0,
 			};
 			break;
@@ -143,8 +143,8 @@ void battle_init()
 		case DUEL:
 			current_battle.no_of_players = 2;
 			// human player 1
-			current_battle.players[0].position.y = 0;
-			current_battle.players[0].position.x = ARENA_LIMIT_LEFT / 2;
+			current_battle.players[0].position.coordinates.y = 0;
+			current_battle.players[0].position.coordinates.x = ARENA_LIMIT_LEFT / 2;
 			// human player 2
 			enable_controller_2_x();
 			enable_controller_2_y();
@@ -156,7 +156,7 @@ void battle_init()
 				.is_human = 1,
 				.kill_counter = 0,
 				.player_id = 1,
-				.position = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 },
+				.position = { .coordinates = { .y = 0, .x = ARENA_LIMIT_RIGHT / 2 } },
 				.respawn_counter = 0,
 			};
 			break;
@@ -203,7 +203,7 @@ static inline void battle_draw_players(unsigned int animation_counter)
 		Intensity_5F(); // set medium brightness of the electron beam
 		Reset0Ref(); // reset beam to center
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-		Moveto_d(current_battle.players[i].position.y, current_battle.players[i].position.x); // move beam to object coordinates
+		Moveto_dd(current_battle.players[i].position.yx); // move beam to object coordinates
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
 		// update rotors every 2 frames
 		if (animation_counter < 2)
@@ -239,7 +239,7 @@ static inline void battle_draw_bullets(void)
 				Intensity_7F(); // set max. brightness of the electron beam
 				Reset0Ref(); // reset beam to center
 				dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
-				Moveto_d(bullet->position.y, bullet->position.x); // move beam to bullet coordinates
+				Moveto_dd(bullet->position.yx); // move beam to bullet coordinates
 				Dot_here(); // Simple dot for bullet
 			}
 		}
@@ -284,8 +284,8 @@ static inline void battle_handle_respawn(void)
 				do
 				{
 					is_collision = 0;
-					current_battle.players[i].position.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50;
-					current_battle.players[i].position.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75;
+					current_battle.players[i].position.coordinates.x = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 50;
+					current_battle.players[i].position.coordinates.y = ((int)(rand(&respawn_pos_rng) & 0b01111111)) - 75;
 					for (unsigned int j = 0; j < current_battle.no_of_players; j++)
 					{
 						if (i == j)

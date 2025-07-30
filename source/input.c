@@ -4,32 +4,25 @@
 
 void get_human_input(struct player_t* player)
 {
-	// TODO: optimize
-	struct input_t input = {
-		.fire_button = 0,
-		.pause_button = 0,
-		.joystick_direction = JOY_8_WAY_CENTER,
-	};
 	if (player->player_id == 0)
 	{
-		input.fire_button = button_1_4_pressed();
-		input.pause_button = button_1_1_pressed();
+		player->input.fire_button = button_1_4_pressed();
+		player->input.pause_button = button_1_1_pressed();
 	}
 	else if (player->player_id == 1)
 	{
-		input.fire_button = button_2_4_pressed();
-		input.pause_button = button_2_1_pressed();
+		player->input.fire_button = button_2_4_pressed();
+		player->input.pause_button = button_2_1_pressed();
 	}
 	else
 	{
 		// should never be evaluated
 		assert(1 == 0);
 	}
-	input.joystick_direction = eval_joystick_position(player);
+	player->input.joystick_direction = eval_joystick_position(player);
 #if DEBUG_ENABLED
-	debug_print_input(input);
+	debug_print_input(player->input);
 #endif
-	player->input = input; // TODO: optimize by setting values directly
 }
 
 void get_bot_input(struct player_t* player)
@@ -46,14 +39,14 @@ void get_bot_input(struct player_t* player)
 	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
 		struct player_t* other = &current_battle.players[i];
-		if (other == player || other->position.y > 120)
+		if (other == player || other->position.coordinates.y > 120)
 		{
 			// skip itself and ignore destroyed invisible drones at position (127 | 0)
 			continue;
 		}
 		// calculate distance approximately
-		int diff_x = player->position.x - other->position.x;
-		int diff_y = player->position.y - other->position.y;
+		int diff_x = player->position.coordinates.x - other->position.coordinates.x;
+		int diff_y = player->position.coordinates.y - other->position.coordinates.y;
 		if (diff_x < 0)
 		{
 			diff_x = -diff_x;
@@ -74,8 +67,8 @@ void get_bot_input(struct player_t* player)
 	if (target != 0)
 	{
 		// direction to target
-		int diff_x = target->position.x - player->position.x;
-		int diff_y = target->position.y - player->position.y;
+		int diff_x = target->position.coordinates.x - player->position.coordinates.x;
+		int diff_y = target->position.coordinates.y - player->position.coordinates.y;
 
 		// move towards target with a probability
 		if (random_behavior < player->bot_difficulty)

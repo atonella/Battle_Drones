@@ -1,6 +1,11 @@
 #pragma once
-struct position_t
+
+union position_t
 {
-	int y;
-	int x;
+	struct
+	{
+		int y;
+		int x;
+	} coordinates;
+	long int yx;
 };
