@@ -98,7 +98,6 @@ void battle_init()
 		case MULTIPLAYER:
 			current_battle.no_of_players = 4;
 			// human player 2
-			// 2nd controller does not work in PARA JVE. Works only in VIDE and on real Vectrex console
 			enable_controller_2_x();
 			enable_controller_2_y();
 			current_battle.players[1] = (struct player_t) {
@@ -205,6 +204,7 @@ static inline void battle_draw_players(unsigned int animation_counter)
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 		Moveto_dd(current_battle.players[i].position.yx); // move beam to object coordinates
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing;
+
 		// update rotors every 2 frames
 		if (animation_counter < 2)
 		{
@@ -253,7 +253,7 @@ static inline void battle_update_players(void)
 	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
 		struct player_t* current_player = &current_battle.players[i];
-		// if increasing the bullets, then this breaks
+		// WARNING: if someday MAX_BULLETS are increased, then this breaks
 		if (current_player->respawn_counter > 0 && current_player->bullets[0].is_active == BULLET_INACTIVE)
 		{
 			continue;
@@ -374,6 +374,7 @@ void battle_play(void)
 		// Bugfix #67: read controller state once per frame
 		check_buttons();
 		check_joysticks();
+
 		// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv FRAME START vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 		battle_draw_arena();
@@ -395,7 +396,7 @@ void battle_play(void)
 			battle_handle_respawn();
 			battle_check_win_condition();
 
-			animation_counter = (animation_counter + 1) & 7; // animation counter increase, range: 0..7
+			animation_counter = (animation_counter + 1) & 7; // increase animation counter; range: 0 .. 7
 		}
 
 #if DEBUG_ENABLED

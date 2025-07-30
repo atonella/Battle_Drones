@@ -23,7 +23,6 @@ struct game_t
 
 // ---------------------------------------------------------------------------
 
-// Extern declaration = declaration of variable; compiler searches for definition
 extern struct game_t current_game;
 
 // ---------------------------------------------------------------------------

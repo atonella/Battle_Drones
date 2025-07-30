@@ -17,9 +17,9 @@ static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary
 // This is slightly faster than using Obj_Hit() bios routine.
 static inline __attribute__((always_inline)) int check_for_bullet_drone_collision(const struct bullet_t* bullet, const struct player_t* drone)
 {
-	// drone can't hit itself
 	if (bullet->owner_id == drone->player_id)
 	{
+		// drone can't hit itself
 		return 0;
 	}
 	// calculate distance between bullet and drone
@@ -94,7 +94,6 @@ void update_bullet_position(struct bullet_t* bullet)
 			break;
 	}
 	// check for collision with drones
-	// OPTIMIZE: this approach is very resource instense
 	for (unsigned int i = 0; i < current_battle.no_of_players; i++)
 	{
 		struct player_t* drone = &current_battle.players[i];
@@ -252,7 +251,6 @@ void update_player(struct player_t* player)
 		}
 	}
 
-	// move the player
 	move_player(player);
 
 	// check collisions with other drones
