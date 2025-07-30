@@ -204,7 +204,7 @@ static inline void battle_draw_players(unsigned int animation_counter)
 		Reset0Ref(); // reset beam to center
 		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for positioning
 		Moveto_dd(current_battle.players[i].position.yx); // move beam to object coordinates
-		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing; TODO: in future, use player.scaling_factor (POWER UP)
+		dp_VIA_t1_cnt_lo = 0x7f; // set scaling factor for drawing;
 		// update rotors every 2 frames
 		if (animation_counter < 2)
 		{

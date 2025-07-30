@@ -28,10 +28,6 @@ struct player_t
 	unsigned int player_id;
 	union position_t position;
 	unsigned int respawn_counter;
-	// status
-	// coordinate y,x (union?) (optimization)
-	// score
-	// unsigned int scaling_factor;
 };
 
 inline __attribute__((always_inline)) int check_for_drone_collision(const struct player_t* drone1, const struct player_t* drone2)
