@@ -22,7 +22,7 @@ struct battle_t current_battle = {
 	},
 	.current_player = 0,
 	.no_of_players = 0,
-	.pause = { .is_pause = 0, .player_who_requested_pause = INVALID_PLAYER_ID },
+	.pause = { .is_pause = PAUSE_OFF, .player_who_requested_pause = INVALID_PLAYER_ID },
 };
 
 // ---------------------------------------------------------------------------
@@ -165,9 +165,9 @@ void battle_init()
 	}
 	current_battle.current_player = 0;
 	current_battle.pause = (struct pause_t) {
-		.is_pause = 0,
-		.player_who_requested_pause = INVALID_PLAYER_ID,
-	};
+        .is_pause = PAUSE_OFF,
+        .player_who_requested_pause = INVALID_PLAYER_ID,
+    };
 
 	assert(current_game.current_gamemode != 0);
 
@@ -227,7 +227,7 @@ void battle_play(void)
 		{
 			if (current_battle.players[i].respawn_counter > 0)
 			{
-				if (current_battle.pause.is_pause == 1)
+				if (current_battle.pause.is_pause == PAUSE_ON)
 				{
 					// dont decrement the respawn counter during pause
 					continue;
@@ -319,7 +319,7 @@ void battle_play(void)
 			if (current_player->input.pause_button)
 			{
 				// continue the battle
-				current_battle.pause.is_pause = 0;
+				current_battle.pause.is_pause = PAUSE_OFF;
 				current_battle.pause.player_who_requested_pause = INVALID_PLAYER_ID;
 				stats_collected = 0;
 				// Bugfix #65: Update the buttons, before getting the input of the same player
@@ -354,10 +354,10 @@ void battle_play(void)
 			// move player and objectiles; includes collision detection
 			update_player(current_player);
 
-			if (current_player->input.pause_button && !current_battle.pause.is_pause)
+			if (current_player->input.pause_button && current_battle.pause.is_pause == PAUSE_OFF)
 			{
 				// only one player can request the pause
-				current_battle.pause.is_pause = 1;
+				current_battle.pause.is_pause = PAUSE_ON;
 				current_battle.pause.player_who_requested_pause = current_player->player_id;
 			}
 			// check for winner
