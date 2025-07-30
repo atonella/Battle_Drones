@@ -1,10 +1,9 @@
-bin
+bin/Battle_Drones.lst
 build
 .vscode/
 doc/vectrex_ram.h
 doc/vectrex_rom.h
 doc/vectrex_rum.h
-make_c.bat
 manual/game_template.pdf
 overlay/game_template.png
 overlay/overlay_template.pptx
