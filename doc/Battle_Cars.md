@@ -40,9 +40,6 @@ Power-ups do spawn randomly and can be collected by the player.
 - "HDR": bullets are more bright than everything else
 - different drone vector lists can indicate condition of drone (much damage/ damaged slightly / as new)
 
-TODO: same speed diagonally vs horizonzal/vertival
-
-
 
 Vec_Btn_State vs Vec_Buttons
 

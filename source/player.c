@@ -5,7 +5,7 @@
 static inline __attribute__((always_inline)) int would_not_hit_horizontal_boundary(const struct player_t* player, int delta)
 {
 	return (delta > 0 && player->position.coordinates.y + delta < ARENA_LIMIT_UP) || // upper boundary
-		(delta < 0 && player->position.coordinates.y + delta > ARENA_LIMIT_LOW); // lower boundary, FIXME: treat possible overflow
+		(delta < 0 && player->position.coordinates.y + delta > ARENA_LIMIT_LOW); // lower boundary
 }
 
 static inline __attribute__((always_inline)) int would_not_hit_vertical_boundary(const struct player_t* player, int delta)
@@ -55,7 +55,6 @@ static struct bullet_t* find_free_bullet(struct player_t* player)
 	return 0;
 }
 
-// TODO maybe combine with switch case below
 void update_bullet_position(struct bullet_t* bullet)
 {
 	// move bullet based on direction
@@ -103,7 +102,6 @@ void update_bullet_position(struct bullet_t* bullet)
 		{
 			// bullet hits a drone
 			bullet->is_active = BULLET_INACTIVE;
-			// TODO: add sound effect; add visual effects
 			if (drone->health > BULLET_DAMAGE_DEFAULT)
 			{
 				drone->health -= BULLET_DAMAGE_DEFAULT;
@@ -131,7 +129,6 @@ void update_bullet_position(struct bullet_t* bullet)
 void move_player(struct player_t* player)
 {
 	int delta = SPEED_MAX;
-	int reduced_delta = delta / 2; // slower speed, if sliding against wall // TODO:
 
 	switch (player->input.joystick_direction)
 	{
@@ -166,11 +163,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, -delta))
 				{
-					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, delta);
 				}
 				if (would_not_hit_horizontal_boundary(player, delta))
 				{
-					player->position.coordinates.y += would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.y += would_not_hit_vertical_boundary(player, -delta);
 				}
 			}
 			break;
@@ -182,11 +179,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, delta))
 				{
-					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, delta);
 				}
 				if (would_not_hit_horizontal_boundary(player, delta))
 				{
-					player->position.coordinates.y += would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.y += would_not_hit_vertical_boundary(player, delta);
 				}
 			}
 			break;
@@ -198,11 +195,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, -delta))
 				{
-					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.x -= would_not_hit_horizontal_boundary(player, -delta);
 				}
 				if (would_not_hit_horizontal_boundary(player, -delta))
 				{
-					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, -delta);
 				}
 			}
 			break;
@@ -214,11 +211,11 @@ void move_player(struct player_t* player)
 				player->diagonally_counter -= 10;
 				if (would_not_hit_vertical_boundary(player, delta))
 				{
-					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, -delta) ? delta : reduced_delta;
+					player->position.coordinates.x += would_not_hit_horizontal_boundary(player, -delta);
 				}
 				if (would_not_hit_horizontal_boundary(player, -delta))
 				{
-					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, delta) ? delta : reduced_delta;
+					player->position.coordinates.y -= would_not_hit_vertical_boundary(player, delta);
 				}
 			}
 			break;
