@@ -1,8 +1,8 @@
-# Battle Drones
+# Vectrocopters
 
 ## Principle
-Battle Drones is a top down perspective game, where the player controles a drone and has to shoot down other drones.
-Each drone is equipped with a canon.
+Vectrocopters is a top down perspective game, where the player controles a vectrocopter and has to shoot down other vectrocopters.
+Each vectrocopter is equipped with a canon.
 Randomly spawned power-ups can be collected to make the game more intersting and diverse.
 
 
