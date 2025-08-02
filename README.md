@@ -1,19 +1,19 @@
-# Battle Drones
+# Vectrocopters
 
-A top-down perspective arena shooter for the Vectrex console. Take control of a drone and dominate all the other drones!
+A top-down perspective arena shooter for the Vectrex console. Take control of a vectrocopter and dominate all the other vectrocopters!
 
 ## Game Modes
 1. **Singleplayer**  
-   One human vs. three computer-controlled drones.  
+   One human vs. three computer-controlled vectrocopters.  
 2. **Multiplayer**  
-   Two human players vs. two computer-controlled drones.  
+   Two human players vs. two computer-controlled vectrocopters.  
 3. **Duel**  
    Two human players in direct 1-on-1 combat.
 
-All drones are enemies—there are no teams. Only the first drone to reach 10 kills wins.
+All vectrocopters are enemies—there are no teams. Only the first vectrocopter to reach 10 kills wins.
 
 ## Controls
-Battle Drones uses the built-in Vectrex control panel:
+Vectrocopters uses the built-in Vectrex control panel:
 - **Button 1**: Pause / Resume  
 - **Button 4**: Fire  
 - **Joystick**: Move in 8 directions  
@@ -25,8 +25,8 @@ Battle Drones uses the built-in Vectrex control panel:
 - Confirm your choice with **Button 4**.
 
 ### Objective
-Shoot down other drones while avoiding their shots.  
-The first drone to score 10 kills wins.
+Shoot down other vectrocopters while avoiding their shots.  
+The first vectrocopter to score 10 kills wins.
 
 ### Respawning
 When destroyed, you respawn after a 4-second cooldown at a random location. Unlimited lives.
@@ -48,6 +48,6 @@ When someone reaches 10 kills:
 - Press **Button 1** to return to mode selection or **Button 4** to play again.
 
 ## Health & Damage
-- Drones start with **50 HP**.  
+- Vectrocopters start with **50 HP**.  
 - Each bullet hit subtracts **10 HP**.  
-- At 0 HP, the drone is destroyed and removed from the arena.
+- At 0 HP, the vectrocopter is destroyed and removed from the arena.
